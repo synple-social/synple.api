@@ -22,6 +22,7 @@
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/mongoose": "^11.0.4",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.5",
     "@types/nodemailer": "^7.0.9",
@@ -29,7 +30,8 @@
     "nodemailer": "^7.0.13",
     "reflect-metadata": "^0.2.2",
     "res": "^0.4.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

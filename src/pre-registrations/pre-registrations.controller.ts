@@ -11,8 +11,8 @@ export class PreRegistrationsController {
   @Post()
   @ApiResponse({ status: 201, description: 'The confirmation email has correctly been sent' })
   @ApiResponse({ status: 400, description: 'The email address was in an incorrect format' })
-  create(@Body() { email }: CreatePreRegistrationDto) {
-    this.preRegistrationsService.create(email)
+  async create(@Body() { email }: CreatePreRegistrationDto) {
+    await this.preRegistrationsService.create(email)
     return JSON.stringify({ created: true })
   }
 }

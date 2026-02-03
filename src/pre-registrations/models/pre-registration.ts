@@ -1,11 +1,19 @@
-import Mongoose from "mongoose"
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument } from "mongoose";
+import { generateConfirmationCode } from "src/utils/generateConfirmationCode";
 
-export const PreRegistrationSchema = new Mongoose.Schema({
-  email: { type: String },
-  confirmationCode: { type: String },
-  sentAt: { type: Date, null: true }
-}, {
-  timestamps: true
-})
+export type PreRegistrationDocument = HydratedDocument<PreRegistration>
 
-export const PreRegistration = Mongoose.model('PreRegistration', PreRegistrationSchema)
+@Schema()
+export class PreRegistration {
+  @Prop({ required: true, unique: true, type: String })
+  email: string
+
+  @Prop({ default: () => generateConfirmationCode(6) })
+  confirmationCode: string
+
+  @Prop()
+  sentAt: Date
+}
+
+export const PreRegistrationSchema = SchemaFactory.createForClass(PreRegistration)
