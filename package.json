@@ -24,6 +24,9 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.5",
+    "@types/nodemailer": "^7.0.9",
+    "mongoose": "^9.1.5",
+    "nodemailer": "^7.0.13",
     "reflect-metadata": "^0.2.2",
     "res": "^0.4.0",
     "rxjs": "^7.8.1"
