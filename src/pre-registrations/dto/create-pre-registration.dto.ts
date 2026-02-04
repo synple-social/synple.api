@@ -1,6 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreatePreRegistrationDto {
-  @ApiProperty()
+  @ApiProperty({
+    example: 'foo@bar.com',
+    description: 'The email address where the subscription confirmation will be sent. Must be valid, and accessible by the user.'
+  })
   email: string
 }

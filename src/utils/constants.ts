@@ -1,0 +1,1 @@
+export const EMAIL_FORMAT = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim
