@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { EMAIL_SENDER } from "../../../src/utils/constants";
-import { createTransport } from "../../../src/utils/mailer/createTransport";
 import nodemailer from "nodemailer"
 
 export type MailPayload = {
@@ -17,9 +16,21 @@ export type MailPayload = {
  */
 @Injectable()
 export class MailerService {
+
+  private transporter
+
   async send({ subject, content: text, to }: MailPayload) {
-    const transporter = await createTransport()
-    const sentMail = await transporter.sendMail({ from: EMAIL_SENDER, to, subject, text })
+    if (this.transporter === undefined) {
+      this.transporter = await this.createTransport()
+    }
+    const sentMail = await this.transporter.sendMail({ from: EMAIL_SENDER, to, subject, text })
     console.log(nodemailer.getTestMessageUrl(sentMail))
+  }
+
+  private async createTransport() {
+    const { smtp, user, pass } = await nodemailer.createTestAccount();
+    return nodemailer.createTransport({
+      host: smtp.host, port: smtp.port, secure: smtp.secure, auth: { user, pass }
+    })
   }
 }
