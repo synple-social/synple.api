@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { createTransport } from 'src/utils/mailer/createTransport';
 import nodemailer from "nodemailer"
 import { InjectModel } from '@nestjs/mongoose';
-import { PreRegistration } from './models/pre-registration';
+import { PreRegistration, PreRegistrationDocument } from './models/pre-registration';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class PreRegistrationsService {
 
   async create(email: string) {
     await this.invalidateAll(email)
-    const preRegistration = await this.PreRegistrationModel.create({ email })
+    const preRegistration: PreRegistrationDocument = await this.PreRegistrationModel.create({ email })
 
     const transporter = await createTransport()
     const sentMail = await transporter.sendMail({
@@ -25,6 +25,6 @@ export class PreRegistrationsService {
   }
 
   private async invalidateAll(email: string) {
-    await this.PreRegistrationModel.updateMany({ email }, { $set: { invalidated: true } })
+    await this.PreRegistrationModel.updateMany({ email, invalidated: false }, { $set: { invalidated: true } })
   }
 }
