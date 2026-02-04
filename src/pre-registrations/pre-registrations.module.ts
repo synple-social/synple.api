@@ -3,12 +3,13 @@ import { PreRegistrationsService } from './pre-registrations.service';
 import { PreRegistrationsController } from './pre-registrations.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PreRegistration, PreRegistrationSchema } from './models/pre-registration';
+import { MailerService } from '../../src/shared/services/mailer.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: PreRegistration.name, schema: PreRegistrationSchema }])
   ],
   controllers: [PreRegistrationsController],
-  providers: [PreRegistrationsService],
+  providers: [PreRegistrationsService, MailerService],
 })
 export class PreRegistrationsModule { }

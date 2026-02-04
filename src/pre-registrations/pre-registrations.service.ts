@@ -1,27 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { createTransport } from '../../src/utils/mailer/createTransport';
-import nodemailer from "nodemailer"
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PreRegistration, PreRegistrationDocument } from './models/pre-registration';
 import { Model } from 'mongoose';
+import { MailerService } from '../../src/shared/services/mailer.service';
 
 @Injectable()
 export class PreRegistrationsService {
 
-  constructor(@InjectModel(PreRegistration.name) private PreRegistrationModel: Model<PreRegistration>) { }
+  constructor(
+    @InjectModel(PreRegistration.name) private PreRegistrationModel: Model<PreRegistration>,
+    @Inject() private mailerService: MailerService 
+  ) { }
 
   async create(email: string) {
     await this.invalidateAll(email)
     const preRegistration: PreRegistrationDocument = await this.PreRegistrationModel.create({ email })
-
-    const transporter = await createTransport()
-    const sentMail = await transporter.sendMail({
-      from: 'Synple <no-reply@synple.app>',
-      to: email,
-      subject: 'Subscription confirmation',
-      text: `You're confirmation code is ${preRegistration.confirmationCode}`,
-    })
-    console.log(nodemailer.getTestMessageUrl(sentMail))
+    const subject = 'Subscription confirmation'
+    const content = `You're confirmation code is ${preRegistration.confirmationCode}`
+    await this.mailerService.send({subject, content, to: email})
   }
 
   private async invalidateAll(email: string) {
