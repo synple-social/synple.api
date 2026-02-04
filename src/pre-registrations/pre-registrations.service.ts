@@ -11,23 +11,20 @@ export class PreRegistrationsService {
   constructor(@InjectModel(PreRegistration.name) private PreRegistrationModel: Model<PreRegistration>) { }
 
   async create(email: string) {
-    const preRegistration = new this.PreRegistrationModel({})
-    // if (preRegistration.$isValid) await preRegistration.save()
-    try {
-      await this.PreRegistrationModel.init()
-      await this.PreRegistrationModel.create({ email })
+    await this.invalidateAll(email)
+    const preRegistration = await this.PreRegistrationModel.create({ email })
 
-      const transporter = await createTransport()
-      const sentMail = await transporter.sendMail({
-        from: 'Synple <no-reply@synple.app>',
-        to: email,
-        subject: 'Subscription confirmation',
-        text: `You're confirmation code is ${preRegistration.confirmationCode}`,
-      })
-      console.log(nodemailer.getTestMessageUrl(sentMail))
-    }
-    catch (exception) {
-      console.log("[PREREGISTRATION::CREATION] Duplicate value found for email")
-    }
+    const transporter = await createTransport()
+    const sentMail = await transporter.sendMail({
+      from: 'Synple <no-reply@synple.app>',
+      to: email,
+      subject: 'Subscription confirmation',
+      text: `You're confirmation code is ${preRegistration.confirmationCode}`,
+    })
+    console.log(nodemailer.getTestMessageUrl(sentMail))
+  }
+
+  private async invalidateAll(email: string) {
+    await this.PreRegistrationModel.updateMany({ email }, { $set: { invalidated: true } })
   }
 }
