@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
-import { EMAIL_FORMAT } from "../../../src/utils/constants";
-import { generateConfirmationCode } from "../../../src/utils/generateConfirmationCode";
+import { EMAIL_FORMAT } from "src/utils/constants";
+import { generateConfirmationCode } from "src/utils/generateConfirmationCode";
 
 export type PreRegistrationDocument = HydratedDocument<PreRegistration>
 
