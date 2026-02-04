@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { createTransport } from 'src/utils/mailer/createTransport';
+import { createTransport } from '../../src/utils/mailer/createTransport';
 import nodemailer from "nodemailer"
 import { InjectModel } from '@nestjs/mongoose';
 import { PreRegistration, PreRegistrationDocument } from './models/pre-registration';
