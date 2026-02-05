@@ -17,7 +17,12 @@ export class PreRegistrationsService {
     const preRegistration: PreRegistrationDocument = await this.PreRegistrationModel.create({ email })
     const subject = 'Subscription confirmation'
     const content = `You're confirmation code is ${preRegistration.confirmationCode}`
-    await this.mailerService.send({subject, content, to: email})
+    try {
+      await this.mailerService.send({subject, content, to: email})
+    }
+    catch(exception) {
+      console.log(`[PREREGISTRATION::CREATE::EMAIL][${exception}]`)
+    }
   }
 
   private async invalidateAll(email: string) {
