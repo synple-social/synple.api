@@ -1,16 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PreRegistration, PreRegistrationDocument } from './models/pre-registration';
 import { Model } from 'mongoose';
-import { MailerService } from 'src/shared/services/mailer.service';
+import { MailerService } from '../shared/services/mailer.service';
 
 @Injectable()
 export class PreRegistrationsService {
 
   constructor(
     @InjectModel(PreRegistration.name) private PreRegistrationModel: Model<PreRegistration>,
-    @Inject() private mailerService: MailerService 
-  ) { }
+    private mailerService: MailerService 
+  ) {
+    console.log("step 1", PreRegistrationModel)
+  }
 
   async create(email: string) {
     await this.invalidateAll(email)

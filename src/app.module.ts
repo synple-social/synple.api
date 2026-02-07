@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { PreRegistrationsModule } from './pre-registrations/pre-registrations.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MailerService } from './shared/services/mailer.service';
 
 @Module({
   imports: [
@@ -15,5 +16,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService]
     })
   ],
+  providers: [MailerService]
 })
 export class AppModule { }

@@ -2,10 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { AppModule } from 'src/app.module';
-import { MailerService } from 'src/shared/services/mailer.service';
-import { PreRegistration, PreRegistrationDocument } from 'src/pre-registrations/models/pre-registration';
-import { Model } from 'mongoose';
+import { AppModule } from '../../src/app.module';
+import { MailerService } from '../../src/shared/services/mailer.service';
 import { vi, describe, it, beforeEach, afterEach } from 'vitest';
 
 describe('AppController (e2e)', () => {
@@ -33,23 +31,13 @@ describe('AppController (e2e)', () => {
         .expect('Content-Type', /json/)
         .expect({ created: true });
     })
-    describe('The created pre-registration', () => {
-      let document: PreRegistrationDocument;
-
-      beforeEach(async () => {
-        const model = new Model<PreRegistration>()
-        console.log(model)
-      })
-
-      it("Has created a document", () => {
-        
-      })
-    })
+    // describe('The created pre-registration', () => {
+    // })
   })
   describe('Alternative cases', () => {
-    describe('The same email makes two consecutive requests', () => {
+    // describe('The same email makes two consecutive requests', () => {
 
-    })
+    // })
     describe('There is an exception when sending the mail', () => {
       it("Returns a 201 (Created) status code and the correct body", () => {
         const mailerService = module.get(MailerService)

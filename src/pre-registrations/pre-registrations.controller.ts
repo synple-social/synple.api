@@ -2,12 +2,14 @@ import { Body, Controller, Header, Post, UseFilters } from '@nestjs/common';
 import { PreRegistrationsService } from './pre-registrations.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePreRegistrationDto } from './dto/create-pre-registration.dto';
-import { ValidationExceptionFilter } from 'src/shared/filters/validation-exception.filter';
+import { ValidationExceptionFilter } from '../shared/filters/validation-exception.filter';
 
 @Controller('pre-registrations')
 @ApiTags('pre-registrations')
 export class PreRegistrationsController {
-  constructor(private readonly preRegistrationsService: PreRegistrationsService) { }
+  constructor(private readonly preRegistrationsService: PreRegistrationsService) {
+    console.log(preRegistrationsService,PreRegistrationsService)
+  }
 
   @Post()
   @Header('Content-Type', 'application/json')
