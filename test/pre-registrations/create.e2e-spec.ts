@@ -2,16 +2,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { AppModule } from '../../src/app.module';
 import { MailerService } from '../../src/shared/services/mailer.service';
 import { vi, describe, it, beforeEach, afterEach } from 'vitest';
+import { PreRegistrationsModule } from '../../src/pre-registrations/pre-registrations.module';
+import { PreRegistrationsService } from '../../src/pre-registrations/pre-registrations.service';
 
 describe('AppController (e2e)', () => {
   let module: TestingModule;
   let app: INestApplication<App>;
 
   beforeEach(async () => {
-    module = await Test.createTestingModule({ imports: [AppModule] }).compile();
+    module = await Test.createTestingModule({ imports: [PreRegistrationsModule] }).compile();
     app = module.createNestApplication();
     await app.init();
   });
@@ -31,8 +32,14 @@ describe('AppController (e2e)', () => {
         .expect('Content-Type', /json/)
         .expect({ created: true });
     })
-    // describe('The created pre-registration', () => {
-    // })
+    describe('The created pre-registration', () => {
+
+      it("test", async () => {
+        const mod = app.get(PreRegistrationsService) as PreRegistrationsService
+        console.log(await mod.PreRegistrationModel.countDocuments())
+        expect(true).toBe(true)
+      })
+    })
   })
   describe('Alternative cases', () => {
     // describe('The same email makes two consecutive requests', () => {

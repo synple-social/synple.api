@@ -8,11 +8,9 @@ import { MailerService } from '../shared/services/mailer.service';
 export class PreRegistrationsService {
 
   constructor(
-    @InjectModel(PreRegistration.name) private PreRegistrationModel: Model<PreRegistration>,
+    @InjectModel(PreRegistration.name) public readonly PreRegistrationModel: Model<PreRegistration>,
     private mailerService: MailerService 
-  ) {
-    console.log("step 1", PreRegistrationModel)
-  }
+  ) {}
 
   async create(email: string) {
     await this.invalidateAll(email)

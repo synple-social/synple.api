@@ -7,9 +7,7 @@ import { ValidationExceptionFilter } from '../shared/filters/validation-exceptio
 @Controller('pre-registrations')
 @ApiTags('pre-registrations')
 export class PreRegistrationsController {
-  constructor(private readonly preRegistrationsService: PreRegistrationsService) {
-    console.log(preRegistrationsService,PreRegistrationsService)
-  }
+  constructor(private readonly preRegistrationsService: PreRegistrationsService) {}
 
   @Post()
   @Header('Content-Type', 'application/json')
