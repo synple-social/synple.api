@@ -6,13 +6,17 @@ import { MailerService } from '../../src/shared/services/mailer.service';
 import { vi, describe, it, beforeEach, afterEach } from 'vitest';
 import { PreRegistrationsModule } from '../../src/pre-registrations/pre-registrations.module';
 import { PreRegistrationsService } from '../../src/pre-registrations/pre-registrations.service';
+import { ConfigModule } from '@nestjs/config';
 
 describe('AppController (e2e)', () => {
   let module: TestingModule;
   let app: INestApplication<App>;
 
   beforeEach(async () => {
-    module = await Test.createTestingModule({ imports: [PreRegistrationsModule] }).compile();
+    module = await Test.createTestingModule({ imports: [
+      ConfigModule.forRoot({ envFilePath: '.env.test.local' }),
+      PreRegistrationsModule
+    ] }).compile();
     app = module.createNestApplication();
     await app.init();
   });
