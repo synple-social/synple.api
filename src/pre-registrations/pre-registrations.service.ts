@@ -8,13 +8,14 @@ import { MailerService } from '../shared/services/mailer.service';
 export class PreRegistrationsService {
 
   constructor(
-    @InjectModel(PreRegistration.name) public readonly PreRegistrationModel: Model<PreRegistration>,
+    @InjectModel(PreRegistration.name) public readonly model: Model<PreRegistration>,
     private mailerService: MailerService 
   ) {}
 
   async create(email: string) {
     await this.invalidateAll(email)
-    const preRegistration: PreRegistrationDocument = await this.PreRegistrationModel.create({ email })
+    const preRegistration: PreRegistrationDocument = await this.model.create({ email })
+    console.log(await this.model.db.config)
     const subject = 'Subscription confirmation'
     const content = `You're confirmation code is ${preRegistration.confirmationCode}`
     try {
@@ -26,6 +27,6 @@ export class PreRegistrationsService {
   }
 
   private async invalidateAll(email: string) {
-    await this.PreRegistrationModel.updateMany({ email, invalidated: false }, { $set: { invalidated: true } })
+    await this.model.updateMany({ email, invalidated: false }, { $set: { invalidated: true } })
   }
 }
