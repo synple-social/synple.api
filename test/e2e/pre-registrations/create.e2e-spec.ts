@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { MailerService } from '../../../src/shared/services/mailer.service';
-import { vi, describe, it, beforeEach, afterEach } from 'vitest';
+import { vi, describe, it, afterEach } from 'vitest';
 import { PreRegistrationsModule } from '../../../src/pre-registrations/pre-registrations.module';
 import { PreRegistrationsService } from '../../../src/pre-registrations/pre-registrations.service';
 import { ConfigModule } from '@nestjs/config';

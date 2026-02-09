@@ -1,15 +1,22 @@
-import path from "node:path"
-import { defineConfig } from "vitest/config"
+import swc from 'unplugin-swc';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: [ "test/**/*.e2e-spec.ts"],
+    include: ['**/*.spec.ts'],
+    setupFiles: [ "./test/setups/db.setup.ts" ],
     globals: true,
+    alias: {
+      '@src': './src',
+      '@test': './test',
+    },
     root: './',
   },
   resolve: {
     alias: {
-      src: path.resolve(__dirname, './src')
-    }
-  }
-})
+      '@src': './src',
+      '@test': './test',
+    },
+  },
+  plugins: [swc.vite()],
+});

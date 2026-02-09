@@ -6,12 +6,14 @@ import { PreRegistration, PreRegistrationSchema } from './models/pre-registratio
 import { MailerService } from '../shared/services/mailer.service';
 import { MongoDbConnection } from '../shared/imports/mongodb-connection';
 
-@Module({
+export const preRegistrationModuleDefinition = {
   imports: [
     ...MongoDbConnection(),
     MongooseModule.forFeature([{ name: PreRegistration.name, schema: PreRegistrationSchema }])
   ],
   controllers: [PreRegistrationsController],
   providers: [PreRegistrationsService, MailerService],
-})
+}
+
+@Module(preRegistrationModuleDefinition)
 export class PreRegistrationsModule { }
