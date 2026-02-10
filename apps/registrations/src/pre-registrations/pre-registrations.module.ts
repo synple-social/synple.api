@@ -4,7 +4,7 @@ import { PreRegistrationsController } from './pre-registrations.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PreRegistration, PreRegistrationSchema } from '@synple/models'
 import { MailerService } from '@synple/utils'
-import { MongoDbConnection } from '../shared/imports/mongodb-connection';
+import { MongoDbConnection } from '@synple/utils'
 
 export const preRegistrationModuleDefinition = {
   imports: [
