@@ -15,8 +15,8 @@
     "start:prod": "node dist/apps/registrations/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "viapps/registrations/test -c vitest.config.e2e.ts",
-    "test": "vitest -c vitest.config.ts"
+    "test": "jest --detectOpenHandles",
+    "test:e2e": "jest --testRegex .*\\.e2e-spec\\.ts$ --detectOpenHandles"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.5",
     "@types/nodemailer": "^7.0.9",
+    "jest": "^30.2.0",
     "mongodb-memory-server": "^11.0.1",
     "mongoose": "^9.1.5",
     "nodemailer": "8.0.1",

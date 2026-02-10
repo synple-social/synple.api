@@ -29,6 +29,9 @@ importers:
       '@types/nodemailer':
         specifier: ^7.0.9
         version: 7.0.9
+      jest:
+        specifier: ^30.2.0
+        version: 30.2.0(@types/node@22.19.7)(ts-node@10.9.2(@swc/core@1.15.11)(@types/node@22.19.7)(typescript@5.9.3))
       mongodb-memory-server:
         specifier: ^11.0.1
         version: 11.0.1

@@ -15,7 +15,6 @@ export class PreRegistrationsService {
   async create(email: string) {
     await this.invalidateAll(email)
     const preRegistration: PreRegistrationDocument = await this.model.create({ email })
-    console.log(await this.model.db.config)
     const subject = 'Subscription confirmation'
     const content = `You're confirmation code is ${preRegistration.confirmationCode}`
     try {

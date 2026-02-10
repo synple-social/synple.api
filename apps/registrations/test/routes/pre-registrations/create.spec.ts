@@ -1,6 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { PreRegistrationsController } from "../../../src/pre-registrations/pre-registrations.controller";
-import { describe, beforeAll, it } from "vitest";
 import { preRegistrationModuleDefinition } from "../../../src/pre-registrations/pre-registrations.module";
 
 

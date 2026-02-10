@@ -2,8 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { MailerService } from '../../../src/shared/services/mailer.service';
-import { vi, describe, it, afterEach } from 'vitest';
+import { MailerService } from '@synple/common';
 import { PreRegistrationsModule } from '../../../src/pre-registrations/pre-registrations.module';
 import { PreRegistrationsService } from '../../../../../libs/common/src/services/pre-registrations.service';
 import { ConfigModule } from '@nestjs/config';
@@ -22,8 +21,8 @@ describe('AppController (e2e)', () => {
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
-    vi.resetAllMocks();
+    jest.clearAllMocks();
+    jest.resetAllMocks();
   })
 
   describe('Nominal case', () => {
@@ -75,7 +74,7 @@ describe('AppController (e2e)', () => {
     describe('There is an exception when sending the mail', () => {
       it("Returns a 201 (Created) status code and the correct body", () => {
         const mailerService = module.get(MailerService)
-        vi.spyOn(mailerService, 'send').mockImplementation(() => {
+        jest.spyOn(mailerService, 'send').mockImplementation(() => {
           throw new Error('test error')
         })
         return request(app.getHttpServer())
