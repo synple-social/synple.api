@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { EMAIL_SENDER } from "../../utils/constants";
+import { EMAIL_SENDER } from '@synple/utils'
 import nodemailer from "nodemailer"
 
 export type MailPayload = {
