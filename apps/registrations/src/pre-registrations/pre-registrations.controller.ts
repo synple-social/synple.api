@@ -2,7 +2,7 @@ import { Body, Controller, Header, Post, UseFilters } from '@nestjs/common';
 import { PreRegistrationsService } from './pre-registrations.service';
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePreRegistrationDto } from './dto/create-pre-registration.dto';
-import { ValidationExceptionFilter } from '../shared/filters/validation-exception.filter';
+import { ValidationExceptionFilter } from '@synple/utils'
 import { SuccessSchema } from './schemas/create/success.schema';
 import { ErrorSchema } from '../shared/schemas/error.schema';
 
