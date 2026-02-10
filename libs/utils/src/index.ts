@@ -1,6 +1,6 @@
 export * from './constants'
 export * from './generate-confirmation-code'
-export * from './swagger/initialize-swagger'
+export * from './swagger'
 export * from './services'
 export * from './filters'
 export * from './database/mongo-db-connection'

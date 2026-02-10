@@ -4,7 +4,7 @@ import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swag
 import { CreatePreRegistrationDto } from './dto/create-pre-registration.dto';
 import { ValidationExceptionFilter } from '@synple/utils'
 import { SuccessSchema } from './schemas/create/success.schema';
-import { ErrorSchema } from '../shared/schemas/error.schema';
+import { ErrorSchema } from '@synple/utils';
 
 @Controller('pre-registrations')
 @ApiTags('pre-registrations')
