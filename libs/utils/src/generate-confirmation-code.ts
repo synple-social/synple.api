@@ -3,7 +3,7 @@
  * @param size The number of characters to put in the confirmation code
  * @returns the confirmation code as a string
  */
-export function generateConfirmationCode(size: number = 6): string {
+export function generateConfirmationCode(): string {
   return Array.from(Array(6)).map(createRandomCharacter).join('')
 }
 

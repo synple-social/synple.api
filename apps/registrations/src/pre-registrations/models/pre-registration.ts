@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 import { EMAIL_FORMAT } from '@synple/utils'
-import { generateConfirmationCode } from "../../utils/generateConfirmationCode";
+import { generateConfirmationCode } from '@synple/utils'
 
 export type PreRegistrationDocument = HydratedDocument<PreRegistration>
 
@@ -10,7 +10,7 @@ export class PreRegistration {
   @Prop({ required: true, type: String, match: EMAIL_FORMAT })
   email: string
 
-  @Prop({ type: String, default: () => generateConfirmationCode(6) })
+  @Prop({ type: String, default: () => generateConfirmationCode() })
   confirmationCode: string
 
   @Prop({ type: Date })
