@@ -7,16 +7,16 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "init:env": "cp .env.template .env",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/apps/registrations/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "vitest -c vitest.config.e2e.ts",
-    "test": "vitest -c vitest.config.ts"
+    "test": "jest --detectOpenHandles",
+    "test:e2e": "jest --testRegex .*\\.e2e-spec\\.ts$ --detectOpenHandles"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.5",
     "@types/nodemailer": "^7.0.9",
+    "jest": "^30.2.0",
     "mongodb-memory-server": "^11.0.1",
     "mongoose": "^9.1.5",
     "nodemailer": "8.0.1",
@@ -78,7 +79,16 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/apps/",
+      "<rootDir>/libs/"
+    ],
+    "moduleNameMapper": {
+      "^@synple/common(|/.*)$": "<rootDir>/libs/common/src/$1",
+      "^@synple/models(|/.*)$": "<rootDir>/libs/models/src/$1",
+      "^@synple/utils(|/.*)$": "<rootDir>/libs/utils/src/$1"
+    }
   },
   "packageManager": "pnpm@10.18.0+sha512.e804f889f1cecc40d572db084eec3e4881739f8dec69c0ff10d2d1beff9a4e309383ba27b5b750059d7f4c149535b6cd0d2cb1ed3aeb739239a4284a68f40cfa"
 }

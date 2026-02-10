@@ -20,6 +20,26 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@synple/common": [
+        "libs/common/src"
+      ],
+      "@synple/common/*": [
+        "libs/common/src/*"
+      ],
+      "@synple/models": [
+        "libs/models/src"
+      ],
+      "@synple/models/*": [
+        "libs/models/src/*"
+      ],
+      "@synple/utils": [
+        "libs/utils/src"
+      ],
+      "@synple/utils/*": [
+        "libs/utils/src/*"
+      ]
+    }
   }
 }
