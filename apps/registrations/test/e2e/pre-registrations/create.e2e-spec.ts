@@ -5,7 +5,7 @@ import { App } from 'supertest/types';
 import { MailerService } from '../../../src/shared/services/mailer.service';
 import { vi, describe, it, afterEach } from 'vitest';
 import { PreRegistrationsModule } from '../../../src/pre-registrations/pre-registrations.module';
-import { PreRegistrationsService } from '../../../src/pre-registrations/pre-registrations.service';
+import { PreRegistrationsService } from '../../../../../libs/common/src/services/pre-registrations.service';
 import { ConfigModule } from '@nestjs/config';
 
 describe('AppController (e2e)', () => {

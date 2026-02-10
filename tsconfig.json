@@ -22,6 +22,12 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@synple/common": [
+        "libs/common/src"
+      ],
+      "@synple/common/*": [
+        "libs/common/src/*"
+      ],
       "@synple/models": [
         "libs/models/src"
       ],

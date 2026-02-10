@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PreRegistration, PreRegistrationDocument } from '@synple/models'
 import { Model } from 'mongoose';
-import { MailerService } from '@synple/utils'
+import { MailerService } from './mailer.service'
 
 @Injectable()
 export class PreRegistrationsService {

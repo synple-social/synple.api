@@ -1,5 +1,5 @@
 import { Body, Controller, Header, Post, UseFilters } from '@nestjs/common';
-import { PreRegistrationsService } from './pre-registrations.service';
+import { PreRegistrationsService } from '@synple/common';
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePreRegistrationDto } from './dto/create-pre-registration.dto';
 import { ValidationExceptionFilter } from '@synple/utils'

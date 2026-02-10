@@ -84,6 +84,7 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
+      "^@synple/common(|/.*)$": "<rootDir>/libs/common/src/$1",
       "^@synple/models(|/.*)$": "<rootDir>/libs/models/src/$1",
       "^@synple/utils(|/.*)$": "<rootDir>/libs/utils/src/$1"
     }
