@@ -7,17 +7,20 @@ export type PreRegistrationDocument = HydratedDocument<PreRegistration>
 
 @Schema()
 export class PreRegistration {
+  @Prop({ type: Date, default: () => new Date() })
+  createdAt?: Date
+
   @Prop({ required: true, type: String, match: EMAIL_FORMAT })
   email: string
 
   @Prop({ type: String, default: () => generateConfirmationCode() })
-  confirmationCode: string
+  confirmationCode?: string
 
   @Prop({ type: Date })
-  sentAt: Date
+  sentAt?: Date
 
   @Prop({ type: Boolean, default: () => false })
-  invalidated: boolean
+  invalidated?: boolean
 }
 
 export const PreRegistrationSchema = SchemaFactory.createForClass(PreRegistration)
