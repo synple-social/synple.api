@@ -1,3 +1,11 @@
-export * from './models.module';
-export * from './models.service';
+import { MongooseModule } from '@nestjs/mongoose'
+import { Registration, RegistrationSchema } from './Registration.model'
+import { PreRegistration, PreRegistrationSchema } from './pre-registration.model'
+
 export * from './pre-registration.model'
+export * from './Registration.model'
+
+export const modelImports = {
+  preRegistrations: MongooseModule.forFeature([{ name: PreRegistration.name, schema: PreRegistrationSchema }]),
+  registrations: MongooseModule.forFeature([{ name: Registration.name, schema: RegistrationSchema }]),
+}

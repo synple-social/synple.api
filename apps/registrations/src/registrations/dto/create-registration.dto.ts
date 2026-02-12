@@ -5,4 +5,8 @@ export class CreateRegistrationDto {
     example: 'foo@bar.com'
   })
   email: string
+  @ApiProperty({
+    example: 'FBH6D2'
+  })
+  confirmationCode: string
 }
