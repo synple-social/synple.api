@@ -14,19 +14,21 @@ describe('Pre registrations scenarios', () => {
   const email = 'test_002@mail.com'
 
   beforeAll(async () => {
-    module = await Test.createTestingModule({ imports: [
-      ConfigModule.forRoot({ envFilePath: '.env.test.local' }),
-      PreRegistrationsModule
-    ] }).compile();
+    module = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({ envFilePath: '.env.test.local' }),
+        PreRegistrationsModule
+      ]
+    }).compile();
     app = module.createNestApplication();
     await app.init();
   });
-  
+
   describe('[SC-002] a soon-to-be user makes two consecutive pre registration creation attempts with the same email address', () => {
     let lastResponse: any
     let model: Model<PreRegistration>
-    beforeAll(() => {
-      createPreregistration(email, app).end()
+    beforeAll(async () => {
+      await createPreregistration(email, app)
       lastResponse = createPreregistration(email, app)
       model = app.get(PreRegistrationsService).model
     })

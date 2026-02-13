@@ -5,15 +5,17 @@ import { CreatePreRegistrationDto } from './dto/create-pre-registration.dto';
 import { ValidationExceptionFilter } from '@synple/common'
 import { SuccessSchema } from './schemas/create/success.schema';
 import { ErrorSchema } from '@synple/utils';
+import { MailerUnavailableFilter } from '@synple/common/filters/mailer-unavailable.filter';
 
 @Controller('pre-registrations')
 @ApiTags('pre-registrations')
 export class PreRegistrationsController {
-  constructor(private readonly preRegistrationsService: PreRegistrationsService) {}
+  constructor(private readonly preRegistrationsService: PreRegistrationsService) { }
 
   @Post()
   @Header('Content-Type', 'application/json')
   @UseFilters(ValidationExceptionFilter)
+  @UseFilters(MailerUnavailableFilter)
   @ApiCreatedResponse({
     description: 'The confirmation email has correctly been sent',
     schema: SuccessSchema

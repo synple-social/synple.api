@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { EMAIL_SENDER } from '@synple/utils'
+import { EMAIL_FORMAT, EMAIL_SENDER } from '@synple/utils'
+import { MailerUnavailableException } from "@synple/utils";
 import nodemailer from "nodemailer"
 
 export type MailPayload = {
@@ -31,8 +32,14 @@ export class MailerService {
     if (this.transporter === undefined) {
       this.transporter = await this.createTransport()
     }
-    const sentMail = await this.transporter.sendMail({ from: EMAIL_SENDER, to, subject, text })
-    this.logger.log(`Confirmation code corrctly sent, see ${nodemailer.getTestMessageUrl(sentMail)}`)
+    try {
+      const sentMail = await this.transporter.sendMail({ from: EMAIL_SENDER, to, subject, text })
+      this.logger.log(`Confirmation code correctly sent, see ${nodemailer.getTestMessageUrl(sentMail)}`)
+    }
+    catch (exception: any) {
+      console.log(exception)
+      throw new MailerUnavailableException()
+    }
   }
 
   private async createTransport() {

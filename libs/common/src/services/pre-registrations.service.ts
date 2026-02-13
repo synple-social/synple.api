@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { PreRegistration, PreRegistrationDocument } from '@synple/models'
 import { Model } from 'mongoose';
 import { MailerService } from './mailer.service'
-import { DocumentNotFoundException } from '@synple/utils';
+import { DocumentNotFoundException, generateConfirmationCode } from '@synple/utils';
 
 @Injectable()
 export class PreRegistrationsService {
@@ -15,13 +15,11 @@ export class PreRegistrationsService {
 
   async create(email: string) {
     await this.invalidateAll(email)
-    const preRegistration: PreRegistrationDocument = await this.model.create({ email })
-    try {
-      await this.mailerService.sendSubscriptionConfirmation(email, preRegistration.confirmationCode)
-    }
-    catch (exception) {
-      console.log(`[PREREGISTRATION::CREATE::EMAIL][${exception}]`)
-    }
+    const confirmationCode = generateConfirmationCode()
+    const preRegistration = new this.model({ email, confirmationCode })
+    await preRegistration.validate()
+    await this.mailerService.sendSubscriptionConfirmation(email, confirmationCode)
+    await preRegistration.save()
   }
 
   async findOrFail(filters: Partial<{ email: string, confirmationCode: string }>): Promise<PreRegistrationDocument> {
