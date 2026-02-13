@@ -14,6 +14,10 @@ export class RegistrationsService {
 
   async create(email: string, confirmationCode: string): Promise<RegistrationDocument> {
     const preRegistration: PreRegistrationDocument = await this.preRegistrationsService.findOrFail({ email, confirmationCode })
-    return await this.model.create({ preRegistration })
+    const registration: RegistrationDocument | null = await this.model.findOne({ email })
+    if (!registration) return await this.model.create({ preRegistrations: [preRegistration], email })
+    registration.preRegistrations.push(preRegistration)
+    registration.save()
+    return registration
   }
 }

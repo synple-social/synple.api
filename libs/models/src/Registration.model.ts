@@ -7,8 +7,11 @@ export type RegistrationDocument = HydratedDocument<Registration>
 
 @Schema()
 export class Registration {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'PreRegistration' })
-  preRegistration: PreRegistration
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'PreRegistration' }])
+  preRegistrations: PreRegistration[]
+
+  @Prop({ type: String, required: true })
+  email: string
 
   @Prop({ type: mongoose.Schema.Types.Date, default: () => new Date() })
   createdAt: Date
