@@ -8,9 +8,9 @@ import { Model } from "mongoose";
 export class RegistrationsService {
 
   constructor(
-    @InjectModel(Registration.name) private readonly model: Model<Registration>,
+    @InjectModel(Registration.name) public readonly model: Model<Registration>,
     private readonly preRegistrationsService: PreRegistrationsService
-  ) {}
+  ) { }
 
   async create(email: string, confirmationCode: string): Promise<RegistrationDocument> {
     const preRegistration: PreRegistrationDocument = await this.preRegistrationsService.findOrFail({ email, confirmationCode })

@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
 import { App } from 'supertest/types';
 import { PreRegistrationsModule } from '../../../src/pre-registrations/pre-registrations.module';
 import { PreRegistrationsService } from '../../../../../libs/common/src/services/pre-registrations.service';
@@ -17,10 +16,12 @@ describe('Pre-registrations scenarios', () => {
   let app: INestApplication<App>;
 
   beforeAll(async () => {
-    module = await Test.createTestingModule({ imports: [
-      ConfigModule.forRoot({ envFilePath: '.env.test.local' }),
-      PreRegistrationsModule
-    ] }).compile();
+    module = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({ envFilePath: '.env.test.local' }),
+        PreRegistrationsModule
+      ]
+    }).compile();
     app = module.createNestApplication();
     await app.init();
   });
