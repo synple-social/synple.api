@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { EMAIL_SENDER } from '@synple/utils'
 import nodemailer from "nodemailer"
 
@@ -19,12 +19,20 @@ export class MailerService {
 
   private transporter
 
+  private readonly logger = new Logger()
+
+  async sendSubscriptionConfirmation(email: string, confirmationCode: string | undefined) {
+    const subject = 'Subscription confirmation'
+    const content = `You're confirmation code is ${confirmationCode}`
+    return await this.send({ subject, content, to: email })
+  }
+
   async send({ subject, content: text, to }: MailPayload) {
     if (this.transporter === undefined) {
       this.transporter = await this.createTransport()
     }
     const sentMail = await this.transporter.sendMail({ from: EMAIL_SENDER, to, subject, text })
-    console.log(nodemailer.getTestMessageUrl(sentMail))
+    this.logger.log(`Confirmation code corrctly sent, see ${nodemailer.getTestMessageUrl(sentMail)}`)
   }
 
   private async createTransport() {

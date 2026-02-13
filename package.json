@@ -16,7 +16,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test": "jest --detectOpenHandles",
-    "test:e2e": "jest --testRegex .*\\.e2e-spec\\.ts$ --detectOpenHandles"
+    "test:e2e": "jest --testRegex .*\\.e2e-spec\\.ts$ --detectOpenHandles --forceExit"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

@@ -10,18 +10,16 @@ export class PreRegistrationsService {
 
   constructor(
     @InjectModel(PreRegistration.name) public readonly model: Model<PreRegistration>,
-    private mailerService: MailerService 
-  ) {}
+    private mailerService: MailerService
+  ) { }
 
   async create(email: string) {
     await this.invalidateAll(email)
     const preRegistration: PreRegistrationDocument = await this.model.create({ email })
-    const subject = 'Subscription confirmation'
-    const content = `You're confirmation code is ${preRegistration.confirmationCode}`
     try {
-      await this.mailerService.send({subject, content, to: email})
+      await this.mailerService.sendSubscriptionConfirmation(email, preRegistration.confirmationCode)
     }
-    catch(exception) {
+    catch (exception) {
       console.log(`[PREREGISTRATION::CREATE::EMAIL][${exception}]`)
     }
   }
