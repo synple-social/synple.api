@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
-import { PreRegistrationsModule } from '../../../../src/pre-registrations/pre-registrations.module';
-import { PreRegistrationsService } from '../../../../../../libs/common/src/services/pre-registrations.service';
+import { PreRegistrationsModule } from '../../../src/pre-registrations/pre-registrations.module';
+import { PreRegistrationsService } from '../../../../../libs/common/src/services/pre-registrations.service';
 import { ConfigModule } from '@nestjs/config';
 import { PreRegistration, Registration } from '@synple/models';
 import { Model } from 'mongoose';
-import { createPreregistration, createRegistration } from '../../../http';
+import { createPreregistration, createRegistration } from '../../http';
 import { RegistrationsModule } from 'apps/registrations/src/registrations/registrations.module';
 import { RegistrationsService } from '@synple/common';
 
@@ -31,16 +31,11 @@ describe('Pre-registrations scenarios', () => {
 
   describe('[SC-001] a pre registration is created successfully', () => {
     let response: any;
-    let models: {
-      preRegistrations?: Model<PreRegistration>,
-      registrations?: Model<Registration>
-    } = {}
+    let model: Model<Registration>
     beforeAll(async () => {
       await createPreregistration(email, app)
-      models.preRegistrations = app.get(PreRegistrationsService).model
-      models.registrations = app.get(RegistrationsService).model
-      const { confirmationCode } = await models.preRegistrations.findOne({ email }) as PreRegistration
-      response = createRegistration("another@email.com", `${confirmationCode}`, app)
+      model = app.get(RegistrationsService).model
+      response = createRegistration(email, "confirmation code not matching", app)
     })
 
     it('Returns a 404 (Not Found) status code with the correct body', () => {
@@ -51,7 +46,7 @@ describe('Pre-registrations scenarios', () => {
     })
     it("Has created no registration in the database", async () => {
       await response
-      expect(await models.registrations?.countDocuments()).toBe(0)
+      expect(await model.countDocuments()).toBe(0)
     })
   })
 })
