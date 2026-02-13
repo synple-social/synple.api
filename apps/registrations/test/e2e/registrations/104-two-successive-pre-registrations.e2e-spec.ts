@@ -20,6 +20,10 @@ import { createPreregistration, createRegistration } from '../../http';
 import { RegistrationsModule } from 'apps/registrations/src/registrations/registrations.module';
 import { RegistrationsService } from '@synple/common';
 
+async function getLastConfirmationCode(email: string, model: Model<PreRegistration>): Promise<string> {
+  return `${(await model.find({ email }).sort({ createdAt: -1 }).findOne() as PreRegistration).confirmationCode}`
+}
+
 describe('Pre-registrations scenarios', () => {
 
   const email = "email_001@test.com"
@@ -45,15 +49,16 @@ describe('Pre-registrations scenarios', () => {
       preRegistrations?: Model<PreRegistration>,
       registrations?: Model<Registration>
     } = {}
+    const codes: string[] = []
     beforeAll(async () => {
       await createPreregistration(email, app)
       models.preRegistrations = app.get(PreRegistrationsService).model
       models.registrations = app.get(RegistrationsService).model
-      const { confirmationCode } = await models.preRegistrations.findOne({ email }) as PreRegistration
-      await createRegistration(email, `${confirmationCode}`, app)
+      codes.push(await getLastConfirmationCode(email, models.preRegistrations))
+      await createRegistration(email, codes[0], app)
       await createPreregistration(email, app)
-      await models.preRegistrations.find().sort({ createdAt: -1 }).findOne() as PreRegistration
-      response = createRegistration(email, `${confirmationCode}`, app)
+      codes.push(await getLastConfirmationCode(email, models.preRegistrations))
+      response = createRegistration(email, codes[1], app)
     })
 
     it('Returns a 201 (Created) status code with the correct body', async () => {
@@ -63,14 +68,14 @@ describe('Pre-registrations scenarios', () => {
         .expect('Content-Type', /application\/json/))
       expect(JSON.parse(res.text).id).toEqual((await firstRegistration()).id)
     })
-    it("Has correctly created two pre-registrations", async () => {
-      expect(await models.preRegistrations?.countDocuments({ email })).toBe(2)
+    it("Has correctly created one invalidated pre-registration for this email address", async () => {
+      expect(await models.preRegistrations?.countDocuments({ email, invalidated: true })).toBe(1)
+    })
+    it("Has correctly created one valid pre-registration for this email address", async () => {
+      expect(await models.preRegistrations?.countDocuments({ email, invalidated: false })).toBe(1)
     })
     it("Has created only one registration", async () => {
       expect(await models.registrations?.countDocuments({ email })).toBe(1)
-    })
-    it("Has linked both pre-registrations to the registration", () => {
-
     })
   })
 })

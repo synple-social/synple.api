@@ -3,7 +3,7 @@ import { HydratedDocument } from "mongoose";
 import { EMAIL_FORMAT } from '@synple/utils'
 import { generateConfirmationCode } from '@synple/utils'
 import mongoose from "mongoose"
-import { Registration } from "./Registration.model";
+import { Registration, RegistrationSchema, type RegistrationDocument } from "./Registration.model";
 
 export type PreRegistrationDocument = HydratedDocument<PreRegistration>
 
@@ -23,9 +23,6 @@ export class PreRegistration {
 
   @Prop({ type: Boolean, default: () => false })
   invalidated?: boolean
-
-  @Prop({ type: mongoose.Types.ObjectId, ref: "registration" })
-  registration?: Registration
 }
 
 export const PreRegistrationSchema = SchemaFactory.createForClass(PreRegistration)
