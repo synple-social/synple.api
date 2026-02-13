@@ -51,9 +51,10 @@ describe('Pre-registrations scenarios', () => {
     } = {}
     const codes: string[] = []
     beforeAll(async () => {
-      await createPreregistration(email, app)
       models.preRegistrations = app.get(PreRegistrationsService).model
       models.registrations = app.get(RegistrationsService).model
+
+      await createPreregistration(email, app)
       codes.push(await getLastConfirmationCode(email, models.preRegistrations))
       await createRegistration(email, codes[0], app)
       await createPreregistration(email, app)
