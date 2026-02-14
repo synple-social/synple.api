@@ -16,7 +16,7 @@ import { AccountsService } from '@synple/common/services/accounts.service';
 
 describe('Pre-registrations scenarios', () => {
 
-  const email = "email_001@test.com"
+  const email = "email_204@test.com"
 
   let module: TestingModule;
   let app: INestApplication<App>;
@@ -34,7 +34,7 @@ describe('Pre-registrations scenarios', () => {
     await app.init();
   });
 
-  describe('[SC-203] the registration UUID does not match the email address', () => {
+  describe('[SC-204] the password confirmation does not match the password', () => {
     let response: any;
     let models: {
       preRegistrations?: Model<PreRegistration>,
@@ -49,17 +49,15 @@ describe('Pre-registrations scenarios', () => {
       await createPreregistration(email, app)
       const { confirmationCode } = await models.preRegistrations.findOne({ email }) as PreRegistration
       await createRegistration(email, `${confirmationCode}`, app)
-      await models.registrations.findOne({ email }) as RegistrationDocument
-      response = createAccount({
-        email, registrationId: 'invalidId', password: 'a', passwordConfirmation: 'a', username: 'testUser'
-      }, app)
+      const { id: registrationId } = await models.registrations.findOne({ email }) as RegistrationDocument
+      response = createAccount({ email, registrationId, password: 'a', passwordConfirmation: 'b', username: 'testUser' }, app)
     })
 
     it('Returns a 404 (Not Found) status code with the correct body', () => {
       return response
-        .expect(404)
+        .expect(400)
         .expect('Content-Type', /application\/json/)
-        .expect({ path: 'email', error: 'unknown' })
+        .expect({ path: 'passwordConfirmation', error: 'not-matching' })
     })
     it("Has created no account in the database", async () => {
       await response

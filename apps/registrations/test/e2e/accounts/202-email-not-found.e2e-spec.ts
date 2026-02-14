@@ -50,7 +50,9 @@ describe('Pre-registrations scenarios', () => {
       const { confirmationCode } = await models.preRegistrations.findOne({ email }) as PreRegistration
       await createRegistration(email, `${confirmationCode}`, app)
       const { id: registrationId } = await models.registrations.findOne({ email }) as RegistrationDocument
-      response = createAccount("invalid@email.com", registrationId, app)
+      response = createAccount({
+        email: 'invalid:@email.com', registrationId, password: 'a', passwordConfirmation: 'a', username: 'testUser'
+      }, app)
     })
 
     it('Returns a 404 (Not Found) status code with the correct body', () => {

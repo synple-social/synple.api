@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Registration, RegistrationDocument } from "@synple/models";
 import { PreRegistrationsService } from "./pre-registrations.service";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { DocumentNotFoundException } from "@synple/utils";
 
 @Injectable()
@@ -20,8 +20,8 @@ export class RegistrationsService {
   }
 
   async findOrFail({ email, id }: { email: string, id: string }): Promise<RegistrationDocument> {
-    const found = await this.model.findOne({ email, id })
-    if (found === null) throw new DocumentNotFoundException('email')
+    const found = await this.model.findOne({ email })
+    if (found === null || found.id !== id) throw new DocumentNotFoundException('email')
     return found
   }
 }
