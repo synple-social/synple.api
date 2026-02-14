@@ -29,6 +29,7 @@ export class AccountsController {
     description: 'There is a problem with one of the parameter given (eg. password and password confirmation do not match).'
   })
   async create(@Body() body: CreateAccountDto) {
-    await this.service.create(body)
+    const { username, email } = await this.service.create(body)
+    return { username, email }
   }
 }

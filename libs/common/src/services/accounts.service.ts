@@ -5,7 +5,8 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Account } from "@synple/models/account.model";
 import { Model } from "mongoose";
 import { BadParameterException } from "@synple/utils/exceptions/bad-parameter.exception";
-import { UsernameAlreadyExistingException } from "@synple/utils";
+import { SALT_ROUNDS, UsernameAlreadyExistingException } from "@synple/utils";
+import { hash } from 'bcrypt'
 
 @Injectable()
 export class AccountsService {
@@ -19,6 +20,7 @@ export class AccountsService {
     const registration = await this.registrationService.findOrFail({ email, id: registrationId })
     if (password !== passwordConfirmation) throw new BadParameterException('passwordConfirmation', 'not-matching')
     if (await this.model.countDocuments({ username }) > 0) throw new UsernameAlreadyExistingException()
-    return await this.model.create({ username, email, passwordDigest: 'a', registration })
+    const passwordDigest = await hash(password, SALT_ROUNDS)
+    return await this.model.create({ username, email, passwordDigest, registration })
   }
 }
