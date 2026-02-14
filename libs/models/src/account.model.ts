@@ -16,7 +16,7 @@ export class Account {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Registration.name })
   registration: Registration
 
-  @Prop({ type: String, required: true, minlength: 6, maxlength: 256 })
+  @Prop({ type: String, required: true, minlength: 6, maxlength: 256, unique: true })
   username: string
 
   @Prop({ type: String, required: true })
