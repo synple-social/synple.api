@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { EMAIL_FORMAT, EMAIL_SENDER } from '@synple/utils'
+import { EMAIL_SENDER } from '@synple/utils'
 import { MailerUnavailableException } from "@synple/utils";
 import nodemailer from "nodemailer"
 
