@@ -37,7 +37,6 @@ export class MailerService {
       this.logger.log(`Confirmation code correctly sent, see ${nodemailer.getTestMessageUrl(sentMail)}`)
     }
     catch (exception: any) {
-      console.log(exception)
       throw new MailerUnavailableException()
     }
   }
