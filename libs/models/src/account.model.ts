@@ -15,6 +15,12 @@ export class Account {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Registration.name })
   registration: Registration
+
+  @Prop({ type: String, required: true })
+  username: string
+
+  @Prop({ type: String, required: true })
+  passwordDigest: string
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account)
