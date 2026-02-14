@@ -17,5 +17,6 @@ export class AccountsService {
   async create({ email, registrationId, username, password, passwordConfirmation }: CreateAccountDto) {
     const registration = await this.registrationService.findOrFail({ email, id: registrationId })
     if (password !== passwordConfirmation) throw new BadParameterException('passwordConfirmation', 'not-matching')
+    return await this.model.create({ username, email, passwordDigest: 'a', registration })
   }
 }

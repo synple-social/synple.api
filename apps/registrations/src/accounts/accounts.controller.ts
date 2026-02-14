@@ -5,7 +5,9 @@ import { AccountsService } from "@synple/common/services/accounts.service";
 import { DocumentNotFoundFilter } from "@synple/common/filters/document-not-found.filter";
 import { createErrorSchema } from "@synple/utils";
 import { successSchema } from "./schemas/success.schema";
-import { BadParameterFilter } from "@synple/common";
+import { BadParameterFilter, ValidationExceptionFilter } from "@synple/common";
+import mongoose, { MongooseError } from "mongoose";
+import { Account } from "@synple/models/account.model";
 
 @Controller('accounts')
 @ApiTags('accounts')
@@ -15,8 +17,7 @@ export class AccountsController {
 
   @Post()
   @Header('Content-Type', 'application/json')
-  @UseFilters(DocumentNotFoundFilter)
-  @UseFilters(BadParameterFilter)
+  @UseFilters(DocumentNotFoundFilter, BadParameterFilter, ValidationExceptionFilter)
   @ApiCreatedResponse({
     schema: successSchema,
     description: 'The account has been successfully created with the given parameters.',
