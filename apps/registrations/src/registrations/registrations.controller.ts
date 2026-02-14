@@ -3,7 +3,7 @@ import { ApiCreatedResponse, ApiNotFoundResponse, ApiTags } from "@nestjs/swagge
 import { ValidationExceptionFilter } from "@synple/common";
 import { CreateRegistrationDto } from "./dto/create-registration.dto";
 import { RegistrationsService } from "@synple/common/services/registrations.service";
-import { ErrorSchema } from "@synple/utils";
+import { createErrorSchema } from "@synple/utils";
 import { SuccessSchema } from "./schemas/registration.schema";
 import { DocumentNotFoundFilter } from "@synple/common/filters/document-not-found.filter";
 
@@ -11,7 +11,7 @@ import { DocumentNotFoundFilter } from "@synple/common/filters/document-not-foun
 @ApiTags('registrations')
 export class RegistrationsController {
 
-  constructor(readonly service: RegistrationsService) {}
+  constructor(readonly service: RegistrationsService) { }
 
   @Post()
   @Header('Content-Type', 'application/json')
@@ -23,7 +23,7 @@ export class RegistrationsController {
   })
   @ApiNotFoundResponse({
     description: 'When the email is not found, or the confirmation code is not found, or both are not matching.',
-    schema: ErrorSchema,
+    schema: createErrorSchema('email', 'unknown'),
   })
   async create(@Body() { email, confirmationCode }: CreateRegistrationDto) {
     const registration = await this.service.create(email, confirmationCode)

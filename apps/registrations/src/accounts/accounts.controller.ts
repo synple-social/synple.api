@@ -1,9 +1,10 @@
 import { Body, Controller, Header, Post, UseFilters } from "@nestjs/common";
-import { ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiTags } from "@nestjs/swagger";
 import { CreateAccountDto } from "./dto/create-account.dto";
 import { AccountsService } from "@synple/common/services/accounts.service";
 import { DocumentNotFoundFilter } from "@synple/common/filters/document-not-found.filter";
-import { DocumentNotFoundException } from "@synple/utils";
+import { createErrorSchema } from "@synple/utils";
+import { successSchema } from "./schemas/success.schema";
 
 @Controller('accounts')
 @ApiTags('accounts')
@@ -14,7 +15,18 @@ export class AccountsController {
   @Post()
   @Header('Content-Type', 'application/json')
   @UseFilters(DocumentNotFoundFilter)
-  @ApiCreatedResponse()
+  @ApiCreatedResponse({
+    schema: successSchema,
+    description: 'The account has been successfully created with the given parameters.',
+  })
+  @ApiNotFoundResponse({
+    schema: createErrorSchema('email', 'unknown'),
+    description: 'The corresponding email address has not been found, or the registration UUID does not match the given email address.'
+  })
+  @ApiBadRequestResponse({
+    schema: createErrorSchema('passwordConfirmation', 'not-matching'),
+    description: 'There is a problem with one of the parameter given (eg. password and password confirmation do not match).'
+  })
   async create(@Body() body: CreateAccountDto) {
     await this.service.create(body)
   }

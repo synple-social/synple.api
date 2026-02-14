@@ -4,7 +4,7 @@ import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags, ApiUnprocessableEnt
 import { CreatePreRegistrationDto } from './dto/create-pre-registration.dto';
 import { ValidationExceptionFilter } from '@synple/common'
 import { SuccessSchema } from './schemas/create/success.schema';
-import { ErrorSchema } from '@synple/utils';
+import { createErrorSchema } from '@synple/utils';
 import { MailerUnavailableFilter } from '@synple/common/filters/mailer-unavailable.filter';
 
 @Controller('pre-registrations')
@@ -22,11 +22,11 @@ export class PreRegistrationsController {
   })
   @ApiBadRequestResponse({
     description: 'The email address was in an incorrect format.',
-    schema: ErrorSchema,
+    schema: createErrorSchema('email', 'regexp'),
   })
   @ApiUnprocessableEntityResponse({
     description: 'The mailing service is currently unavailable and no pre-registration can be done.',
-    schema: ErrorSchema,
+    schema: createErrorSchema('mailer', 'unavailable'),
   })
   async create(@Body() { email }: CreatePreRegistrationDto) {
     await this.preRegistrationsService.create(email)
