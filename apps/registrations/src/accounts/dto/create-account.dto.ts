@@ -9,7 +9,7 @@ export class CreateAccountDto {
 
   @ApiProperty({
     description: 'The UUID of the registration that the user previously created',
-    example: '381739ac-0947-4ad1-99aa-3c89b0cb7814',
+    example: '6995e0301048b69daa164f89',
   })
   registrationId: string
 

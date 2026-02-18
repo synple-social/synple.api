@@ -1,0 +1,26 @@
+name: synple
+services:
+  mongodb:
+    env_file:
+      - docker.env
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - database:/data/db
+
+  registrations:
+    build:
+      context: .
+      target: install-dependencies
+    command: npm run start:dev registrations
+    depends_on:
+      - mongodb
+    env_file:
+      - docker.env
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/user/src/app
+volumes:
+  database:
