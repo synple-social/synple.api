@@ -15,7 +15,7 @@ export class AccountsController {
 
   @Post()
   @Header('Content-Type', 'application/json')
-  @UseFilters(DocumentNotFoundFilter, BadParameterFilter, ValidationExceptionFilter, UsernameAlreadyExistingFilter)
+  @UseFilters(ValidationExceptionFilter, DocumentNotFoundFilter, BadParameterFilter, UsernameAlreadyExistingFilter)
   @ApiCreatedResponse({
     schema: successSchema,
     description: 'The account has been successfully created with the given parameters.',
@@ -29,7 +29,7 @@ export class AccountsController {
     description: 'There is a problem with one of the parameter given (eg. password and password confirmation do not match).'
   })
   async create(@Body() body: CreateAccountDto) {
-    const { username, email } = await this.service.create(body)
+    const { username, email } = (await this.service.create(body)).dataValues
     return { username, email }
   }
 }

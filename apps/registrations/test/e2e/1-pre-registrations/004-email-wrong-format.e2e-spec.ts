@@ -1,26 +1,16 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { PreRegistrationsModule } from '../../../src/pre-registrations/pre-registrations.module';
-import { ConfigModule } from '@nestjs/config';
 import { PreRegistrationsService } from '@synple/common';
+import { createApplication } from '../../helpers/create-test-module.helper';
 
 describe('Pre-registrations scenarios', () => {
-  let module: TestingModule;
   let app: INestApplication<App>;
 
   const email = 'invalid email'
 
   beforeAll(async () => {
-    module = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({ envFilePath: '.env.test.local' }),
-        PreRegistrationsModule
-      ]
-    }).compile();
-    app = module.createNestApplication();
-    await app.init();
+    app = await createApplication()
   });
 
   describe('[SC-004] a pre registration creation attempt with an invalid format email', () => {
@@ -31,11 +21,11 @@ describe('Pre-registrations scenarios', () => {
         .send({ email })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect({ path: 'email', error: 'regexp' });
+        .expect({ path: 'email', error: 'format' });
     })
     it("Has created no pre registration in the database", async () => {
       const model = app.get(PreRegistrationsService).model
-      expect(await model.countDocuments({ email })).toBe(0)
+      expect(await model.count({ where: { email } })).toBe(0)
     })
   })
 })

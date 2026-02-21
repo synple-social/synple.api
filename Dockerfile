@@ -4,6 +4,7 @@ RUN npm install --global pnpm
 WORKDIR /user/src/app
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
+RUN if [ ! -d "/user/src/app/node_modules/sqlite3" ]; then cd /user/src/app/node_modules/sqlite3 && pnpm rebuild; fi
 COPY . .
 
 # Creating a build:

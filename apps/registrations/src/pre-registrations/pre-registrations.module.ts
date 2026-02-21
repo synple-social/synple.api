@@ -1,17 +1,13 @@
 import { Module } from '@nestjs/common';
 import { MailerService, PreRegistrationsService } from '@synple/common';
 import { PreRegistrationsController } from './pre-registrations.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { PreRegistration, PreRegistrationSchema } from '@synple/models'
-import { MongoDbConnection } from '@synple/utils'
+import { PreRegistration } from '@synple/common/entities/pre-registration.entity';
+import { SequelizeModule } from '@nestjs/sequelize';
 
 export const preRegistrationModuleDefinition = {
-  imports: [
-    ...MongoDbConnection(),
-    MongooseModule.forFeature([{ name: PreRegistration.name, schema: PreRegistrationSchema }])
-  ],
-  controllers: [PreRegistrationsController],
+  imports: [SequelizeModule.forFeature([PreRegistration])],
   providers: [PreRegistrationsService, MailerService],
+  controllers: [PreRegistrationsController],
 }
 
 @Module(preRegistrationModuleDefinition)

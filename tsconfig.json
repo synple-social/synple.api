@@ -28,12 +28,6 @@
       "@synple/common/*": [
         "libs/common/src/*"
       ],
-      "@synple/models": [
-        "libs/models/src"
-      ],
-      "@synple/models/*": [
-        "libs/models/src/*"
-      ],
       "@synple/utils": [
         "libs/utils/src"
       ],

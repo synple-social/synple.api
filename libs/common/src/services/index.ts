@@ -1,3 +1,4 @@
 export * from './mailer.service'
 export * from './pre-registrations.service'
 export * from './registrations.service'
+export * from './accounts.service'

@@ -14,8 +14,8 @@ export class PreRegistrationsController {
 
   @Post()
   @Header('Content-Type', 'application/json')
-  @UseFilters(ValidationExceptionFilter)
   @UseFilters(MailerUnavailableFilter)
+  @UseFilters(ValidationExceptionFilter)
   @ApiCreatedResponse({
     description: 'The confirmation email has correctly been sent.',
     schema: SuccessSchema,

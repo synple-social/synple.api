@@ -15,8 +15,7 @@ export class RegistrationsController {
 
   @Post()
   @Header('Content-Type', 'application/json')
-  @UseFilters(ValidationExceptionFilter)
-  @UseFilters(DocumentNotFoundFilter)
+  @UseFilters(ValidationExceptionFilter, DocumentNotFoundFilter)
   @ApiCreatedResponse({
     description: 'When the registration is correctly created (the email and the confirmation code are valid and matching',
     schema: SuccessSchema,
@@ -27,6 +26,6 @@ export class RegistrationsController {
   })
   async create(@Body() { email, confirmationCode }: CreateRegistrationDto) {
     const registration = await this.service.create(email, confirmationCode)
-    return { id: registration._id }
+    return { id: registration.id }
   }
 }
