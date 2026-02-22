@@ -3,12 +3,24 @@ import { PreRegistrationsModule } from './pre-registrations/pre-registrations.mo
 import { SequelizeModule } from '@nestjs/sequelize';
 import { RegistrationsModule } from './registrations/registrations.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    SequelizeModule.forRoot({
-      uri: 'postgresql://babausse:strongpassword@localhost:5432',
-      autoLoadModels: true,
+    ConfigModule.forRoot({
+      envFilePath: ['docker.env', '.env'], isGlobal: true
+    }),
+    SequelizeModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (service: ConfigService) => {
+        return {
+          dialect: 'postgres',
+          uri: service.get('DATABASE_URL'),
+          autoLoadModels: true,
+          logging: false,
+        }
+      },
+      inject: [ConfigService]
     }),
     PreRegistrationsModule,
     RegistrationsModule,
