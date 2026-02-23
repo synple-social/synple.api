@@ -1,5 +1,5 @@
 import { generateConfirmationCode } from '@synple/utils'
-import { Table, Column, Model, ForeignKey, Validate, Scopes, DataType, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, Validate, Scopes, BelongsTo } from 'sequelize-typescript';
 import { Registration } from './registration.entity';
 import { Op } from "@sequelize/core"
 
