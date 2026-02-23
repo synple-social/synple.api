@@ -35,5 +35,14 @@ describe('Pre-registrations scenarios', () => {
         .expect('Content-Type', /application\/json/))
       expect(JSON.parse(res.text).id).toEqual((await firstRegistration()).id)
     })
+    it('Has linked a pre-registration to the created registration', async () => {
+      const registration = await models.registration?.findOne({ where: { email }, include: PreRegistration })
+      const preRegistrations = await registration?.getPreRegistrations()
+      expect(preRegistrations?.map(pr => pr.id)).toEqual([1])
+    })
+    it("Has linked back the pre-registration to the registration", async () => {
+      const preRegistration = await models.preRegistration?.findOne({ where: { email }, include: Registration })
+      expect(preRegistration?.registration?.id).toEqual(1)
+    })
   })
 })

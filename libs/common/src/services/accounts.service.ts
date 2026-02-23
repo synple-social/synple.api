@@ -16,10 +16,10 @@ export class AccountsService {
   ) { }
 
   async create({ email, registrationId, username, password, passwordConfirmation }: CreateAccountDto) {
-    const registration = await this.registrationService.findOrFail({ email, id: registrationId })
+    await this.registrationService.findOrFail({ email, id: registrationId })
     if (password !== passwordConfirmation) throw new BadParameterException('passwordConfirmation', 'not-matching')
     if ((await this.model.findAll({ where: { email } })).length) throw new UsernameAlreadyExistingException()
     const passwordDigest = await hash(password, SALT_ROUNDS)
-    return await this.model.create({ username, email, passwordDigest, registration })
+    return await this.model.create({ username, email, passwordDigest, registrationId })
   }
 }

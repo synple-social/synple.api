@@ -56,10 +56,10 @@ describe('Pre-registrations scenarios', () => {
       expect(JSON.parse(res.text).id).toEqual((await firstRegistration()).id)
     })
     it("Has correctly created one invalidated pre-registration for this email address", async () => {
-      expect(await models.preRegistration?.count({ where: { email, invalidated: true } })).toBe(1)
+      expect(await models.preRegistration?.scope('invalid').count({ where: { email } })).toBe(1)
     })
     it("Has correctly created one valid pre-registration for this email address", async () => {
-      expect(await models.preRegistration?.count({ where: { email, invalidated: false } })).toBe(1)
+      expect(await models.preRegistration?.scope('valid').count({ where: { email } })).toBe(1)
     })
     it("Has created only one registration", async () => {
       expect(await models.registration?.count({ where: { email } })).toBe(1)

@@ -1,7 +1,12 @@
 import { generateConfirmationCode } from '@synple/utils'
-import { Table, Column, Model, BelongsTo, ForeignKey, IsEmail, Validate } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, Validate, Scopes, DataType, BelongsTo } from 'sequelize-typescript';
 import { Registration } from './registration.entity';
+import { Op } from "@sequelize/core"
 
+@Scopes(() => ({
+  valid: { where: { invalidatedAt: null } },
+  invalid: { where: { invalidatedAt: { [Op.ne]: null } } }
+}))
 @Table
 export class PreRegistration extends Model {
 
@@ -15,9 +20,13 @@ export class PreRegistration extends Model {
   @Column({ defaultValue: () => new Date() })
   declare sentAt?: Date
 
-  @Column({ defaultValue: false })
-  declare invalidated?: boolean
+  @Column({ defaultValue: () => null })
+  declare invalidatedAt?: Date
+
+  @BelongsTo(() => Registration, { constraints: false })
+  declare registration?: Registration
 
   @ForeignKey(() => Registration)
-  declare registration?: Registration
+  @Column
+  declare registrationId?: number
 }

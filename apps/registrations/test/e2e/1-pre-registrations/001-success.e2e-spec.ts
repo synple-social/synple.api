@@ -32,7 +32,7 @@ describe('Pre-registrations scenarios', () => {
 
       beforeAll(async () => {
         const model: typeof PreRegistration = app.get(PreRegistrationsService).model
-        preRegistration = await model.findOne({ where: { email, invalidated: false } })
+        preRegistration = await model.scope('valid').findOne({ where: { email } })
       })
 
       it("Has created a document in the database", () => {

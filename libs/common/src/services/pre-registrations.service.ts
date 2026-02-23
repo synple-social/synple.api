@@ -24,12 +24,12 @@ export class PreRegistrationsService {
   }
 
   async findOrFail(where: Partial<{ email: string, confirmationCode?: string }>): Promise<PreRegistration> {
-    const result = await this.model.findOne({ where, attributes: ['id'] })
+    const result = await this.model.findOne({ where })
     if (result === null) throw new DocumentNotFoundException('email')
     return result
   }
 
   private async invalidateAll(email: string) {
-    await this.model.update({ invalidated: true }, { where: { email } })
+    await this.model.update({ invalidatedAt: new Date() }, { where: { email } })
   }
 }

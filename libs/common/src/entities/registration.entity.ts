@@ -1,4 +1,4 @@
-import { Column, ForeignKey, HasMany, Model, Table } from "sequelize-typescript"
+import { Column, HasMany, HasOne, Model, Table, } from "sequelize-typescript"
 import { PreRegistration } from "./pre-registration.entity"
 import { Account } from "./account.entity"
 
@@ -10,9 +10,11 @@ export class Registration extends Model {
   @Column({ defaultValue: () => new Date() })
   declare lastValidatedAt: Date
 
-  @HasMany(() => PreRegistration)
+  @HasMany(() => PreRegistration, { constraints: false })
   declare preRegistrations: PreRegistration[]
 
-  @ForeignKey(() => Account)
+  @HasOne(() => Account, { constraints: false })
   declare account: Account
+
+  declare getPreRegistrations: () => Promise<PreRegistration[]>
 }

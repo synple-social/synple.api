@@ -31,14 +31,14 @@ describe('Pre registrations scenarios', () => {
       expect((await model.findAll({ where: { email } })).length).toBe(2)
     })
     it("Has created one invalidated pre registration", async () => {
-      expect((await model.findAll({ where: { email, invalidated: true } })).length).toBe(1)
+      expect((await model.scope('invalid').findAll({ where: { email } })).length).toBe(1)
     })
     it("Has created one valid pre registration", async () => {
-      expect((await model.findAll({ where: { email, invalidated: false } })).length).toBe(1)
+      expect((await model.scope('valid').findAll({ where: { email } })).length).toBe(1)
     })
     it("Has created the invalidated pre registration before the valid one", async () => {
-      const invalidated = await model.findOne({ where: { email, invalidated: true } })
-      const valid = await model.findOne({ where: { email, invalidated: false } })
+      const invalidated = await model.scope('invalid').findOne({ where: { email } })
+      const valid = await model.scope('valid').findOne({ where: { email } })
       expect(invalidated?.createdAt?.getTime() || 0).toBeLessThan(valid?.createdAt?.getTime() || Number.NEGATIVE_INFINITY)
     })
   })

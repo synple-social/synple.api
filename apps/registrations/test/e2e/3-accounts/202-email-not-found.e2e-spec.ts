@@ -17,20 +17,20 @@ describe('Pre-registrations scenarios', () => {
 
   describe('[SC-202] the email address is not found in the database, or does not correspond to the registration UUID', () => {
     let response: any;
-    let repositories: {
+    let models: {
       preRegistrations?: typeof PreRegistration,
       registrations?: typeof Registration,
       accounts?: typeof Account,
     } = {}
     beforeAll(async () => {
-      repositories.preRegistrations = app.get(PreRegistrationsService).model
-      repositories.registrations = app.get(RegistrationsService).model
-      repositories.accounts = app.get(AccountsService).model
+      models.preRegistrations = app.get(PreRegistrationsService).model
+      models.registrations = app.get(RegistrationsService).model
+      models.accounts = app.get(AccountsService).model
 
       await createPreregistration(email, app)
-      const preRegistration = await repositories.preRegistrations.findOne({ where: { email } })
+      const preRegistration = await models.preRegistrations.findOne({ where: { email } })
       await createRegistration(email, `${preRegistration?.getDataValue('confirmationCode')}`, app)
-      const registration = await repositories.registrations.findOne({ where: { email } })
+      const registration = await models.registrations.findOne({ where: { email } })
       response = createAccount({
         email: 'invalid:@email.com', registrationId: registration?.getDataValue('id'), password: 'a', passwordConfirmation: 'a', username: 'testUser'
       }, app)
@@ -44,7 +44,7 @@ describe('Pre-registrations scenarios', () => {
     })
     it("Has created no account in the database", async () => {
       await response
-      expect(await repositories.accounts?.count()).toBe(0)
+      expect(await models.accounts?.count()).toBe(0)
     })
   })
 })
