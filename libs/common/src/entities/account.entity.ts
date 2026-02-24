@@ -13,6 +13,9 @@ export class Account extends Model {
   @Column
   declare passwordDigest: string
 
+  @Column
+  declare uuid: string
+
   @BelongsTo(() => Registration, { constraints: false })
   declare registration: Registration
 

@@ -49,11 +49,10 @@ describe('Pre-registrations scenarios', () => {
     })
 
     it('Returns a 201 (Created) status code with the correct body', async () => {
-      const firstRegistration = async () => (await models.registration?.findOne({}) as Registration)
       const { res } = await (response
         .expect(201)
         .expect('Content-Type', /application\/json/))
-      expect(JSON.parse(res.text).id).toEqual((await firstRegistration()).id)
+      expect(JSON.parse(res.text).id).toEqual((await models.registration?.findByPk(1))?.uuid)
     })
     it("Has correctly created one invalidated pre-registration for this email address", async () => {
       expect(await models.preRegistration?.scope('invalid').count({ where: { email } })).toBe(1)

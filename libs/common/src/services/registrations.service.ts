@@ -4,6 +4,8 @@ import { DocumentNotFoundException } from "@synple/utils";
 import { Registration } from "../entities/registration.entity";
 import { InjectModel } from "@nestjs/sequelize";
 import { PreRegistration } from "../entities";
+// @ts-ignore
+import { v7 as uuid } from "uuid"
 
 @Injectable()
 export class RegistrationsService {
@@ -19,14 +21,14 @@ export class RegistrationsService {
     return registration
   }
 
-  async findOrFail({ email, id }: { email: string, id: string }): Promise<Registration> {
-    const found = await this.model.findOne({ where: { email } })
-    if (found === null || found.id !== id) throw new DocumentNotFoundException('email')
+  async findOrFail({ email, uuid }: Partial<Registration>): Promise<Registration> {
+    const found = await this.model.findOne({ where: { email, uuid } })
+    if (found === null) throw new DocumentNotFoundException('email')
     return found
   }
 
   async findOrCreate(email: string, preRegistration: PreRegistration): Promise<Registration> {
-    const registration: Registration = await this.model.findOne({ where: { email } }) || await this.model.create({ email })
+    const registration = await this.model.findOne({ where: { email } }) || await this.model.create({ email, uuid: uuid() })
     await preRegistration.set('registrationId', registration.id)
     await preRegistration.save()
     return registration

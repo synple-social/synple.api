@@ -36,7 +36,7 @@ describe('Pre-registrations scenarios', () => {
       const registration = await models.registrations.findOne({ where: { email } })
       response = createAccount({
         email,
-        registrationId: registration?.getDataValue('id'),
+        registrationId: registration?.getDataValue('uuid'),
         password: 'password',
         passwordConfirmation: 'password',
         username: 'testUser'
@@ -71,6 +71,9 @@ describe('Pre-registrations scenarios', () => {
       })
       it("Can authenticate with the correct password", async () => {
         expect(await compare("password", account.passwordDigest)).toEqual(true)
+      })
+      it("Has an UUID later used to identify users", () => {
+        expect(account.uuid.match(/^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$/)).not.toBe(null)
       })
     })
   })

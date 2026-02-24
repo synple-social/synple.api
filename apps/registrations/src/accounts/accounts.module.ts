@@ -11,7 +11,7 @@ export const accountsModuleDefinition = {
   imports: [
     SequelizeModule.forFeature([Account]),
     SequelizeModule.forFeature([Registration]),
-    SequelizeModule.forFeature([PreRegistration])
+    SequelizeModule.forFeature([PreRegistration]),
   ],
   controllers: [AccountsController],
   providers: [AccountsService, RegistrationsService, PreRegistrationsService, MailerService],

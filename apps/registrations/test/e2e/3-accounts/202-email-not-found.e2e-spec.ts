@@ -32,7 +32,7 @@ describe('Pre-registrations scenarios', () => {
       await createRegistration(email, `${preRegistration?.getDataValue('confirmationCode')}`, app)
       const registration = await models.registrations.findOne({ where: { email } })
       response = createAccount({
-        email: 'invalid:@email.com', registrationId: registration?.getDataValue('id'), password: 'a', passwordConfirmation: 'a', username: 'testUser'
+        email: 'invalid:@email.com', registrationId: registration?.getDataValue('uuid'), password: 'a', passwordConfirmation: 'a', username: 'testUser'
       }, app)
     })
 

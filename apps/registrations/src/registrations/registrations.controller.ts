@@ -26,6 +26,6 @@ export class RegistrationsController {
   })
   async create(@Body() { email, confirmationCode }: CreateRegistrationDto) {
     const registration = await this.service.create(email, confirmationCode)
-    return { id: registration.id }
+    return { id: registration.uuid }
   }
 }

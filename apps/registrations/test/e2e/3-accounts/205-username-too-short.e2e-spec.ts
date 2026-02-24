@@ -34,7 +34,7 @@ describe('Pre-registrations scenarios', () => {
       const preRegistration = await models.preRegistrations.findOne({ where: { email } })
       await createRegistration(email, `${preRegistration?.getDataValue('confirmationCode')}`, app)
       const registration = await models.registrations.findOne({ where: { email } })
-      response = createAccount({ email, registrationId: registration?.getDataValue('id'), password: 'a', passwordConfirmation: 'a', username: 'a' }, app)
+      response = createAccount({ email, registrationId: registration?.getDataValue('uuid'), password: 'a', passwordConfirmation: 'a', username: 'a' }, app)
     })
 
     it('Returns a 400 (Bad Request) status code with the correct body', () => {

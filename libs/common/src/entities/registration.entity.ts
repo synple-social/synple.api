@@ -10,6 +10,9 @@ export class Registration extends Model {
   @Column({ defaultValue: () => new Date() })
   declare lastValidatedAt: Date
 
+  @Column
+  declare uuid: string
+
   @HasMany(() => PreRegistration, { constraints: false })
   declare preRegistrations: PreRegistration[]
 
