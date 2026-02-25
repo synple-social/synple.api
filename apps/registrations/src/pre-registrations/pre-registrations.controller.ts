@@ -1,11 +1,9 @@
 import { Body, Controller, Header, Post, UseFilters } from '@nestjs/common';
-import { PreRegistrationsService } from '@synple/common';
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
 import { CreatePreRegistrationDto } from './dto/create-pre-registration.dto';
-import { ValidationExceptionFilter } from '@synple/common'
+import { MailerUnavailableFilter, PreRegistrationsService, ValidationExceptionFilter } from '@synple/common'
 import { SuccessSchema } from './schemas/create/success.schema';
 import { createErrorSchema } from '@synple/utils';
-import { MailerUnavailableFilter } from '@synple/common/filters/mailer-unavailable.filter';
 
 @Controller('pre-registrations')
 @ApiTags('pre-registrations')

@@ -1,11 +1,9 @@
 import { Body, Controller, Header, Post, UseFilters } from "@nestjs/common";
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiTags } from "@nestjs/swagger";
-import { ValidationExceptionFilter } from "@synple/common";
 import { CreateRegistrationDto } from "./dto/create-registration.dto";
-import { RegistrationsService } from "@synple/common/services/registrations.service";
+import { DocumentNotFoundFilter, RegistrationsService, ValidationExceptionFilter } from "@synple/common";
 import { createErrorSchema } from "@synple/utils";
 import { SuccessSchema } from "./schemas/registration.schema";
-import { DocumentNotFoundFilter } from "@synple/common/filters/document-not-found.filter";
 
 @Controller('registrations')
 @ApiTags('registrations')

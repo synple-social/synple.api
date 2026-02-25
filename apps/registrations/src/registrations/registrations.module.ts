@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
-import { MailerService, PreRegistrationsService, RegistrationsService } from '@synple/common';
+import { MailerService, PreRegistration, PreRegistrationsService, Registration, RegistrationsService } from '@synple/common';
 import { RegistrationsController } from './registrations.controller';
-import { Registration } from '@synple/common/entities/registration.entity';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { PreRegistration } from '@synple/common/entities/pre-registration.entity';
 
 export const registrationModuleDefinition = {
   imports: [
