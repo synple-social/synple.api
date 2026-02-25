@@ -1,51 +1,75 @@
-import { INestApplication } from '@nestjs/common';
-import { App } from 'supertest/types';
-import { createPreregistration, createRegistration } from '../../http';
-import { PreRegistration, PreRegistrationsService, Registration, RegistrationsService } from '@synple/common';
-import { createApplication } from '../../helpers/create-test-module.helper';
+import { INestApplication } from "@nestjs/common";
+import { App } from "supertest/types";
+import { createPreregistration, createRegistration } from "../../http";
+import {
+	PreRegistration,
+	PreRegistrationsService,
+	Registration,
+	RegistrationsService,
+} from "@synple/common";
+import { createApplication } from "../../helpers/create-test-module.helper";
 
-describe('Pre-registrations scenarios', () => {
+describe("Pre-registrations scenarios", () => {
+	const email = "email_001@test.com";
 
-  const email = "email_001@test.com"
+	let app: INestApplication<App>;
 
-  let app: INestApplication<App>;
+	beforeAll(async () => {
+		app = await createApplication();
+	});
 
-  beforeAll(async () => {
-    app = await createApplication()
-  });
+	describe("[SC-001] a pre registration is created successfully", () => {
+		let response: any;
+		let models: {
+			preRegistration?: typeof PreRegistration;
+			registration?: typeof Registration;
+		} = {};
+		beforeAll(async () => {
+			await createPreregistration(email, app);
+			models.preRegistration = app.get(PreRegistrationsService).model;
+			models.registration = app.get(RegistrationsService).model;
+			const preRegistration = await models.preRegistration.findOne({
+				where: { email },
+			});
+			response = createRegistration(
+				email,
+				`${preRegistration?.dataValues.confirmationCode}`,
+				app,
+			);
+		});
 
-  describe('[SC-001] a pre registration is created successfully', () => {
-    let response: any;
-    let models: {
-      preRegistration?: typeof PreRegistration,
-      registration?: typeof Registration
-    } = {}
-    beforeAll(async () => {
-      await createPreregistration(email, app)
-      models.preRegistration = app.get(PreRegistrationsService).model
-      models.registration = app.get(RegistrationsService).model
-      const preRegistration = await models.preRegistration.findOne({ where: { email } })
-      response = createRegistration(email, `${preRegistration?.dataValues.confirmationCode}`, app)
-    })
-
-    it('Returns a 201 (Created) status code with the correct body', async () => {
-      const { res } = await (response
-        .expect(201)
-        .expect('Content-Type', /application\/json/))
-      expect(JSON.parse(res.text).id).toEqual((await models.registration?.findByPk(1))?.uuid)
-    })
-    it('Has linked a pre-registration to the created registration', async () => {
-      const registration = await models.registration?.findOne({ where: { email }, include: PreRegistration })
-      const preRegistrations = await registration?.getPreRegistrations()
-      expect(preRegistrations?.map(pr => pr.id)).toEqual([1])
-    })
-    it("Has linked back the pre-registration to the registration", async () => {
-      const preRegistration = await models.preRegistration?.findOne({ where: { email }, include: Registration })
-      expect(preRegistration?.registration?.id).toEqual(1)
-    })
-    it("Has given an UUID to the registration later used to identify users", async () => {
-      const registration = await models.registration?.findOne({ where: { email } })
-      expect(registration?.uuid.match(/^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$/)).not.toBe(null)
-    })
-  })
-})
+		it("Returns a 201 (Created) status code with the correct body", async () => {
+			const { res } = await response
+				.expect(201)
+				.expect("Content-Type", /application\/json/);
+			expect(JSON.parse(res.text).id).toEqual(
+				(await models.registration?.findByPk(1))?.uuid,
+			);
+		});
+		it("Has linked a pre-registration to the created registration", async () => {
+			const registration = await models.registration?.findOne({
+				where: { email },
+				include: PreRegistration,
+			});
+			const preRegistrations = await registration?.getPreRegistrations();
+			expect(preRegistrations?.map((pr) => pr.id)).toEqual([1]);
+		});
+		it("Has linked back the pre-registration to the registration", async () => {
+			const preRegistration = await models.preRegistration?.findOne({
+				where: { email },
+				include: Registration,
+			});
+			expect(preRegistration?.registration?.id).toEqual(1);
+		});
+		it("Has given an UUID to the registration later used to identify users", async () => {
+			const registration = await models.registration?.findOne({
+				where: { email },
+			});
+			expect(
+				registration?.uuid.match(
+					/^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$/,
+				),
+			).not.toBe(null);
+		});
+	});
+});
