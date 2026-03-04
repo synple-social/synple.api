@@ -1,15 +1,11 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from "@nestjs/common"
-import { ValidationError } from "@sequelize/core"
+import { ValidationError } from 'sequelize'
 
-@Catch(Error)
+@Catch(ValidationError)
 export class ValidationExceptionFilter implements ExceptionFilter {
 
-  catch(err: Error, host: ArgumentsHost) {
-    if (err.constructor.name !== 'ValidationError') return;
-
-    const castedError = err as unknown as ValidationError;
+  catch({ errors }: ValidationError, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse()
-    const error = castedError.errors[0]
-    response.status(400).json({ path: error.path, error: error.message })
+    response.status(400).json({ path: errors[0].path, error: errors[0].message })
   }
 }

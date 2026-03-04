@@ -24,7 +24,13 @@ export class MailerService {
 
   async sendSubscriptionConfirmation(email: string, confirmationCode: string | undefined) {
     const subject = 'Subscription confirmation'
-    const content = `You're confirmation code is ${confirmationCode}`
+    const content = `Your confirmation code is ${confirmationCode}`
+    return await this.send({ subject, content, to: email })
+  }
+
+  async sendPasswordResetRequest(email: string, confirmationCode: string) {
+    const subject = 'Password reset request'
+    const content = `Your confirmation code is ${confirmationCode}`
     return await this.send({ subject, content, to: email })
   }
 

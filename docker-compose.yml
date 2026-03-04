@@ -13,7 +13,6 @@ services:
   registrations:
     build:
       context: .
-      target: install-dependencies
     command: npm run start:dev registrations
     depends_on:
       - db

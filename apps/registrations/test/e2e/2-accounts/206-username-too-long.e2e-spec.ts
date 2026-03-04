@@ -12,7 +12,7 @@ import {
 import { createAccount } from "../../http/create-account.http";
 import { createApplication } from "../../helpers/create-test-module.helper";
 
-describe("Pre-registrations scenarios", () => {
+describe("Accounts scenarios", () => {
 	const email = "email_204@test.com";
 
 	let app: INestApplication<App>;
@@ -21,7 +21,7 @@ describe("Pre-registrations scenarios", () => {
 		app = await createApplication();
 	});
 
-	describe("[SC-205] the username is under six characters long", () => {
+	describe("[SC-206] the username is above 256 characters long", () => {
 		let response: any;
 		let models: {
 			preRegistrations?: typeof PreRegistration;

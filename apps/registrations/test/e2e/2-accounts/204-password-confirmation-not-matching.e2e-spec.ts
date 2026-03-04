@@ -12,7 +12,7 @@ import { createPreregistration, createRegistration } from "../../http";
 import { createAccount } from "../../http/create-account.http";
 import { createApplication } from "../../helpers/create-test-module.helper";
 
-describe("Pre-registrations scenarios", () => {
+describe("Accounts scenarios", () => {
 	const email = "email_204@test.com";
 
 	let app: INestApplication<App>;

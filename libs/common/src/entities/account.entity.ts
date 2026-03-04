@@ -1,5 +1,6 @@
-import { BelongsTo, Column, ForeignKey, Model, Table, Validate } from "sequelize-typescript"
+import { BelongsTo, Column, ForeignKey, HasMany, Model, Table, Validate } from "sequelize-typescript"
 import { Registration } from "./registration.entity"
+import { PasswordRequest } from "./password-request.entity"
 
 @Table
 export class Account extends Model {
@@ -22,4 +23,7 @@ export class Account extends Model {
   @ForeignKey(() => Registration)
   @Column
   declare registrationId?: number
+
+  @HasMany(() => PasswordRequest, { constraints: false })
+  declare passwordRequests: PasswordRequest[]
 }

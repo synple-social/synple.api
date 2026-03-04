@@ -13,7 +13,7 @@ import { createAccount } from "../../http/create-account.http";
 import { createApplication } from "../../helpers/create-test-module.helper";
 import { compare } from "bcrypt";
 
-describe("Pre-registrations scenarios", () => {
+describe("Accounts scenarios", () => {
 	const email = "email_001@test.com";
 
 	let app: INestApplication<App>;
@@ -22,7 +22,7 @@ describe("Pre-registrations scenarios", () => {
 		app = await createApplication();
 	});
 
-	describe("[SC-202] the email address is not found in the database, or does not correspond to the registration UUID", () => {
+	describe("[SC-201] the account is created successfully", () => {
 		let response: any;
 		let models!: {
 			preRegistrations: typeof PreRegistration;

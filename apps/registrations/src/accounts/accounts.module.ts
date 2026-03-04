@@ -10,12 +10,11 @@ import {
 	RegistrationsService,
 } from "@synple/common";
 import { SequelizeModule } from "@nestjs/sequelize";
+import { PasswordRequest } from "@synple/common/entities/password-request.entity";
 
 export const accountsModuleDefinition = {
 	imports: [
-		SequelizeModule.forFeature([Account]),
-		SequelizeModule.forFeature([Registration]),
-		SequelizeModule.forFeature([PreRegistration]),
+		SequelizeModule.forFeature([Account, Registration, PreRegistration, PasswordRequest])
 	],
 	controllers: [AccountsController],
 	providers: [
@@ -25,6 +24,5 @@ export const accountsModuleDefinition = {
 		MailerService,
 	],
 };
-
 @Module(accountsModuleDefinition)
-export class AccountsModule {}
+export class AccountsModule { }

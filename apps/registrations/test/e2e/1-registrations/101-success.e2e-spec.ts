@@ -9,7 +9,7 @@ import {
 } from "@synple/common";
 import { createApplication } from "../../helpers/create-test-module.helper";
 
-describe("Pre-registrations scenarios", () => {
+describe("Registrations scenarios", () => {
 	const email = "email_001@test.com";
 
 	let app: INestApplication<App>;
@@ -18,7 +18,7 @@ describe("Pre-registrations scenarios", () => {
 		app = await createApplication();
 	});
 
-	describe("[SC-001] a pre registration is created successfully", () => {
+	describe("[SC-101] a registration is created successfully", () => {
 		let response: any;
 		let models: {
 			preRegistration?: typeof PreRegistration;

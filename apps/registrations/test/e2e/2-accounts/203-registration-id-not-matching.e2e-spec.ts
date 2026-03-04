@@ -1,4 +1,3 @@
-import { TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
 import { App } from "supertest/types";
 import {
@@ -13,17 +12,16 @@ import { createAccount } from "../../http/create-account.http";
 import { AccountsService } from "@synple/common/services/accounts.service";
 import { createApplication } from "../../helpers/create-test-module.helper";
 
-describe("Pre-registrations scenarios", () => {
-	const email = "email_204@test.com";
+describe("Accounts scenarios", () => {
+	const email = "email_001@test.com";
 
-	let module: TestingModule;
 	let app: INestApplication<App>;
 
 	beforeAll(async () => {
 		app = await createApplication();
 	});
 
-	describe("[SC-205] the username is under six characters long", () => {
+	describe("[SC-203] the registration UUID does not match the email address", () => {
 		let response: any;
 		let models: {
 			preRegistrations?: typeof PreRegistration;
@@ -44,26 +42,23 @@ describe("Pre-registrations scenarios", () => {
 				`${preRegistration?.getDataValue("confirmationCode")}`,
 				app,
 			);
-			const registration = await models.registrations.findOne({
-				where: { email },
-			});
 			response = createAccount(
 				{
 					email,
-					registrationId: registration?.getDataValue("uuid"),
+					registrationId: "invalidId",
 					password: "a",
 					passwordConfirmation: "a",
-					username: "a",
+					username: "testUser",
 				},
 				app,
 			);
 		});
 
-		it("Returns a 400 (Bad Request) status code with the correct body", () => {
+		it("Returns a 404 (Not Found) status code with the correct body", () => {
 			return response
-				.expect(400)
+				.expect(404)
 				.expect("Content-Type", /application\/json/)
-				.expect({ path: "username", error: "length" });
+				.expect({ path: "email", error: "unknown" });
 		});
 		it("Has created no account in the database", async () => {
 			await response;

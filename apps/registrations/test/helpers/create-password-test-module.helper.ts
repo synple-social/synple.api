@@ -1,9 +1,7 @@
 import { ConfigModule } from "@nestjs/config";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AccountsModule } from "apps/registrations/src/accounts/accounts.module";
-import { PreRegistrationsModule } from "apps/registrations/src/pre-registrations/pre-registrations.module";
-import { RegistrationsModule } from "apps/registrations/src/registrations/registrations.module";
+import { PasswordsModule } from "apps/registrations/src/passwords/passwords.module";
 
 export type TestOverride = { from: any, to: any }
 
@@ -14,9 +12,7 @@ export async function createTestingModule({ overrides }: TestingModuleOptions = 
     imports: [
       ConfigModule.forRoot({ envFilePath: '.env.test.local' }),
       SequelizeModule.forRoot({ dialect: 'sqlite', autoLoadModels: true, logging: false }),
-      PreRegistrationsModule,
-      RegistrationsModule,
-      AccountsModule,
+      PasswordsModule
     ]
   })
   for (const override of overrides) {

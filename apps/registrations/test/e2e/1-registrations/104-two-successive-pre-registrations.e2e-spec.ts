@@ -30,7 +30,7 @@ async function getLastConfirmationCode(
 	return `${preRegistration?.dataValues.confirmationCode}`;
 }
 
-describe("Pre-registrations scenarios", () => {
+describe("Registrations scenarios", () => {
 	const email = "email_001@test.com";
 
 	let app: INestApplication<App>;
@@ -39,7 +39,7 @@ describe("Pre-registrations scenarios", () => {
 		app = await createApplication();
 	});
 
-	describe("[SC-001] a pre registration is created successfully", () => {
+	describe("[SC-104] two successive pre registration are created before the creation of the registration", () => {
 		let response: any;
 		let models: {
 			preRegistration?: typeof PreRegistration;

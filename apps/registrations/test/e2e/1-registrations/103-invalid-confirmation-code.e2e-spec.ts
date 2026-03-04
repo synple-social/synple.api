@@ -4,7 +4,7 @@ import { createPreregistration, createRegistration } from "../../http";
 import { Registration, RegistrationsService } from "@synple/common";
 import { createApplication } from "../../helpers/create-test-module.helper";
 
-describe("Pre-registrations scenarios", () => {
+describe("Registrations scenarios", () => {
 	const email = "email_001@test.com";
 
 	let app: INestApplication<App>;
@@ -13,7 +13,7 @@ describe("Pre-registrations scenarios", () => {
 		app = await createApplication();
 	});
 
-	describe("[SC-001] a pre registration is created successfully", () => {
+	describe("[SC-103] a registration is created with an invalid confirmation code", () => {
 		let response: any;
 		let model: typeof Registration;
 		beforeAll(async () => {

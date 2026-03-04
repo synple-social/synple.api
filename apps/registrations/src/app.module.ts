@@ -4,6 +4,7 @@ import { SequelizeModule } from "@nestjs/sequelize";
 import { RegistrationsModule } from "./registrations/registrations.module";
 import { AccountsModule } from "./accounts/accounts.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { PasswordsModule } from "./passwords/passwords.module";
 
 @Module({
 	imports: [
@@ -26,6 +27,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 		PreRegistrationsModule,
 		RegistrationsModule,
 		AccountsModule,
+		PasswordsModule
 	],
 })
-export class AppModule {}
+export class AppModule { }

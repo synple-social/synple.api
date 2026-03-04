@@ -19,12 +19,11 @@ import { createErrorSchema } from "@synple/utils";
 export class PreRegistrationsController {
 	constructor(
 		private readonly preRegistrationsService: PreRegistrationsService,
-	) {}
+	) { }
 
 	@Post()
 	@Header("Content-Type", "application/json")
-	@UseFilters(MailerUnavailableFilter)
-	@UseFilters(ValidationExceptionFilter)
+	@UseFilters(MailerUnavailableFilter, ValidationExceptionFilter)
 	@ApiCreatedResponse({
 		description: "The confirmation email has correctly been sent.",
 		schema: SuccessSchema,
