@@ -1,7 +1,7 @@
 import { INestApplication } from "@nestjs/common";
 import { App } from "supertest/types";
 import { createPreregistration } from "../../http/create-pre-registration.http";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
 import { PreRegistration, PreRegistrationsService } from "@synple/common";
 
 describe("Pre-registrations scenarios", () => {
@@ -41,10 +41,8 @@ describe("Pre-registrations scenarios", () => {
 			it("Has created a document in the database", () => {
 				expect(preRegistration).not.toBe(null);
 			});
-			it("Has created a document with a confirmation code", async () => {
-				expect(preRegistration?.dataValues?.confirmationCode).toMatch(
-					/^[A-Z0-9]{6}$/,
-				);
+			it("Has created a document with the correct confirmation code", async () => {
+				expect(preRegistration?.dataValues?.confirmationCode).toEqual("ABC123");
 			});
 		});
 	});

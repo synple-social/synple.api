@@ -3,6 +3,7 @@ import { AccountsController } from "./accounts.controller";
 import {
 	Account,
 	AccountsService,
+	ConfirmationCodesService,
 	MailerService,
 	PreRegistration,
 	PreRegistrationsService,
@@ -11,6 +12,7 @@ import {
 } from "@synple/common";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { PasswordRequest } from "@synple/common/entities/password-request.entity";
+import { UuidsService } from "@synple/common/services/uuids.service";
 
 export const accountsModuleDefinition = {
 	imports: [
@@ -22,6 +24,8 @@ export const accountsModuleDefinition = {
 		RegistrationsService,
 		PreRegistrationsService,
 		MailerService,
+		ConfirmationCodesService,
+		UuidsService,
 	],
 };
 @Module(accountsModuleDefinition)

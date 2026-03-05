@@ -7,7 +7,9 @@ import {
 	Registration,
 	RegistrationsService,
 } from "@synple/common";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
+import { TEST_UUID, UuidsMock } from "../../mocks/uuids.mock";
+import { UuidsService } from "@synple/common/services/uuids.service";
 
 describe("Registrations scenarios", () => {
 	const email = "email_001@test.com";
@@ -15,7 +17,9 @@ describe("Registrations scenarios", () => {
 	let app: INestApplication<App>;
 
 	beforeAll(async () => {
-		app = await createApplication();
+		app = await createApplication({
+			overrides: [{ from: UuidsService, to: UuidsMock }]
+		});
 	});
 
 	describe("[SC-101] a registration is created successfully", () => {
@@ -25,17 +29,11 @@ describe("Registrations scenarios", () => {
 			registration?: typeof Registration;
 		} = {};
 		beforeAll(async () => {
-			await createPreregistration(email, app);
 			models.preRegistration = app.get(PreRegistrationsService).model;
 			models.registration = app.get(RegistrationsService).model;
-			const preRegistration = await models.preRegistration.findOne({
-				where: { email },
-			});
-			response = createRegistration(
-				email,
-				`${preRegistration?.dataValues.confirmationCode}`,
-				app,
-			);
+
+			await createPreregistration(email, app);
+			response = createRegistration(email, 'ABC123', app);
 		});
 
 		it("Returns a 201 (Created) status code with the correct body", async () => {
@@ -65,11 +63,7 @@ describe("Registrations scenarios", () => {
 			const registration = await models.registration?.findOne({
 				where: { email },
 			});
-			expect(
-				registration?.uuid.match(
-					/^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$/,
-				),
-			).not.toBe(null);
+			expect(registration?.uuid).toEqual(TEST_UUID)
 		});
 	});
 });

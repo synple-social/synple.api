@@ -2,7 +2,7 @@ import { INestApplication } from "@nestjs/common";
 import { App } from "supertest/types";
 import { createPreregistration, createRegistration } from "../../http";
 import { Registration, RegistrationsService } from "@synple/common";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
 
 describe("Registrations scenarios", () => {
 	const email = "email_001@test.com";
@@ -19,11 +19,7 @@ describe("Registrations scenarios", () => {
 		beforeAll(async () => {
 			await createPreregistration(email, app);
 			model = app.get(RegistrationsService).model;
-			response = createRegistration(
-				email,
-				"confirmation code not matching",
-				app,
-			);
+			response = createRegistration(email, "XYZ456", app);
 		});
 
 		it("Returns a 404 (Not Found) status code with the correct body", () => {

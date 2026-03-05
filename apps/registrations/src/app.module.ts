@@ -5,6 +5,7 @@ import { RegistrationsModule } from "./registrations/registrations.module";
 import { AccountsModule } from "./accounts/accounts.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { PasswordsModule } from "./passwords/passwords.module";
+import { TokensModule } from "./tokens/tokens.module";
 
 @Module({
 	imports: [
@@ -27,7 +28,8 @@ import { PasswordsModule } from "./passwords/passwords.module";
 		PreRegistrationsModule,
 		RegistrationsModule,
 		AccountsModule,
-		PasswordsModule
+		PasswordsModule,
+		TokensModule
 	],
 })
 export class AppModule { }

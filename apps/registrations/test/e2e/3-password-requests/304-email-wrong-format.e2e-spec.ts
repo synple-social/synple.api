@@ -2,7 +2,7 @@ import { INestApplication } from "@nestjs/common";
 import request from "supertest";
 import { App } from "supertest/types";
 import { PasswordsService } from "@synple/common";
-import { createApplication } from '../../helpers/create-password-test-module.helper';
+import { createApplication } from '../../helpers/create-application.helper.ts';
 import { hash } from "bcrypt"
 
 describe("Password reset requests scenarios", () => {

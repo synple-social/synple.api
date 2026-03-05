@@ -7,7 +7,7 @@ import {
 	Registration,
 	RegistrationsService,
 } from "@synple/common";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
 
 describe("Registrations scenarios", () => {
 	const email = "email_001@test.com";
@@ -28,14 +28,8 @@ describe("Registrations scenarios", () => {
 			await createPreregistration(email, app);
 			repositories.preRegistrations = app.get(PreRegistrationsService).model;
 			repositories.registrations = app.get(RegistrationsService).model;
-			const preRegistration = await repositories.preRegistrations.findOne({
-				where: { email },
-			});
-			response = createRegistration(
-				"another@email.com",
-				`${preRegistration?.dataValues.confirmationCode}`,
-				app,
-			);
+
+			response = createRegistration("another@email.com", 'ABC123', app)
 		});
 
 		it("Returns a 404 (Not Found) status code with the correct body", () => {

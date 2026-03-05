@@ -4,6 +4,7 @@ import { DocumentNotFoundException, generateConfirmationCode, MailerUnavailableE
 import { PreRegistration } from '../entities/pre-registration.entity';
 import { InjectConnection, InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { ConfirmationCodesService } from './confirmation-codes.service';
 
 @Injectable()
 export class PreRegistrationsService {
@@ -11,12 +12,13 @@ export class PreRegistrationsService {
   constructor(
     @InjectConnection() public readonly connection: Sequelize,
     @InjectModel(PreRegistration) public readonly model: typeof PreRegistration,
-    private mailerService: MailerService
+    private mailerService: MailerService,
+    private confirmationCodes: ConfirmationCodesService,
   ) { }
 
   async create(email: string) {
     await this.invalidateAll(email)
-    const confirmationCode = generateConfirmationCode()
+    const confirmationCode = this.confirmationCodes.generate()
     await this.connection.transaction(async () => {
       await this.model.create({ email, confirmationCode })
       await this.mailerService.sendSubscriptionConfirmation(email, confirmationCode)

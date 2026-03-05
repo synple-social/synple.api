@@ -8,7 +8,7 @@ import {
 } from "@synple/common";
 import supertest from "supertest";
 import { MailerUnavailableException } from "@synple/utils";
-import { createApplication } from '../../helpers/create-password-test-module.helper';
+import { createApplication } from '../../helpers/create-application.helper.ts';
 import { PasswordRequest } from "@synple/common/entities/password-request.entity";
 import { hash } from "bcrypt"
 

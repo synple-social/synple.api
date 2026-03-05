@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
-import { createApplication } from '../../helpers/create-password-test-module.helper';
+import { createApplication } from '../../helpers/create-application.helper.ts';
 import request from "supertest"
 import { PasswordRequest } from '@synple/common/entities/password-request.entity';
 import { PasswordsService } from '@synple/common';
@@ -45,6 +45,9 @@ describe("Password reset requests scenarios", () => {
 
       it('Has the correct email address', () => {
         expect(passwordRequest.dataValues.email).toEqual(email)
+      })
+      it("Has the correct confirmation code", () => {
+        expect(passwordRequest.dataValues.confirmationCode).toEqual('ABC123')
       })
     })
   })

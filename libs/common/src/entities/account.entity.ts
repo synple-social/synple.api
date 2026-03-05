@@ -17,6 +17,9 @@ export class Account extends Model {
   @Column
   declare uuid: string
 
+  @Column
+  declare jwtSecret: string
+
   @BelongsTo(() => Registration, { constraints: false })
   declare registration: Registration
 

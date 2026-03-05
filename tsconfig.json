@@ -28,6 +28,12 @@
       "@synple/common/*": [
         "libs/common/src/*"
       ],
+      "@synple/test-utils": [
+        "libs/test-utils/src"
+      ],
+      "@synple/test-utils/*": [
+        "libs/test-utils/src/*"
+      ],
       "@synple/utils": [
         "libs/utils/src"
       ],

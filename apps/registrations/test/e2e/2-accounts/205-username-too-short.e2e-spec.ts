@@ -1,4 +1,3 @@
-import { TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
 import { App } from "supertest/types";
 import {
@@ -11,12 +10,11 @@ import {
 import { createPreregistration, createRegistration } from "../../http";
 import { createAccount } from "../../http/create-account.http";
 import { AccountsService } from "@synple/common/services/accounts.service";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
 
 describe("Accounts scenarios", () => {
 	const email = "email_204@test.com";
 
-	let module: TestingModule;
 	let app: INestApplication<App>;
 
 	beforeAll(async () => {
@@ -36,14 +34,7 @@ describe("Accounts scenarios", () => {
 			models.accounts = app.get(AccountsService).model;
 
 			await createPreregistration(email, app);
-			const preRegistration = await models.preRegistrations.findOne({
-				where: { email },
-			});
-			await createRegistration(
-				email,
-				`${preRegistration?.getDataValue("confirmationCode")}`,
-				app,
-			);
+			await createRegistration(email, 'ABC123', app);
 			const registration = await models.registrations.findOne({
 				where: { email },
 			});

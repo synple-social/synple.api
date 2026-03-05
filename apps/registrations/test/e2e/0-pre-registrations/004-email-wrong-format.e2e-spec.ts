@@ -2,7 +2,7 @@ import { INestApplication } from "@nestjs/common";
 import request from "supertest";
 import { App } from "supertest/types";
 import { PreRegistrationsService } from "@synple/common";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
 
 describe("Pre-registrations scenarios", () => {
 	let app: INestApplication<App>;

@@ -6,8 +6,7 @@ import { SALT_ROUNDS, UsernameAlreadyExistingException } from "@synple/utils";
 import { hash } from 'bcrypt'
 import { Account } from "../entities/account.entity";
 import { InjectModel } from "@nestjs/sequelize";
-// @ts-ignore
-import { v7 as uuid } from "uuid"
+import { UuidsService } from "./uuids.service";
 
 @Injectable()
 export class AccountsService {
@@ -15,6 +14,7 @@ export class AccountsService {
   constructor(
     @InjectModel(Account) public readonly model: typeof Account,
     private readonly registrationService: RegistrationsService,
+    private readonly uuid: UuidsService,
   ) { }
 
   async create({ email, registrationId, username, password, passwordConfirmation }: CreateAccountDto) {
@@ -22,6 +22,13 @@ export class AccountsService {
     if (password !== passwordConfirmation) throw new BadParameterException('passwordConfirmation', 'not-matching')
     if ((await this.model.findAll({ where: { email } })).length) throw new UsernameAlreadyExistingException()
     const passwordDigest = await hash(password, SALT_ROUNDS)
-    return await this.model.create({ username, email, passwordDigest, registrationId: registration.id, uuid: uuid() })
+    return await this.model.create({
+      username,
+      email,
+      passwordDigest,
+      registrationId: registration.id,
+      uuid: this.uuid.generate(),
+      jwtSecret: this.uuid.generate(),
+    })
   }
 }

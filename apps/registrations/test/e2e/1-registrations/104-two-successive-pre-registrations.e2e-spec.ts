@@ -17,7 +17,7 @@ import {
 	Registration,
 	RegistrationsService,
 } from "@synple/common";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
 
 async function getLastConfirmationCode(
 	email: string,
@@ -51,11 +51,9 @@ describe("Registrations scenarios", () => {
 			models.registration = app.get(RegistrationsService).model;
 
 			await createPreregistration(email, app);
-			codes.push(await getLastConfirmationCode(email, models.preRegistration));
-			await createRegistration(email, codes[0], app);
+			await createRegistration(email, 'ABC123', app);
 			await createPreregistration(email, app);
-			codes.push(await getLastConfirmationCode(email, models.preRegistration));
-			response = createRegistration(email, codes[1], app);
+			response = createRegistration(email, 'ABC123', app);
 		});
 
 		it("Returns a 201 (Created) status code with the correct body", async () => {

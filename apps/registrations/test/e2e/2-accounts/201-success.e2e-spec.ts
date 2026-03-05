@@ -10,8 +10,10 @@ import {
 	RegistrationsService,
 } from "@synple/common";
 import { createAccount } from "../../http/create-account.http";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
 import { compare } from "bcrypt";
+import { TEST_UUID, UuidsMock } from "../../mocks/uuids.mock";
+import { UuidsService } from "@synple/common/services/uuids.service";
 
 describe("Accounts scenarios", () => {
 	const email = "email_001@test.com";
@@ -19,7 +21,9 @@ describe("Accounts scenarios", () => {
 	let app: INestApplication<App>;
 
 	beforeAll(async () => {
-		app = await createApplication();
+		app = await createApplication({
+			overrides: [{ from: UuidsService, to: UuidsMock }]
+		});
 	});
 
 	describe("[SC-201] the account is created successfully", () => {
@@ -37,14 +41,7 @@ describe("Accounts scenarios", () => {
 			};
 
 			await createPreregistration(email, app);
-			const preRegistration = await models.preRegistrations.findOne({
-				where: { email },
-			});
-			await createRegistration(
-				email,
-				`${preRegistration?.getDataValue("confirmationCode")}`,
-				app,
-			);
+			await createRegistration(email, 'ABC123', app);
 			const registration = await models.registrations.findOne({
 				where: { email },
 			});
@@ -92,12 +89,11 @@ describe("Accounts scenarios", () => {
 				expect(await compare("password", account.passwordDigest)).toEqual(true);
 			});
 			it("Has an UUID later used to identify users", () => {
-				expect(
-					account.uuid.match(
-						/^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$/,
-					),
-				).not.toBe(null);
+				expect(account.uuid).toEqual(TEST_UUID)
 			});
+			it("Has a JWT secret used later to generate tokens", () => {
+				expect(account.jwtSecret).toEqual(TEST_UUID)
+			})
 		});
 	});
 });

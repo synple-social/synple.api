@@ -8,15 +8,6 @@
   },
   "monorepo": true,
   "projects": {
-    "authentication": {
-      "type": "application",
-      "root": "apps/authentication",
-      "entryFile": "main",
-      "sourceRoot": "apps/authentication/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/authentication/tsconfig.app.json"
-      }
-    },
     "common": {
       "type": "library",
       "root": "libs/common",
@@ -24,15 +15,6 @@
       "sourceRoot": "libs/common/src",
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json"
-      }
-    },
-    "password": {
-      "type": "application",
-      "root": "apps/password",
-      "entryFile": "main",
-      "sourceRoot": "apps/password/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/password/tsconfig.app.json"
       }
     },
     "registrations": {

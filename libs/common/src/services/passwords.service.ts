@@ -7,6 +7,7 @@ import { BadParameterException, DocumentNotFoundException, generateConfirmationC
 import { hash } from 'bcrypt'
 import { Account } from "../entities";
 import { Sequelize } from "sequelize-typescript";
+import { ConfirmationCodesService } from "./confirmation-codes.service";
 
 @Injectable()
 export class PasswordsService {
@@ -16,11 +17,12 @@ export class PasswordsService {
     @InjectModel(PasswordRequest) public readonly model: typeof PasswordRequest,
     @InjectModel(Account) public readonly accounts: typeof Account,
     public readonly mailerService: MailerService,
+    private confirmationCodes: ConfirmationCodesService,
   ) { }
 
   async request(email: string) {
     await this.invalidateAll(email)
-    const confirmationCode = generateConfirmationCode()
+    const confirmationCode = this.confirmationCodes.generate()
     const account: Account | null = await this.accounts.findOne({ where: { email } })
     if (account === null) return
     await this.connection.transaction(async () => {

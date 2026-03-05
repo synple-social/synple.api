@@ -9,7 +9,7 @@ import {
 } from "@synple/common";
 import supertest from "supertest";
 import { MailerUnavailableException } from "@synple/utils";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
 
 class MockMailerService extends MailerService {
 	async send(_: MailPayload) {

@@ -10,7 +10,7 @@ import {
 import { createPreregistration, createRegistration } from "../../http";
 import { createAccount } from "../../http/create-account.http";
 import { AccountsService } from "@synple/common/services/accounts.service";
-import { createApplication } from "../../helpers/create-test-module.helper";
+import { createApplication } from "../../helpers/create-application.helper.ts";
 
 describe("Accounts scenarios", () => {
 	const email = "email_001@test.com";
@@ -34,14 +34,7 @@ describe("Accounts scenarios", () => {
 			models.accounts = app.get(AccountsService).model;
 
 			await createPreregistration(email, app);
-			const preRegistration = await models.preRegistrations.findOne({
-				where: { email },
-			});
-			await createRegistration(
-				email,
-				`${preRegistration?.getDataValue("confirmationCode")}`,
-				app,
-			);
+			await createRegistration(email, 'ABC123', app);
 			response = createAccount(
 				{
 					email,

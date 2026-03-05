@@ -22,5 +22,19 @@ services:
       - 3000:3000
     volumes:
       - ./:/user/src/app
+
+  authentication:
+    build:
+      context: .
+    command: npm run start:dev authentication
+    depends_on:
+      - db
+    env_file:
+      - docker.env
+    ports:
+      - 3001:3000
+    volumes:
+      - ./:/user/src/app
+
 volumes:
   database:
