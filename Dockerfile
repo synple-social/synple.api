@@ -5,4 +5,4 @@ RUN npm install --global pnpm
 RUN pnpm install
 COPY . .
 RUN if [ ! -d "/user/src/app/node_modules/sqlite3" ]; then cd /user/src/app/node_modules/sqlite3 && pnpm rebuild; fi
-CMD ["pnpm", "run", "start:dev" "registrations"]
+CMD ["pnpm", "run", "start:dev" "public"]

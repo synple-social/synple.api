@@ -10,10 +10,10 @@ services:
     volumes:
       - database:/data/db
 
-  registrations:
+  public:
     build:
       context: .
-    command: npm run start:dev registrations
+    command: npm run start:dev public
     depends_on:
       - db
     env_file:

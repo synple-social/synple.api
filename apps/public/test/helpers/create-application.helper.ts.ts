@@ -2,12 +2,12 @@ import { ConfigModule } from "@nestjs/config";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { Test, TestingModule } from "@nestjs/testing";
 import { ConfirmationCodesService } from "@synple/common";
-import { AccountsModule } from "apps/registrations/src/accounts/accounts.module";
-import { PreRegistrationsModule } from "apps/registrations/src/pre-registrations/pre-registrations.module";
-import { RegistrationsModule } from "apps/registrations/src/registrations/registrations.module";
+import { AccountsModule } from "apps/public/src/accounts/accounts.module";
+import { PreRegistrationsModule } from "apps/public/src/pre-registrations/pre-registrations.module";
+import { RegistrationsModule } from "apps/public/src/registrations/registrations.module";
 import { ConfirmationCodesMock } from "../mocks/confirmation-codes.mock";
-import { PasswordsModule } from "apps/registrations/src/passwords/passwords.module";
-import { TokensModule } from "apps/registrations/src/tokens/tokens.module";
+import { PasswordsModule } from "apps/public/src/passwords/passwords.module";
+import { TokensModule } from "apps/public/src/tokens/tokens.module";
 
 export type TestOverride = { from: any, to: any }
 

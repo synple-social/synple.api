@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CreateAccountDto } from "apps/registrations/src/accounts/dto/create-account.dto";
+import { CreateAccountDto } from "apps/public/src/accounts/dto/create-account.dto";
 import { RegistrationsService } from "./registrations.service";
 import { BadParameterException } from "@synple/utils/exceptions/bad-parameter.exception";
 import { SALT_ROUNDS, UsernameAlreadyExistingException } from "@synple/utils";

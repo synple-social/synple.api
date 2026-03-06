@@ -17,13 +17,13 @@
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
-    "registrations": {
+    "public": {
       "type": "application",
-      "root": "apps/registrations",
+      "root": "apps/public",
       "entryFile": "main",
-      "sourceRoot": "apps/registrations/src",
+      "sourceRoot": "apps/public/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/registrations/tsconfig.app.json"
+        "tsConfigPath": "apps/public/tsconfig.app.json"
       }
     },
     "utils": {

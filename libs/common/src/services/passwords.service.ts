@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PasswordRequest } from "../entities/password-request.entity";
 import { InjectConnection, InjectModel } from "@nestjs/sequelize";
 import { MailerService } from "./mailer.service";
-import { ResetPasswordDto } from "apps/registrations/src/passwords/dto/reset-password.dto";
+import { ResetPasswordDto } from "apps/public/src/passwords/dto/reset-password.dto";
 import { BadParameterException, DocumentNotFoundException, generateConfirmationCode, SALT_ROUNDS } from "@synple/utils";
 import { hash } from 'bcrypt'
 import { Account } from "../entities";
