@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CreateAccountDto } from "apps/public/src/accounts/dto/create-account.dto";
+import { SignupsCompleteDto } from "apps/public/src/signups/dto/signups-complete.dto";
 import { RegistrationsService } from "./registrations.service";
 import { BadParameterException } from "@synple/utils/exceptions/bad-parameter.exception";
 import { SALT_ROUNDS, UsernameAlreadyExistingException } from "@synple/utils";
@@ -17,7 +17,7 @@ export class AccountsService {
     private readonly uuid: UuidsService,
   ) { }
 
-  async create({ email, registrationId, username, password, passwordConfirmation }: CreateAccountDto) {
+  async create({ email, registrationId, username, password, passwordConfirmation }: SignupsCompleteDto) {
     const registration = await this.registrationService.findOrFail({ email, uuid: registrationId })
     if (password !== passwordConfirmation) throw new BadParameterException('passwordConfirmation', 'not-matching')
     if ((await this.model.findAll({ where: { email } })).length) throw new UsernameAlreadyExistingException()
@@ -30,5 +30,9 @@ export class AccountsService {
       uuid: this.uuid.generate(),
       jwtSecret: this.uuid.generate(),
     })
+  }
+
+  public async find(uuid: string): Promise<Account> {
+    return await this.model.findOne({ where: { uuid } }) as Account
   }
 }

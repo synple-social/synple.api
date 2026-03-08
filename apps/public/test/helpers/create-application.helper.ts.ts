@@ -2,12 +2,10 @@ import { ConfigModule } from "@nestjs/config";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { Test, TestingModule } from "@nestjs/testing";
 import { ConfirmationCodesService } from "@synple/common";
-import { AccountsModule } from "apps/public/src/accounts/accounts.module";
-import { PreRegistrationsModule } from "apps/public/src/pre-registrations/pre-registrations.module";
-import { RegistrationsModule } from "apps/public/src/registrations/registrations.module";
 import { ConfirmationCodesMock } from "../mocks/confirmation-codes.mock";
 import { PasswordsModule } from "apps/public/src/passwords/passwords.module";
-import { TokensModule } from "apps/public/src/tokens/tokens.module";
+import { TokensModule } from "apps/public/src/authentication/auth.module";
+import { SignupsModule } from "apps/public/src/signups/signups.module";
 
 export type TestOverride = { from: any, to: any }
 
@@ -18,9 +16,7 @@ async function createTestingModule({ overrides }: TestingModuleOptions = { overr
     imports: [
       ConfigModule.forRoot({ envFilePath: '.env.test.local' }),
       SequelizeModule.forRoot({ dialect: 'sqlite', autoLoadModels: true, logging: false }),
-      PreRegistrationsModule,
-      RegistrationsModule,
-      AccountsModule,
+      SignupsModule,
       PasswordsModule,
       TokensModule
     ]

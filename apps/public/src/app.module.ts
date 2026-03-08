@@ -1,11 +1,9 @@
 import { Module } from "@nestjs/common";
-import { PreRegistrationsModule } from "./pre-registrations/pre-registrations.module";
 import { SequelizeModule } from "@nestjs/sequelize";
-import { RegistrationsModule } from "./registrations/registrations.module";
-import { AccountsModule } from "./accounts/accounts.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { PasswordsModule } from "./passwords/passwords.module";
-import { TokensModule } from "./tokens/tokens.module";
+import { TokensModule } from "./authentication/auth.module";
+import { SignupsModule } from "./signups/signups.module";
 
 @Module({
 	imports: [
@@ -25,9 +23,7 @@ import { TokensModule } from "./tokens/tokens.module";
 			},
 			inject: [ConfigService],
 		}),
-		PreRegistrationsModule,
-		RegistrationsModule,
-		AccountsModule,
+		SignupsModule,
 		PasswordsModule,
 		TokensModule
 	],

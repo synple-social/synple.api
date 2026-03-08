@@ -10,7 +10,7 @@ $ pnpm install
 
 ## Compile and run the project
 
-In the follow commands, you can replace `<application>` by any of our applications (eg. `public`)
+In the follow commands, you can replace `<application>` by any of our applications (eg. `public` or `api`)
 
 ```bash
 # development

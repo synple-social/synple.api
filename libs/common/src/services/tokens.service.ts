@@ -1,15 +1,21 @@
 import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/sequelize";
+import { InjectConnection, InjectModel } from "@nestjs/sequelize";
 import { InvalidCredentialsException } from "@synple/utils/exceptions/invalid-credentials.exception";
 import { Account } from "../entities";
 import { compare } from "bcrypt"
 import { JwtService } from "@nestjs/jwt";
+import { Token } from "../entities/token.entity";
+import Sequelize from "@sequelize/core";
+import { UuidsService } from "./uuids.service";
 
 @Injectable()
 export class TokensService {
   constructor(
     @InjectModel(Account) public readonly accounts: typeof Account,
+    @InjectModel(Token) public readonly model: typeof Token,
+    @InjectConnection() private connection: Sequelize,
     private jwtService: JwtService,
+    private uuidService: UuidsService,
   ) { }
 
   public async create(email: string, password: string) {
@@ -17,13 +23,25 @@ export class TokensService {
     if (account === null || !(await compare(password, account.dataValues.passwordDigest))) {
       throw new InvalidCredentialsException()
     }
-    return { token: await this.createJwtFor(account) }
+    return await this.connection.transaction<string>(async () => {
+      const instance = await this.model.create({ accountId: account.id, uuid: this.uuidService.generate() })
+      return this.createJwtFor(account, instance.dataValues.uuid)
+    })
   }
 
-  protected async createJwtFor(account: Account) {
-    return await this.jwtService.signAsync({
+  public async find(uuid: string): Promise<Token | null> {
+    return this.model.findOne({ where: { uuid } })
+  }
+
+  public async invalidate(uuid: string) {
+    await this.model.update({ invalidatedAt: new Date() }, { where: { uuid } })
+  }
+
+  protected createJwtFor(account: Account, jti: string = this.uuidService.generate()) {
+    return this.jwtService.sign({
       sub: account.dataValues.uuid,
       username: account.dataValues.username,
+      jti,
     })
   }
 }

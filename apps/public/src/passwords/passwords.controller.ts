@@ -6,7 +6,7 @@ import { BadParameterFilter, DocumentNotFoundFilter, MailerUnavailableFilter, Pa
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 
 @Controller('passwords')
-@ApiTags('Password Request')
+@ApiTags('Password recover')
 export class PasswordsController {
   constructor(public readonly service: PasswordsService) { }
 
