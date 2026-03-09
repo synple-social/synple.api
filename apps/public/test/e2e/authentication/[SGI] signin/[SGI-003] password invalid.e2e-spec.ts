@@ -25,7 +25,7 @@ describe("Sign-in scenarios", () => {
         .send({ email, password: "wrongpassword" })
     });
 
-    it("Returns a 201 (Created) status code with the correct body", () => {
+    it("Returns a 403 (Forbidden) status code with the correct body", () => {
       return response
         .expect(403)
         .expect("Content-Type", /application\/json/)
