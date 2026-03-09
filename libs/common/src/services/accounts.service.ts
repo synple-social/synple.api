@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { SignupsCompleteDto } from "apps/public/src/signups/dto/signups-complete.dto";
 import { RegistrationsService } from "./registrations.service";
 import { BadParameterException } from "@synple/utils/exceptions/bad-parameter.exception";
@@ -18,6 +18,8 @@ export class AccountsService {
   ) { }
 
   async create({ email, registrationId, username, password, passwordConfirmation }: SignupsCompleteDto) {
+    this.requireAllKeys({ email, registrationId, username, password, passwordConfirmation })
+
     const registration = await this.registrationService.findOrFail({ email, uuid: registrationId })
     if (password !== passwordConfirmation) throw new BadParameterException('passwordConfirmation', 'not-matching')
     if ((await this.model.findAll({ where: { email } })).length) throw new UsernameAlreadyExistingException()
@@ -30,6 +32,12 @@ export class AccountsService {
       uuid: this.uuid.generate(),
       jwtSecret: this.uuid.generate(),
     })
+  }
+
+  private requireAllKeys(dto: SignupsCompleteDto) {
+    for (const k of Object.keys(dto)) {
+      if (!dto[k]) throw new BadRequestException({ path: k, error: 'required' })
+    }
   }
 
   public async find(uuid: string): Promise<Account> {
