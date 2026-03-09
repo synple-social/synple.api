@@ -1,7 +1,7 @@
-import { Body, Controller, HttpCode, Request, Post, UseFilters, UseGuards } from "@nestjs/common";
+import { Body, Controller, HttpCode, Request, Post, UseFilters, UseGuards, UsePipes } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse, ApiHeader, ApiNoContentResponse, ApiTags } from "@nestjs/swagger";
 import { AuthSigninDto } from "./dto/auth-signin.dto";
-import { AuthenticationGuard, TokensService } from "@synple/common";
+import { AuthenticationGuard, TokensService, transformErrorPipe } from "@synple/common";
 import { InvalidCredentialsFilter } from "@synple/common/filters/invalid-credentials.filter";
 import { InvalidTokenFilter } from "@synple/common/filters/invalid-token.filter";
 import { createErrorSchema } from "@synple/utils";
@@ -15,6 +15,7 @@ export class TokensController {
 
   @Post('/signin')
   @UseFilters(InvalidCredentialsFilter)
+  @UsePipes(transformErrorPipe)
   @ApiCreatedResponse({
     description: 'The JWT has been correctly created and is returned in the response body for further use',
     schema: signinSuccessSchema

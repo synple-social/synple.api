@@ -19,9 +19,6 @@ export class TokensService {
   ) { }
 
   public async create(email: string, password: string) {
-    if (!email) throw new BadRequestException({ path: 'email', error: 'required' })
-    if (!password) throw new BadRequestException({ path: 'password', error: 'required' })
-
     const account = await this.accounts.findOne({ where: { email } })
     if (account === null || !(await compare(password, account.dataValues.passwordDigest))) {
       throw new InvalidCredentialsException()

@@ -1,8 +1,8 @@
-import { Body, Controller, Header, HttpCode, Post, UseFilters } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse, ApiOkResponse, ApiTags, ApiUnprocessableEntityResponse } from "@nestjs/swagger";
+import { Body, Controller, Header, HttpCode, Post, UseFilters, UsePipes } from "@nestjs/common";
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse, ApiNoContentResponse, ApiOkResponse, ApiTags, ApiUnprocessableEntityResponse } from "@nestjs/swagger";
 import { createErrorSchema } from "@synple/utils";
 import { CreatePasswordRequestDto } from "./dto/create-password-request.dto";
-import { BadParameterFilter, DocumentNotFoundFilter, MailerUnavailableFilter, PasswordsService, ValidationExceptionFilter } from "@synple/common";
+import { BadParameterFilter, DocumentNotFoundFilter, MailerUnavailableFilter, PasswordsService, transformErrorPipe, ValidationExceptionFilter } from "@synple/common";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 
 @Controller('passwords')
@@ -13,6 +13,7 @@ export class PasswordsController {
   @Post('/request')
   @Header('Content-Type', 'application/json')
   @UseFilters(MailerUnavailableFilter, ValidationExceptionFilter)
+  @UsePipes(transformErrorPipe)
   @ApiCreatedResponse({
     description: 'The password reset email has correctly been sent.',
     schema: {},
@@ -32,7 +33,7 @@ export class PasswordsController {
 
   @Post('/reset')
   @Header('Content-Type', 'application/json')
-  @ApiOkResponse({
+  @ApiNoContentResponse({
     description: 'The password has been correctly reset with the provided value.'
   })
   @ApiBadRequestResponse({
