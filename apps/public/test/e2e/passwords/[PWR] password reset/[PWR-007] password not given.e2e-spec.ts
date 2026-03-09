@@ -2,25 +2,22 @@ import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
 import request from "supertest"
-import { PasswordRequest } from '@synple/common/entities/password-request.entity';
 import { Account, PasswordsService } from '@synple/common';
-import { compare, hash } from "bcrypt"
+import { hash } from "bcrypt"
 
 describe("Password reset scenarios", () => {
 
   const email = "email_001@test.com"
 
   let app: INestApplication<App>;
-  let model!: typeof PasswordRequest;
   let account!: typeof Account;
 
   beforeAll(async () => {
     app = await createApplication()
-    model = app.get(PasswordsService).model
     account = app.get(PasswordsService).accounts
   });
 
-  describe('[PWR-004] a user attemps to modify its password but failed the confirmation', () => {
+  describe('[PWR-001] the user did not provided a new password to set', () => {
     let response: any;
 
     beforeAll(async () => {
@@ -33,19 +30,14 @@ describe("Password reset scenarios", () => {
       response = request(app.getHttpServer())
         .post('/passwords/reset')
         .set('Accept', 'application/json')
-        .send({ email, confirmationCode: 'ABC123', password: 'newPassword', passwordConfirmation: 'otherPassword' })
+        .send({ email, confirmationCode: 'ABC123', passwordConfirmation: 'newPassword' })
     })
 
     it('Returns a 204 (No Content) status code with the correct body', () => {
       return response
-        .expect('Content-Type', /json/)
         .expect(400)
-        .expect({ path: 'password', error: 'confirmation' })
-    })
-    test('The password that has been reset on the account', async () => {
-      const digest = (await account.findOne({ where: { email } }))?.passwordDigest
-      const result = await compare("password", digest)
-      expect(result).toEqual(true)
+        .expect('Content-Type', /json/)
+        .expect({ path: 'password', error: 'required' })
     })
   })
 })

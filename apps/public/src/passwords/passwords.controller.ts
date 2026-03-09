@@ -37,7 +37,7 @@ export class PasswordsController {
     description: 'The password has been correctly reset with the provided value.'
   })
   @ApiBadRequestResponse({
-    description: 'The password and its confirmation are not matching.',
+    description: 'There is an issue with the data you provided in the JSON body. Either a required key is missing, or the password does not match the password confirmation.',
     schema: createErrorSchema('password', 'confirmation')
   })
   @ApiForbiddenResponse({
@@ -45,6 +45,7 @@ export class PasswordsController {
     schema: createErrorSchema('email', 'forbidden')
   })
   @UseFilters(DocumentNotFoundFilter, BadParameterFilter)
+  @UsePipes(transformErrorPipe)
   @HttpCode(204)
   async reset(@Body() body: ResetPasswordDto) {
     await this.service.reset(body)
