@@ -2,7 +2,7 @@ name: synple
 services:
   db:
     env_file:
-      - docker.env
+      - ../.env
     image: postgres
     ports:
      - 5432:5432
@@ -12,16 +12,17 @@ services:
 
   public:
     build:
-      context: .
+      context: '..'
+      dockerfile: ./deployment/public.Dockerfile
     command: npm run start:dev public
     depends_on:
       - db
     env_file:
-      - docker.env
+      - ../.env
     ports:
       - 3000:3000
     volumes:
-      - ./:/user/src/app
+      - ../:/user/src/app
 
 volumes:
   database:
