@@ -1,4 +1,4 @@
-import { SchemaObject } from "@nestjs/swagger/dist/interfaces/open-api-spec.interface";
+import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 
 export function createErrorSchema(path: string, error: string): SchemaObject {
   return {
@@ -6,13 +6,15 @@ export function createErrorSchema(path: string, error: string): SchemaObject {
       path: {
         type: 'string',
         example: path,
-        description: 'The path in the input body or parameters that triggered the error'
+        description:
+          'The path in the input body or parameters that triggered the error',
       },
       error: {
         type: 'string',
         example: error,
-        description: 'A short string in kebab-case describing the error that occurred'
-      }
-    }
-  }
+        description:
+          'A short string in kebab-case describing the error that occurred',
+      },
+    },
+  };
 }

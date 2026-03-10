@@ -1,7 +1,7 @@
-import { ConfirmationCodesService } from "@synple/common";
+import { ConfirmationCodesService } from '@synple/common';
 
 export class ConfirmationCodesMock extends ConfirmationCodesService {
   public generate(): string {
-    return "ABC123"
+    return 'ABC123';
   }
 }

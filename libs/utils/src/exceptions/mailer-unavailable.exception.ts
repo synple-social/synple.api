@@ -1,3 +1,1 @@
-export class MailerUnavailableException extends Error {
-
-}
+export class MailerUnavailableException extends Error {}

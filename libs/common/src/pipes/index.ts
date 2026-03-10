@@ -1,1 +1,1 @@
-export * from './global/transform-error.pipe'
+export * from './global/transform-error.pipe';

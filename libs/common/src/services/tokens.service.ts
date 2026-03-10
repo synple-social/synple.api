@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
-import { InjectConnection, InjectModel } from "@nestjs/sequelize";
-import { InvalidCredentialsException } from "@synple/utils/exceptions/invalid-credentials.exception";
-import { Account } from "../entities";
-import { compare } from "bcrypt"
-import { JwtService } from "@nestjs/jwt";
-import { Token } from "../entities/token.entity";
-import Sequelize from "@sequelize/core";
-import { UuidsService } from "./uuids.service";
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectConnection, InjectModel } from '@nestjs/sequelize';
+import { InvalidCredentialsException } from '@synple/utils/exceptions/invalid-credentials.exception';
+import { Account } from '../entities';
+import { compare } from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { Token } from '../entities/token.entity';
+import Sequelize from '@sequelize/core';
+import { UuidsService } from './uuids.service';
 
 @Injectable()
 export class TokensService {
@@ -16,32 +16,41 @@ export class TokensService {
     @InjectConnection() private connection: Sequelize,
     private jwtService: JwtService,
     private uuidService: UuidsService,
-  ) { }
+  ) {}
 
   public async create(email: string, password: string) {
-    const account = await this.accounts.findOne({ where: { email } })
-    if (account === null || !(await compare(password, account.dataValues.passwordDigest))) {
-      throw new InvalidCredentialsException()
+    const account = await this.accounts.findOne({ where: { email } });
+    if (
+      account === null ||
+      !(await compare(password, account.dataValues.passwordDigest))
+    ) {
+      throw new InvalidCredentialsException();
     }
     return await this.connection.transaction<string>(async () => {
-      const instance = await this.model.create({ accountId: account.id, uuid: this.uuidService.generate() })
-      return this.createJwtFor(account, instance.dataValues.uuid)
-    })
+      const instance = await this.model.create({
+        accountId: account.id,
+        uuid: this.uuidService.generate(),
+      });
+      return this.createJwtFor(account, instance.dataValues.uuid);
+    });
   }
 
   public async find(uuid: string): Promise<Token | null> {
-    return this.model.findOne({ where: { uuid } })
+    return this.model.findOne({ where: { uuid } });
   }
 
   public async invalidate(uuid: string) {
-    await this.model.update({ invalidatedAt: new Date() }, { where: { uuid } })
+    await this.model.update({ invalidatedAt: new Date() }, { where: { uuid } });
   }
 
-  protected createJwtFor(account: Account, jti: string = this.uuidService.generate()) {
+  protected createJwtFor(
+    account: Account,
+    jti: string = this.uuidService.generate(),
+  ) {
     return this.jwtService.sign({
       sub: account.dataValues.uuid,
       username: account.dataValues.username,
       jti,
-    })
+    });
   }
 }

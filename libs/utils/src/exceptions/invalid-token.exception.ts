@@ -1,3 +1,1 @@
-export class InvalidTokenException extends Error {
-
-}
+export class InvalidTokenException extends Error {}

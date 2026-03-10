@@ -1,1 +1,1 @@
-export class UsernameAlreadyExistingException extends Error { }
+export class UsernameAlreadyExistingException extends Error {}

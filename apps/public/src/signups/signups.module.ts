@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 import {
   Account,
   AccountsService,
@@ -9,15 +9,24 @@ import {
   Registration,
   RegistrationsService,
   UuidsService,
-} from "@synple/common";
-import { SequelizeModule } from "@nestjs/sequelize";
-import { SignupsController } from "./signups.controller";
+} from '@synple/common';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { SignupsController } from './signups.controller';
 
 export const signupsModuleDefinition = {
-  imports: [SequelizeModule.forFeature([PreRegistration, Registration, Account])],
-  providers: [PreRegistrationsService, MailerService, ConfirmationCodesService, RegistrationsService, AccountsService, UuidsService],
+  imports: [
+    SequelizeModule.forFeature([PreRegistration, Registration, Account]),
+  ],
+  providers: [
+    PreRegistrationsService,
+    MailerService,
+    ConfirmationCodesService,
+    RegistrationsService,
+    AccountsService,
+    UuidsService,
+  ],
   controllers: [SignupsController],
 };
 
 @Module(signupsModuleDefinition)
-export class SignupsModule { }
+export class SignupsModule {}

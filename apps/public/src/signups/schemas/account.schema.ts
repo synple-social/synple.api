@@ -1,15 +1,15 @@
-import { SchemaObject } from "@nestjs/swagger/dist/interfaces/open-api-spec.interface";
+import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 
 export const AccountSchema: SchemaObject = {
   properties: {
     uuid: {
-      type: "string",
+      type: 'string',
     },
     username: {
-      type: "string",
+      type: 'string',
     },
     email: {
-      type: "string",
+      type: 'string',
     },
   },
 };

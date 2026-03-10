@@ -4,7 +4,7 @@
  * @returns the confirmation code as a string
  */
 export function generateConfirmationCode(): string {
-  return Array.from(Array(6)).map(createRandomCharacter).join('')
+  return Array.from(Array(6)).map(createRandomCharacter).join('');
 }
 
 /**
@@ -12,6 +12,6 @@ export function generateConfirmationCode(): string {
  * @returns The generated character as a one-character long string
  */
 function createRandomCharacter() {
-  const position = Math.floor(Math.random() * 36)
-  return String.fromCharCode((position >= 10 ? 55 : 48) + position)
+  const position = Math.floor(Math.random() * 36);
+  return String.fromCharCode((position >= 10 ? 55 : 48) + position);
 }
