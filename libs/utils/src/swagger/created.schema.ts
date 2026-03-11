@@ -2,6 +2,6 @@ import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.inte
 
 export const CreatedSchema: SchemaObject = {
   properties: {
-    created: { type: 'boolean' },
+    uuid: { type: 'string' },
   },
 };

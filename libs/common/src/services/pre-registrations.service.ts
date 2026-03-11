@@ -9,6 +9,7 @@ import { PreRegistration } from '../entities/pre-registration.entity';
 import { InjectConnection, InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { ConfirmationCodesService } from './confirmation-codes.service';
+import { UuidsService } from './uuids.service';
 
 @Injectable()
 export class PreRegistrationsService {
@@ -17,17 +18,23 @@ export class PreRegistrationsService {
     @InjectModel(PreRegistration) public readonly model: typeof PreRegistration,
     private mailerService: MailerService,
     private confirmationCodes: ConfirmationCodesService,
+    private uuids: UuidsService,
   ) {}
 
-  async create(email: string) {
+  async create(email: string): Promise<PreRegistration> {
     await this.invalidateAll(email);
     const confirmationCode = this.confirmationCodes.generate();
-    await this.connection.transaction(async () => {
-      await this.model.create({ email, confirmationCode });
+    return await this.connection.transaction<PreRegistration>(async () => {
+      const preRegistration = await this.model.create({
+        email,
+        confirmationCode,
+        uuid: this.uuids.generate(),
+      });
       await this.mailerService.sendSubscriptionConfirmation(
         email,
         confirmationCode,
       );
+      return preRegistration;
     });
   }
 

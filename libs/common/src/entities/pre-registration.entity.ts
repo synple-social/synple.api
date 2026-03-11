@@ -21,6 +21,9 @@ export class PreRegistration extends Model {
   @Column
   declare email: string;
 
+  @Column
+  declare uuid: string;
+
   @Column({ defaultValue: () => generateConfirmationCode() })
   declare confirmationCode?: string;
 

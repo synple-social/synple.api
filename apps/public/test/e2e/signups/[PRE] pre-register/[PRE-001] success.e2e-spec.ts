@@ -2,7 +2,12 @@ import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import { createPreregistration } from '../../../http/create-pre-registration.http';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
-import { PreRegistration, PreRegistrationsService } from '@synple/common';
+import {
+  PreRegistration,
+  PreRegistrationsService,
+  UuidsService,
+} from '@synple/common';
+import { TEST_UUID, UuidsMock } from 'apps/public/test/mocks/uuids.mock';
 
 describe('Pre-registrations scenarios', () => {
   const email = 'email_001@test.com';
@@ -10,7 +15,9 @@ describe('Pre-registrations scenarios', () => {
   let app: INestApplication<App>;
 
   beforeAll(async () => {
-    app = await createApplication();
+    app = await createApplication({
+      overrides: [{ from: UuidsService, to: UuidsMock }],
+    });
   });
 
   describe('[PRE-001] a pre registration is created successfully', () => {
@@ -24,7 +31,7 @@ describe('Pre-registrations scenarios', () => {
       return response
         .expect(201)
         .expect('Content-Type', /application\/json/)
-        .expect({ created: true });
+        .expect({ id: TEST_UUID });
     });
     describe('The created pre-registration', () => {
       let preRegistration: PreRegistration | null;

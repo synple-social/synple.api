@@ -50,8 +50,8 @@ export class SignupsController {
     schema: createErrorSchema('mailer', 'unavailable'),
   })
   async preRegister(@Body() { email }: SignupsPreRegisterDto) {
-    await this.preRegistrationsService.create(email);
-    return { created: true };
+    const preRegistration = await this.preRegistrationsService.create(email);
+    return { id: preRegistration.uuid };
   }
 
   @Post('/register')
