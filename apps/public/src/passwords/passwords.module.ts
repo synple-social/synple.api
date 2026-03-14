@@ -9,6 +9,8 @@ import {
   PasswordsService,
   PreRegistration,
   Registration,
+  Role,
+  Scope,
 } from '@synple/common';
 
 @Module({
@@ -18,6 +20,8 @@ import {
       Account,
       PreRegistration,
       Registration,
+      Scope,
+      Role
     ]),
   ],
   controllers: [PasswordsController],

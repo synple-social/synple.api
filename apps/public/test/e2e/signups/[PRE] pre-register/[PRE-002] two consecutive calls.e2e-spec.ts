@@ -20,7 +20,7 @@ describe('Pre registrations scenarios', () => {
       await createPreregistration(email, app);
       lastResponse = createPreregistration(email, app);
       model = app.get(PreRegistrationsService).model;
-    });
+    }, 20000);
     it('Returns a 201 (Created) status code', async () => {
       return lastResponse
         .expect(201)

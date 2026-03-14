@@ -1,4 +1,4 @@
-import { Body, Controller, Header, Post, UseFilters } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Header, Post, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -14,6 +14,7 @@ import {
   MailerUnavailableFilter,
   PreRegistrationsService,
   RegistrationsService,
+  transformErrorPipe,
   UsernameAlreadyExistingFilter,
   ValidationExceptionFilter,
 } from '@synple/common';
@@ -97,9 +98,9 @@ export class SignupsController {
     description:
       'There is a problem with one of the parameter given (eg. password and password confirmation do not match).',
   })
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(transformErrorPipe)
   async complete(@Body() body: SignupsCompleteDto) {
-    const { username, email } = (await this.accountsService.create(body))
-      .dataValues;
-    return { username, email };
+    return await this.accountsService.create(body)
   }
 }

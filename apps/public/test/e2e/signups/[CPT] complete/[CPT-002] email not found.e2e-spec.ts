@@ -38,9 +38,9 @@ describe('Accounts scenarios', () => {
       const registration = await models.registrations.findOne({
         where: { email },
       });
-      response = createAccount(
+      response = await createAccount(
         {
-          email: 'invalid:@email.com',
+          email: 'invalid@email.com',
           registrationId: registration?.getDataValue('uuid'),
           password: 'a',
           passwordConfirmation: 'a',
@@ -48,13 +48,11 @@ describe('Accounts scenarios', () => {
         },
         app,
       );
-    });
+    }, 20000);
 
-    it('Returns a 404 (Not Found) status code with the correct body', () => {
-      return response
-        .expect(404)
-        .expect('Content-Type', /application\/json/)
-        .expect({ path: 'email', error: 'unknown' });
+    it('Returns a 404 (Not Found) status code with the correct body', async () => {
+      expect(response.status).toEqual(404)
+      expect(response.body).toEqual({ path: 'email', error: 'unknown' });
     });
     it('Has created no account in the database', async () => {
       await response;

@@ -9,6 +9,8 @@ import {
   PreRegistrationsService,
   Registration,
   RegistrationsService,
+  Role,
+  Scope,
   TokensService,
   UuidsService,
 } from '@synple/common';
@@ -29,7 +31,7 @@ import { Token } from '@synple/common/entities/token.entity';
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
-    SequelizeModule.forFeature([Account, Registration, PreRegistration, Token]),
+    SequelizeModule.forFeature([Account, Registration, PreRegistration, Token, Scope, Role]),
   ],
   providers: [
     TokensService,

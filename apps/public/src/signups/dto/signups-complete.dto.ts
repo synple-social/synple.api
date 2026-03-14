@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class SignupsCompleteDto {
   @ApiProperty({
@@ -6,6 +7,8 @@ export class SignupsCompleteDto {
       'The email address used throughout the whole subscription process',
     example: 'foo@bar.com',
   })
+  @IsEmail({}, { message: 'format' })
+  @IsNotEmpty({ message: 'required' })
   email: string;
 
   @ApiProperty({
@@ -13,6 +16,7 @@ export class SignupsCompleteDto {
       'The UUID of the registration that the user previously created',
     example: '019c8cd8-afbf-70f8-a572-2b9ed9e75590',
   })
+  @IsNotEmpty({ message: 'required' })
   registrationId: string;
 
   @ApiProperty({
@@ -20,6 +24,7 @@ export class SignupsCompleteDto {
       "The user's display name that will be out to see for other users and identify them",
     example: 'GreatUsername',
   })
+  @IsNotEmpty({ message: 'required' })
   username: string;
 
   @ApiProperty({
@@ -27,6 +32,7 @@ export class SignupsCompleteDto {
       'The password used to identify the user when logging in. Will NOT be saved on our side',
     example: 'SecureANDLongPassword123?!',
   })
+  @IsNotEmpty({ message: 'required' })
   password: string;
 
   @ApiProperty({
@@ -34,5 +40,6 @@ export class SignupsCompleteDto {
       'The password confirmation, used in the frontend to ensure that the user has typed the correct value. MUST be equal to password.',
     example: 'SecureANDLongPassword123?!',
   })
+  @IsNotEmpty({ message: 'required' })
   passwordConfirmation: string;
 }

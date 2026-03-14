@@ -7,11 +7,13 @@ import { hash } from 'bcrypt';
 import { Account } from '../entities/account.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import { UuidsService } from './uuids.service';
+import { Role } from '../entities';
 
 @Injectable()
 export class AccountsService {
   constructor(
     @InjectModel(Account) public readonly model: typeof Account,
+    @InjectModel(Role) public readonly roles: typeof Role,
     private readonly registrationService: RegistrationsService,
     private readonly uuid: UuidsService,
   ) {}
@@ -23,13 +25,6 @@ export class AccountsService {
     password,
     passwordConfirmation,
   }: SignupsCompleteDto) {
-    this.requireAllKeys({
-      email,
-      registrationId,
-      username,
-      password,
-      passwordConfirmation,
-    });
 
     const registration = await this.registrationService.findOrFail({
       email,
@@ -40,6 +35,7 @@ export class AccountsService {
     if ((await this.model.findAll({ where: { email } })).length)
       throw new UsernameAlreadyExistingException();
     const passwordDigest = await hash(password, SALT_ROUNDS);
+    const role = await this.getDefaultRole()
     return await this.model.create({
       username,
       email,
@@ -47,17 +43,15 @@ export class AccountsService {
       registrationId: registration.id,
       uuid: this.uuid.generate(),
       jwtSecret: this.uuid.generate(),
+      ...(role ? {roleId: role.id} : {}),
     });
   }
-
-  private requireAllKeys(dto: SignupsCompleteDto) {
-    for (const k of Object.keys(dto)) {
-      if (!dto[k])
-        throw new BadRequestException({ path: k, error: 'required' });
-    }
-  }
-
+  
   public async find(uuid: string): Promise<Account> {
     return (await this.model.findOne({ where: { uuid } })) as Account;
+  }
+
+  private async getDefaultRole() : Promise<Role|null> {
+    return await this.roles.findOne({ where: { isDefault: true } }) as Role
   }
 }

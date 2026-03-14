@@ -12,7 +12,6 @@ import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiForbiddenResponse,
-  ApiHeader,
   ApiNoContentResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -26,6 +25,7 @@ import { InvalidCredentialsFilter } from '@synple/common/filters/invalid-credent
 import { InvalidTokenFilter } from '@synple/common/filters/invalid-token.filter';
 import { createErrorSchema } from '@synple/utils';
 import { signinSuccessSchema } from './schemas/signin-success.schema';
+import { ApiTokenHeader } from '@synple/common/decorators/api-token-header.decorator';
 
 @Controller('/auth')
 @ApiTags('Authentication')
@@ -52,11 +52,7 @@ export class TokensController {
   @Post('/signout')
   @UseFilters(InvalidTokenFilter)
   @UseGuards(AuthenticationGuard)
-  @ApiHeader({
-    name: 'Authentication',
-    description: 'The bearer token use to authenticate this request.',
-    example: 'Bearer <TOKEN>',
-  })
+  @ApiTokenHeader
   @HttpCode(204)
   @ApiNoContentResponse({
     description:

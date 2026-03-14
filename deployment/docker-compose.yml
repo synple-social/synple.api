@@ -13,13 +13,28 @@ services:
   public:
     build:
       context: '..'
-      dockerfile: ./deployment/public.Dockerfile
+      dockerfile: ./deployment/Dockerfile
+    command:
+      pnpm start:dev public
     depends_on:
       - db
     env_file:
       - ../.env
     ports:
-      - 3000:3000
+      - 2000:3000
+    volumes:
+      - ../:/user/src/app
+
+  admin:
+    build:
+      context: '..'
+      dockerfile: ./deployment/Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - ../.env
+    ports:
+      - 2001:3000
     volumes:
       - ../:/user/src/app
 

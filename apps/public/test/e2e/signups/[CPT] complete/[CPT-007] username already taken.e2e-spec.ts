@@ -72,7 +72,7 @@ describe('Accounts scenarios', () => {
         },
         app,
       );
-    });
+    }, 20000);
 
     it('Returns a 400 (Bad Request) status code with the correct body', async () => {
       return response

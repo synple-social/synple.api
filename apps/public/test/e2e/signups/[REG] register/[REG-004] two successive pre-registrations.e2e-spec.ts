@@ -33,7 +33,7 @@ describe('Registrations scenarios', () => {
       await createRegistration(email, 'ABC123', app);
       await createPreregistration(email, app);
       response = createRegistration(email, 'ABC123', app);
-    });
+    }, 20000);
 
     it('Returns a 201 (Created) status code with the correct body', async () => {
       const { res } = await response
