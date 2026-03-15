@@ -39,11 +39,13 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   protected async checkValidity(token: Token): Promise<boolean> {
+    console.log(token)
     return true;
   }
 
   private getToken(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    console.log(request.headers)
+    const [type, token] = (request.headers.authorization as string)?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
 }
