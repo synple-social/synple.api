@@ -13,7 +13,11 @@ export class Scope extends Model {
 
   @Column
   @Expose()
-  declare description: string;
+  declare description?: string;
+
+  @Column
+  @Expose()
+  declare uuid: string
 
   @BelongsToMany(() => Role, () => RoleScope)
   declare roles: Role[];
