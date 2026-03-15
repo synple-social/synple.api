@@ -41,7 +41,8 @@ export class RolesController {
   }
 
   @Delete('/:uuid/scopes/:scopeId')
+  @HttpCode(204)
   public async deleteScope(@Param('uuid') uuid: string, @Param('scopeId') scopeId: string) {
-
+    await this.service.removeScope(uuid, scopeId)
   }
 }
