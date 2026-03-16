@@ -4,6 +4,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EntitiesModule } from '@synple/common';
 import { RolesModule } from './roles/roles.modules';
+import { InitModule } from './init/init.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { RolesModule } from './roles/roles.modules';
     EntitiesModule,
     ScopesModule,
     RolesModule,
+    InitModule,
   ],
 })
 export class AppModule {}
