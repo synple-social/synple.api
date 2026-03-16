@@ -6,13 +6,13 @@ import {
   HttpCode,
   Param,
   Post,
-  Put,
+  UseGuards,
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { RolesService } from '@synple/common/services/admin/roles.service';
-import { transformErrorPipe } from '@synple/common';
+import { AuthenticationGuard, transformErrorPipe } from '@synple/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -32,6 +32,7 @@ export class RolesController {
   @Post('/')
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(transformErrorPipe)
+  @UseGuards(AuthenticationGuard)
   @ApiCreatedResponse({
     description: 'The role has been correctly created.',
     schema: roleCreatedSchema,
@@ -50,6 +51,7 @@ export class RolesController {
     description:
       'The role has correctly been deleted. If it contained user, they have been migrated to the default group',
   })
+  @UseGuards(AuthenticationGuard)
   public async delete(@Param('uuid') uuid: string) {
     await this.service.delete(uuid);
   }

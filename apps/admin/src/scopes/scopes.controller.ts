@@ -50,6 +50,7 @@ export class ScopesController {
     schema: successSchema,
   })
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(AuthenticationGuard)
   public async create(@Body() body: CreateScopeDto) {
     return await this.service.create(body);
   }
