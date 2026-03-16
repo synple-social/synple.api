@@ -67,6 +67,7 @@ export class RolesController {
       'Either the role or the scope have not been found in the database. Please check scopeId and uuid for typos.',
     schema: createErrorSchema('scopeId', 'unknown'),
   })
+  @UseGuards(AuthenticationGuard)
   public async addScope(
     @Param('uuid') uuid: string,
     @Body() { scopeId }: AddScopeDto,
@@ -86,6 +87,7 @@ export class RolesController {
       'Either the role or the scope have not been found in the database. Please check scopeId and uuid for typos.',
     schema: createErrorSchema('scopeId', 'unknown'),
   })
+  @UseGuards(AuthenticationGuard)
   public async deleteScope(
     @Param('uuid') uuid: string,
     @Param('scopeId') scopeId: string,
