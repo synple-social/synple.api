@@ -18,26 +18,19 @@ export class InitService {
   ) { }
 
   public async run(): Promise<void> {
-    if (!this.shouldRun()) return
-
     try {
+      if (!this.shouldRun()) return
       const { email, username, password } = this.getConfig()
       await this.accounts.create({ email, username, passwordDigest: await hash(password, SALT_ROUNDS) })
     }
-    catch (e) {
+    catch {
       console.log("There was an exception running the initialization service")
-      console.error(e)
     }
   }
 
   public async shouldRun(): Promise<boolean> {
-    try {
-      const { email } = this.getConfig()
-      return (await this.accounts.findOne({ where: { email } })) === null
-    }
-    catch {
-      return false;
-    }
+    const { email } = this.getConfig()
+    return (await this.accounts.findOne({ where: { email } })) === null
   }
 
   private getConfig(): InitPayload {
