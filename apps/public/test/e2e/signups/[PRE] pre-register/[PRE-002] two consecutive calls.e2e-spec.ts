@@ -1,7 +1,11 @@
 import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import { createPreregistration } from '../../../http/create-pre-registration.http';
-import { PreRegistration, PreRegistrationsService, UuidsService } from '@synple/common';
+import {
+  PreRegistration,
+  PreRegistrationsService,
+  UuidsService,
+} from '@synple/common';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
 import { TEST_UUID, UuidsMock } from 'apps/public/test/mocks/uuids.mock';
 

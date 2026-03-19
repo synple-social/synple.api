@@ -29,7 +29,7 @@ import { ApiTokenHeader } from '@synple/common/decorators/api-token-header.decor
 
 @Controller('/auth')
 @ApiTags('Authentication')
-export class TokensController {
+export class AuthController {
   constructor(private service: TokensService) {}
 
   @Post('/signin')

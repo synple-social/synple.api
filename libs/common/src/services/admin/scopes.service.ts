@@ -8,14 +8,14 @@ import { UuidsService } from '../uuids.service';
 export class ScopesService {
   constructor(
     @InjectModel(Scope) public readonly model: typeof Scope,
-    private uuids: UuidsService
-  ) { }
+    private uuids: UuidsService,
+  ) {}
 
   public async list(): Promise<Scope[]> {
     return await this.model.findAll({});
   }
 
   public async create({ slug, description }: CreateScopeDto): Promise<Scope> {
-    return await this.model.create({ slug, description: description ?? "" })
+    return await this.model.create({ slug, description: description ?? '' });
   }
 }

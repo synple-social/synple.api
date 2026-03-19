@@ -5,7 +5,7 @@ services:
       - ../.env
     image: postgres
     ports:
-     - 5432:5432
+     - 5000:5432
     shm_size: 128mb
     volumes:
       - database:/data/db

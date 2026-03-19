@@ -21,7 +21,7 @@ import {
       PreRegistration,
       Registration,
       Scope,
-      Role
+      Role,
     ]),
   ],
   controllers: [PasswordsController],

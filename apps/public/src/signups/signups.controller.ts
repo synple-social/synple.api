@@ -1,4 +1,13 @@
-import { Body, ClassSerializerInterceptor, Controller, Header, Post, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Header,
+  Post,
+  UseFilters,
+  UseInterceptors,
+  UsePipes,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -101,6 +110,6 @@ export class SignupsController {
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(transformErrorPipe)
   async complete(@Body() body: SignupsCompleteDto) {
-    return await this.accountsService.create(body)
+    return await this.accountsService.create(body);
   }
 }

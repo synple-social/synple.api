@@ -1,8 +1,14 @@
-import { Exclude, Expose } from "class-transformer";
-import { BelongsToMany, Column, HasMany, Model, Table } from "sequelize-typescript";
-import { Scope } from "./scope.entity";
-import { Account } from "../account.entity";
-import { RoleScope } from "../relations/role-scope.entity";
+import { Exclude, Expose } from 'class-transformer';
+import {
+  BelongsToMany,
+  Column,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Scope } from './scope.entity';
+import { Account } from '../account.entity';
+import { RoleScope } from '../relations/role-scope.entity';
 
 /**
  * A role gathers informations about permissions a set of users can have in the application.
@@ -15,19 +21,19 @@ import { RoleScope } from "../relations/role-scope.entity";
 export class Role extends Model {
   @Column
   @Expose()
-  declare name: string
+  declare name: string;
 
   @Column
   @Expose()
-  declare isDefault: boolean
+  declare isDefault: boolean;
 
   @Column
   @Expose()
-  declare uuid: string
+  declare uuid: string;
 
   @BelongsToMany(() => Scope, () => RoleScope)
-  declare scopes: Scope[]
+  declare scopes: Scope[];
 
   @HasMany(() => Account)
-  declare accounts: Account[]
+  declare accounts: Account[];
 }

@@ -48,10 +48,10 @@ export class Account extends Model {
 
   @HasMany(() => Token)
   declare tokens: Token[];
-  
+
   @BelongsTo(() => Role)
   declare role: Role;
 
   @ForeignKey(() => Role)
-  declare roleId: number
+  declare roleId: number;
 }

@@ -6,7 +6,6 @@ import { Role } from './role.entity';
 @Table
 @Exclude()
 export class Scope extends Model {
-
   @Column
   @Expose()
   declare slug: string;
@@ -17,7 +16,7 @@ export class Scope extends Model {
 
   @Column
   @Expose()
-  declare uuid: string
+  declare uuid: string;
 
   @BelongsToMany(() => Role, () => RoleScope)
   declare roles: Role[];

@@ -25,7 +25,6 @@ export class AccountsService {
     password,
     passwordConfirmation,
   }: SignupsCompleteDto) {
-
     const registration = await this.registrationService.findOrFail({
       email,
       uuid: registrationId,
@@ -35,7 +34,7 @@ export class AccountsService {
     if ((await this.model.findAll({ where: { email } })).length)
       throw new UsernameAlreadyExistingException();
     const passwordDigest = await hash(password, SALT_ROUNDS);
-    const role = await this.getDefaultRole()
+    const role = await this.getDefaultRole();
     return await this.model.create({
       username,
       email,
@@ -43,15 +42,15 @@ export class AccountsService {
       registrationId: registration.id,
       uuid: this.uuid.generate(),
       jwtSecret: this.uuid.generate(),
-      ...(role ? {roleId: role.id} : {}),
+      ...(role ? { roleId: role.id } : {}),
     });
   }
-  
+
   public async find(uuid: string): Promise<Account> {
     return (await this.model.findOne({ where: { uuid } })) as Account;
   }
 
-  private async getDefaultRole() : Promise<Role|null> {
-    return await this.roles.findOne({ where: { isDefault: true } }) as Role
+  private async getDefaultRole(): Promise<Role | null> {
+    return (await this.roles.findOne({ where: { isDefault: true } })) as Role;
   }
 }

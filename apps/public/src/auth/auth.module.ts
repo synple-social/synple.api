@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TokensController } from './auth.controller';
+import { AuthController } from './auth.controller';
 import {
   Account,
   AccountsService,
@@ -20,7 +20,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Token } from '@synple/common/entities/token.entity';
 
 @Module({
-  controllers: [TokensController],
+  controllers: [AuthController],
   imports: [
     JwtModule.registerAsync({
       global: true,
@@ -31,7 +31,14 @@ import { Token } from '@synple/common/entities/token.entity';
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
-    SequelizeModule.forFeature([Account, Registration, PreRegistration, Token, Scope, Role]),
+    SequelizeModule.forFeature([
+      Account,
+      Registration,
+      PreRegistration,
+      Token,
+      Scope,
+      Role,
+    ]),
   ],
   providers: [
     TokensService,
@@ -43,4 +50,4 @@ import { Token } from '@synple/common/entities/token.entity';
     ConfirmationCodesService,
   ],
 })
-export class TokensModule {}
+export class AuthModule {}

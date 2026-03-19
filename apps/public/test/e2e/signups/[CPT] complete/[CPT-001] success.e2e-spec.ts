@@ -6,7 +6,7 @@ import { compare } from 'bcrypt';
 import { TEST_UUID, UuidsMock } from '../../../mocks/uuids.mock';
 import { UuidsService } from '@synple/common/services/uuids.service';
 import { RegistrationsFactory } from 'apps/public/test/factories/signups/registrations.factory';
-import request from "supertest"
+import request from 'supertest';
 
 describe('Accounts scenarios', () => {
   const email = 'email_001@test.com';
@@ -22,7 +22,10 @@ describe('Accounts scenarios', () => {
   describe('[CPT-001] the account is created successfully', () => {
     let response: any;
     beforeAll(async () => {
-      const registration = await RegistrationsFactory(app, { email, uuid: '1' })
+      const registration = await RegistrationsFactory(app, {
+        email,
+        uuid: '1',
+      });
       response = request(app.getHttpServer())
         .post('/signups/complete')
         .set('Accept', 'application/json')
@@ -32,7 +35,7 @@ describe('Accounts scenarios', () => {
           password: 'password',
           passwordConfirmation: 'password',
           username: 'testUser',
-        })
+        });
     }, 20000);
 
     it('Returns a 201 (Created) status code with the correct body', () => {
@@ -43,13 +46,13 @@ describe('Accounts scenarios', () => {
     });
     it('Has created a valid account in the database', async () => {
       await response;
-      expect(await app.get("AccountRepository").count()).toBe(1);
+      expect(await app.get('AccountRepository').count()).toBe(1);
     });
     describe('The created account attributes', () => {
       let account!: Account;
 
       beforeAll(async () => {
-        account = await app.get("AccountRepository").findByPk(1) as Account;
+        account = (await app.get('AccountRepository').findByPk(1)) as Account;
       });
 
       it('Has the correct registration ID', () => {

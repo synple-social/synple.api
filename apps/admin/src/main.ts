@@ -6,7 +6,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const swagger = new DocumentBuilder()
     .setTitle('Synple Administration Service')
-    .setDescription('The Administration API used to manage resources that are not tools or synthesizers')
+    .setDescription(
+      'The Administration API used to manage resources that are not tools or synthesizers',
+    )
     .setVersion('0.0.0')
     .addBearerAuth({
       type: 'http',
@@ -14,10 +16,10 @@ async function bootstrap() {
       bearerFormat: 'JWT',
       in: 'header',
       name: 'Authorization',
-      description: 'enter your JWT bearer token'
+      description: 'enter your JWT bearer token',
     })
     .addSecurityRequirements('bearer')
-    .build()
+    .build();
   SwaggerModule.setup('api', app, () =>
     SwaggerModule.createDocument(app, swagger),
   );

@@ -1,4 +1,4 @@
-import { SchemaObject } from "@nestjs/swagger/dist/interfaces/open-api-spec.interface";
+import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 
 export const scopesListSchema: SchemaObject = {
   type: 'array',
@@ -9,4 +9,4 @@ export const scopesListSchema: SchemaObject = {
       slug: { type: 'string', example: 'test::scope' },
     },
   },
-}
+};

@@ -1,10 +1,9 @@
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthenticationGuard, EntitiesModule } from '@synple/common';
-import { RolesModule } from 'apps/admin/src/roles/roles.modules';
-import { ScopesModule } from 'apps/admin/src/scopes/scopes.module';
-import { AuthenticationMock } from './mocks/authentication.mock';
+import { EntitiesModule } from '@synple/common';
+import { SynthesizersModule } from 'apps/api/src/synthesizers/synthesizers.module';
+import { AuthModule } from 'apps/public/src/auth/auth.module';
 
 export type TestOverride = { from: any; to: any };
 
@@ -15,23 +14,24 @@ async function createTestingModule(
 ) {
   let module = Test.createTestingModule({
     imports: [
-      ConfigModule.forRoot({ envFilePath: '.env.test.local' }),
+      ConfigModule.forRoot({
+        envFilePath: ['.env.test.local'],
+        isGlobal: true
+      }),
       SequelizeModule.forRoot({
         dialect: 'sqlite',
         autoLoadModels: true,
         logging: false,
       }),
       EntitiesModule,
-      ScopesModule,
-      RolesModule,
+      SynthesizersModule,
+      // The Auth module is added to be able to generate tokens
+      AuthModule,
     ],
   });
   for (const { from, to } of overrides) {
     module = module.overrideProvider(from).useClass(to);
   }
-  module = module
-    .overrideGuard(AuthenticationGuard)
-    .useClass(AuthenticationMock)
   return await module.compile();
 }
 

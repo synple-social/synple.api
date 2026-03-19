@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PasswordsModule } from './passwords/passwords.module';
-import { TokensModule } from './authentication/auth.module';
+import { AuthModule } from './auth/auth.module';
 import { SignupsModule } from './signups/signups.module';
 
 @Module({
@@ -25,7 +25,7 @@ import { SignupsModule } from './signups/signups.module';
     }),
     SignupsModule,
     PasswordsModule,
-    TokensModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

@@ -17,7 +17,13 @@ import { SignupsController } from './signups.controller';
 
 export const signupsModuleDefinition = {
   imports: [
-    SequelizeModule.forFeature([PreRegistration, Registration, Account, Role, Scope]),
+    SequelizeModule.forFeature([
+      PreRegistration,
+      Registration,
+      Account,
+      Role,
+      Scope,
+    ]),
   ],
   providers: [
     PreRegistrationsService,

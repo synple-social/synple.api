@@ -51,7 +51,7 @@ describe('Accounts scenarios', () => {
     }, 20000);
 
     it('Returns a 404 (Not Found) status code with the correct body', async () => {
-      expect(response.status).toEqual(404)
+      expect(response.status).toEqual(404);
       expect(response.body).toEqual({ path: 'email', error: 'unknown' });
     });
     it('Has created no account in the database', async () => {

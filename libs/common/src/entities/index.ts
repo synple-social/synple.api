@@ -10,12 +10,12 @@ import { Role } from './admin/role.entity';
 import { RoleScope } from './relations/role-scope.entity';
 
 export * from './account.entity';
-export * from './admin/role.entity'
+export * from './admin/role.entity';
 export * from './admin/scope.entity';
 export * from './password-request.entity';
 export * from './pre-registration.entity';
 export * from './registration.entity';
-export * from './relations/role-scope.entity'
+export * from './relations/role-scope.entity';
 export * from './token.entity';
 
 export const EntitiesModule: DynamicModule = {

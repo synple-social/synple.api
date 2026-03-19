@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConfirmationCodesService } from '@synple/common';
 import { ConfirmationCodesMock } from '../mocks/confirmation-codes.mock';
 import { PasswordsModule } from 'apps/public/src/passwords/passwords.module';
-import { TokensModule } from 'apps/public/src/authentication/auth.module';
+import { AuthModule } from 'apps/public/src/auth/auth.module';
 import { SignupsModule } from 'apps/public/src/signups/signups.module';
 
 export type TestOverride = { from: any; to: any };
@@ -24,7 +24,7 @@ async function createTestingModule(
       }),
       SignupsModule,
       PasswordsModule,
-      TokensModule,
+      AuthModule,
     ],
   });
   overrides.push({ from: ConfirmationCodesService, to: ConfirmationCodesMock });

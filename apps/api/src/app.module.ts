@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ToolsModule } from './tools/tools.module';
-import { JwtService } from '@nestjs/jwt';
+import { SynthesizersModule } from './synthesizers/synthesizers.module';
 import { EntitiesModule } from '@synple/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
@@ -23,8 +22,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
       },
       inject: [ConfigService],
     }),
-    ToolsModule,
-    EntitiesModule
-  ]
+    SynthesizersModule,
+    EntitiesModule,
+  ],
 })
 export class AppModule {}

@@ -20,9 +20,9 @@ import { InitModule } from './init/init.module';
           uri: service.get('DATABASE_URL'),
           autoLoadModels: true,
           logging: false,
-        }
+        };
       },
-      inject: [ ConfigService]
+      inject: [ConfigService],
     }),
     EntitiesModule,
     ScopesModule,

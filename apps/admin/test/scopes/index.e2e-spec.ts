@@ -28,16 +28,22 @@ describe('Scopes', () => {
     let response!: any;
 
     beforeAll(async () => {
-      const model = app.get(ScopesService).model
-      await model.create({ slug: 'test::slug', description: 'Test description' })
-      
+      const model = app.get(ScopesService).model;
+      await model.create({
+        slug: 'test::slug',
+        description: 'Test description',
+        uuid: '1',
+      });
+
       response = await request(app.getHttpServer())
         .get('/scopes')
         .set('Accept', 'application/json');
-    })
+    });
     it('Returns a 200 (OK) status code with the correct body', () => {
       expect(response.status).toEqual(200);
-      expect(response.body).toEqual([ { slug: 'test::slug', description: 'Test description' } ]);
-    })
-  })
+      expect(response.body).toEqual([
+        { slug: 'test::slug', description: 'Test description', uuid: '1' },
+      ]);
+    });
+  });
 });
