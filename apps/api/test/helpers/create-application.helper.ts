@@ -16,7 +16,7 @@ async function createTestingModule(
     imports: [
       ConfigModule.forRoot({
         envFilePath: ['.env.test.local'],
-        isGlobal: true
+        isGlobal: true,
       }),
       SequelizeModule.forRoot({
         dialect: 'sqlite',

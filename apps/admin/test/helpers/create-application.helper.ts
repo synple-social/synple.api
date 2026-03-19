@@ -31,7 +31,7 @@ async function createTestingModule(
   }
   module = module
     .overrideGuard(AuthenticationGuard)
-    .useClass(AuthenticationMock)
+    .useClass(AuthenticationMock);
   return await module.compile();
 }
 

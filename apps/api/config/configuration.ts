@@ -1,3 +1,3 @@
 export default () => ({
-  JWT_SECRET: 'TestSuperLongSecret'
-})
+  JWT_SECRET: 'TestSuperLongSecret',
+});

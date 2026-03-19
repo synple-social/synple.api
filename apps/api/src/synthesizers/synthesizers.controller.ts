@@ -8,6 +8,6 @@ export class SynthesizersController {
   @Get('/')
   @UseGuards(AuthenticationGuard)
   public async index() {
-    return []
+    return [];
   }
 }
