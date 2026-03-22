@@ -54,4 +54,6 @@ export class Account extends Model {
 
   @ForeignKey(() => Role)
   declare roleId: number;
+
+  declare getRole: () => Promise<Role>
 }

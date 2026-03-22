@@ -36,14 +36,14 @@ export class TokensService {
   }
 
   public async find(uuid: string): Promise<Token | null> {
-    return this.model.findOne({ where: { uuid } });
+    return this.model.findOne({ where: { uuid }, include: [Account] });
   }
 
   public async invalidate(uuid: string) {
     await this.model.update({ invalidatedAt: new Date() }, { where: { uuid } });
   }
 
-  protected createJwtFor(
+  public createJwtFor(
     account: Account,
     jti: string = this.uuidService.generate(),
   ) {
