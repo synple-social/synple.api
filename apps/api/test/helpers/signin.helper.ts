@@ -3,6 +3,7 @@ import { Account, TokensService, UuidsService } from '@synple/common';
 import { SALT_ROUNDS } from '@synple/utils';
 import { hash } from 'bcrypt';
 import { roleFactory } from '../factories/role.factory';
+import { accountFactory } from '../factories/account.factory';
 
 export type SigninHelperProps = {
   email: string;
@@ -18,7 +19,7 @@ export type SigninHelperResult = {
 
 export async function signin(
   app: INestApplication,
-  { email, username, password, scopes = [] }: SigninHelperProps,
+  { scopes = [] }: SigninHelperProps,
 ): Promise<SigninHelperResult> {
   const tokensService = app.get(TokensService);
 
@@ -33,11 +34,6 @@ export async function signin(
     })
   })
 
-  const account = await app.get('AccountRepository').create({
-    email,
-    username,
-    uuid: '1',
-    passwordDigest: await hash(password, SALT_ROUNDS),
-  });
-  return { account, token: await tokensService.create(email, password) };
+  const account = await accountFactory.create(app)
+  return { account, token: await tokensService.create("test@synple.app", "password") };
 }
