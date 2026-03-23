@@ -49,8 +49,9 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   protected async checkPermissions(token: Token, ctx: ExecutionContext): Promise<boolean> {
-
     const scope = this.reflector.get(RequiresScope, ctx.getHandler())
+
+    if (!scope) return true
 
     const role: Role = await token.account.getRole()
     const scopes = await role.getScopes()

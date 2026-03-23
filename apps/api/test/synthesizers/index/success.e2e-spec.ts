@@ -14,12 +14,7 @@ describe('GET /synthesizers', () => {
 
   beforeAll(async () => {
     app = await createApplication();
-    const { token } = await signin(app, {
-      email,
-      username,
-      password,
-      scopes: [],
-    });
+    const { token } = await signin(app, { email, username, password });
 
     response = await request(app.getHttpServer())
       .get('/synthesizers')

@@ -1,5 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import { Account, TokensService } from '@synple/common';
+import { Account, TokensService, UuidsService } from '@synple/common';
 import { SALT_ROUNDS } from '@synple/utils';
 import { hash } from 'bcrypt';
 
@@ -7,7 +7,7 @@ export type SigninHelperProps = {
   email: string;
   password: string;
   username: string;
-  scopes: string[];
+  scopes?: string[];
 };
 
 export type SigninHelperResult = {
@@ -17,12 +17,25 @@ export type SigninHelperResult = {
 
 export async function signin(
   app: INestApplication,
-  { email, username, password, scopes }: SigninHelperProps,
+  { email, username, password, scopes = [] }: SigninHelperProps,
 ): Promise<SigninHelperResult> {
-  const accounts = app.get('AccountRepository');
   const tokensService = app.get(TokensService);
 
-  const account = await accounts.create({
+  const role = await app.get('RoleRepository').create({
+    name: 'TestRole',
+    uuid: '2'
+  })
+
+  scopes.forEach(async slug => {
+    const scope = await app.get('ScopeRepository').create({
+      slug, uuid: app.get(UuidsService).generate()
+    })
+    await app.get("RoleScopeRepository").create({
+      scopeId: scope.dataValues.id, roleId: role.dataValues.id
+    })
+  })
+
+  const account = await app.get('AccountRepository').create({
     email,
     username,
     uuid: '1',
