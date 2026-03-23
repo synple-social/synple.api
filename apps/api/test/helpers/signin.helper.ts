@@ -4,6 +4,7 @@ import { SALT_ROUNDS } from '@synple/utils';
 import { hash } from 'bcrypt';
 import { roleFactory } from '../factories/role.factory';
 import { accountFactory } from '../factories/account.factory';
+import { scopeFactory } from '../factories/scope.factory';
 
 export type SigninHelperProps = {
   email: string;
@@ -26,9 +27,7 @@ export async function signin(
   const role = await roleFactory.create(app)
 
   scopes.forEach(async slug => {
-    const scope = await app.get('ScopeRepository').create({
-      slug, uuid: app.get(UuidsService).generate()
-    })
+    const scope = await scopeFactory.create(app)
     await app.get("RoleScopeRepository").create({
       scopeId: scope.dataValues.id, roleId: role.dataValues.id
     })
