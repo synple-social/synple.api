@@ -38,4 +38,6 @@ export class Role extends Model {
   declare accounts: Account[];
 
   declare getScopes: () => Promise<Scope[]>
+
+  declare addScopes: (scopes: Scope[]) => void
 }

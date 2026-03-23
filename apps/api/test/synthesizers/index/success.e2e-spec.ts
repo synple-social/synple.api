@@ -1,20 +1,18 @@
+import { TokensService } from '@synple/common';
+import { accountFactory } from '../../factories/account.factory';
 import { createApplication } from '../../helpers/create-application.helper';
-import { signin } from '../../helpers/signin.helper';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 
 describe('GET /synthesizers', () => {
   let app!: INestApplication;
-
-  const email = 'test@test.com';
-  const username = 'TestUser';
-  const password = 'password';
-
   let response!: any;
 
   beforeAll(async () => {
     app = await createApplication();
-    const { token } = await signin(app, { email, username, password });
+    
+    const account = await accountFactory.create(app)
+    const token = await app.get(TokensService).create(account.email, "password")
 
     response = await request(app.getHttpServer())
       .get('/synthesizers')
