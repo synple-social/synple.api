@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Account, TokensService, UuidsService } from '@synple/common';
 import { SALT_ROUNDS } from '@synple/utils';
 import { hash } from 'bcrypt';
+import { roleFactory } from '../factories/role.factory';
 
 export type SigninHelperProps = {
   email: string;
@@ -21,10 +22,7 @@ export async function signin(
 ): Promise<SigninHelperResult> {
   const tokensService = app.get(TokensService);
 
-  const role = await app.get('RoleRepository').create({
-    name: 'TestRole',
-    uuid: '2'
-  })
+  const role = await roleFactory.create(app)
 
   scopes.forEach(async slug => {
     const scope = await app.get('ScopeRepository').create({
