@@ -8,7 +8,7 @@ export const roleFactory = createFactory<Role>(Role, {
   isDefault: () => false,
 }, {
   afterCreate: async (app, role) => {
-    role.addScopes([await scopeFactory.create(app)])
+    role.addScopes([await scopeFactory.create(app, { slug: 'synthesizers::read' })])
     return role
   }
 })

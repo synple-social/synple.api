@@ -54,6 +54,9 @@ export class AuthenticationGuard implements CanActivate {
     if (!scope) return true
 
     const role: Role = await token.account.getRole()
+
+    if (!role) return false
+    
     const scopes = await role.getScopes()
     const slugs = scopes.map(s => s.dataValues.slug)
     
