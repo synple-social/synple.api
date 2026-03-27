@@ -3,13 +3,14 @@ import { accountFactory } from '../../factories/account.factory';
 import { createApplication } from '../../helpers/create-application.helper';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
+import { SynthesizersModule } from 'apps/api/src/synthesizers/synthesizers.module';
 
 describe('GET /synthesizers', () => {
   let app!: INestApplication;
   let response!: any;
 
   beforeAll(async () => {
-    app = await createApplication();
+    app = await createApplication({ module: SynthesizersModule });
     
     const account = await accountFactory.create(app)
     const token = await app.get(TokensService).create(account.email, "password")

@@ -1,12 +1,13 @@
 import { INestApplication } from "@nestjs/common"
 import { createApplication } from "../../helpers/create-application.helper"
 import request from "supertest"
+import { BlueprintsModule } from "apps/api/src/blueprints/blueprints.module"
 
 describe('POST /:uuid/blueprints', () => {
   let app!: INestApplication
 
   beforeAll(async () => {
-    app = await createApplication()
+    app = await createApplication({ module: BlueprintsModule })
   })
   describe('The blueprint is successfully created', () => {
     let response!: any

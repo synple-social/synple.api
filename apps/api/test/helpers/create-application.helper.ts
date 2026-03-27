@@ -1,17 +1,20 @@
+import { Type } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntitiesModule } from '@synple/common';
-import { BlueprintsModule } from 'apps/api/src/blueprints/blueprints.module';
 import { SynthesizersModule } from 'apps/api/src/synthesizers/synthesizers.module';
 import { AuthModule } from 'apps/public/src/auth/auth.module';
 
 export type TestOverride = { from: any; to: any };
 
-export type TestingModuleOptions = { overrides: TestOverride[] };
+export type TestingModuleOptions<TModule> = {
+  module: TModule,
+  overrides?: TestOverride[],
+};
 
-async function createTestingModule(
-  { overrides }: TestingModuleOptions = { overrides: [] },
+async function createTestingModule<TModule extends Type<any>>(
+  { module: moduleUnderTest, overrides }: TestingModuleOptions<TModule>,
 ) {
   let module = Test.createTestingModule({
     imports: [
@@ -25,13 +28,11 @@ async function createTestingModule(
         logging: false,
       }),
       EntitiesModule,
-      BlueprintsModule,
-      SynthesizersModule,
-      // The Auth module is added to be able to generate tokens
       AuthModule,
+      moduleUnderTest,
     ],
   });
-  for (const { from, to } of overrides) {
+  for (const { from, to } of (overrides || [])) {
     module = module.overrideProvider(from).useClass(to);
   }
   return await module.compile();
@@ -43,9 +44,10 @@ async function createAppFromModule(module: TestingModule) {
   return app;
 }
 
-export async function createApplication(
-  { overrides }: TestingModuleOptions = { overrides: [] },
+export async function createApplication<TModule extends Type<any>>(
+  { module, overrides }: TestingModuleOptions<TModule>
 ) {
-  const module = await createTestingModule({ overrides });
-  return await createAppFromModule(module);
+  return await createAppFromModule(
+    await createTestingModule({ module, overrides })
+  );
 }
