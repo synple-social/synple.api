@@ -2,6 +2,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntitiesModule } from '@synple/common';
+import { BlueprintsModule } from 'apps/api/src/blueprints/blueprints.module';
 import { SynthesizersModule } from 'apps/api/src/synthesizers/synthesizers.module';
 import { AuthModule } from 'apps/public/src/auth/auth.module';
 
@@ -24,6 +25,7 @@ async function createTestingModule(
         logging: false,
       }),
       EntitiesModule,
+      BlueprintsModule,
       SynthesizersModule,
       // The Auth module is added to be able to generate tokens
       AuthModule,

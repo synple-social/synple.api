@@ -3,6 +3,7 @@ import { SynthesizersModule } from './synthesizers/synthesizers.module';
 import { EntitiesModule } from '@synple/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { BlueprintsModule } from './blueprints/blueprints.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
       },
       inject: [ConfigService],
     }),
+    BlueprintsModule,
     SynthesizersModule,
     EntitiesModule,
   ],
