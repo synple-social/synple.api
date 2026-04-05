@@ -5,7 +5,7 @@ services:
       - ../.env
     image: postgres
     ports:
-     - 5000:5432
+     - 1000:5432
     shm_size: 128mb
     volumes:
       - database:/data/db
@@ -15,22 +15,20 @@ services:
       context: '..'
       dockerfile: ./deployment/Dockerfile
     command:
-      pnpm start:dev public
+      node dist/apps/public/main
     depends_on:
       - db
     env_file:
       - ../.env
     ports:
       - 2000:3000
-    volumes:
-      - ../:/user/src/app
 
   api:
     build:
       context: '..'
       dockerfile: ./deployment/Dockerfile
     command:
-      pnpm start:dev api
+      node dist/apps/api/main
     depends_on:
       - db
     env_file:
@@ -44,6 +42,8 @@ services:
     build:
       context: '..'
       dockerfile: ./deployment/Dockerfile
+    command:
+      node dist/apps/admin/main
     depends_on:
       - db
     env_file:
