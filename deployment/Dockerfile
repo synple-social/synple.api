@@ -1,4 +1,4 @@
-FROM node:22.22.0-alpine
+FROM node:22.22.0-alpine AS build
 
 ARG APP_NAME=public
 
@@ -9,6 +9,17 @@ COPY --exclude=node_modules/* --exclude=dist/* . .
 
 RUN npm install --global pnpm
 RUN pnpm install
-run pnpm build $APP_NAME
 RUN if [ ! -d "node_modules/sqlite3" ]; then cd node_modules/sqlite3 && pnpm rebuild; fi
+run pnpm build $APP_NAME
+
+FROM node:22.22.0-alpine AS runtime
+
+WORKDIR /app
+
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/package.json /app/pnpm-lock.yaml /app
+
+RUN npm install --global pnpm
+RUN pnpm install --prod
+
 CMD [ "node", "dist/apps/public/main" ]
