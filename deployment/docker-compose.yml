@@ -27,6 +27,8 @@ services:
     build:
       context: '..'
       dockerfile: ./deployment/Dockerfile
+      args:
+        - APP_NAME=api
     command:
       node dist/apps/api/main
     depends_on:
@@ -35,13 +37,13 @@ services:
       - ../.env
     ports:
       - 2001:3000
-    volumes:
-      - ../:/user/src/app
 
   admin:
     build:
       context: '..'
       dockerfile: ./deployment/Dockerfile
+      args:
+        - APP_NAME=admin
     command:
       node dist/apps/admin/main
     depends_on:
@@ -50,8 +52,6 @@ services:
       - ../.env
     ports:
       - 2002:3000
-    volumes:
-      - ../:/user/src/app
 
 volumes:
   database:
