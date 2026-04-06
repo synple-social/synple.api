@@ -1,4 +1,6 @@
-FROM node:22.22.0-alpine AS build
+ARG NODE_VERSION=25
+
+FROM node:${NODE_VERSION}-alpine AS build
 
 ARG APP_NAME=public
 
@@ -12,7 +14,7 @@ RUN pnpm install
 RUN if [ ! -d "node_modules/sqlite3" ]; then cd node_modules/sqlite3 && pnpm rebuild; fi
 run pnpm build $APP_NAME
 
-FROM node:22.22.0-alpine AS runtime
+FROM node:${NODE_VERSION}-alpine AS runtime
 
 WORKDIR /app
 
