@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { BlueprintsController } from "./blueprints.controlle";
+import { BlueprintsController } from "./blueprints.controller";
 
 @Module({
   controllers: [ BlueprintsController]
