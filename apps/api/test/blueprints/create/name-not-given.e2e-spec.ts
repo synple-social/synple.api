@@ -16,14 +16,14 @@ describe('POST /:uuid/blueprints', () => {
       response = await request(app.getHttpServer())
         .post('/uuid/blueprints')
         .set('Accept', 'application/json')
-        .send({ name: 'test-blueprint', slots: 10 })
+        .send({ slots: 10 })
     })
 
     it('Returns a 201 (Created) status code', () => {
-      expect(response.status).toEqual(201)
+      expect(response.status).toEqual(400)
     })
     it('Returns the correct body', () => {
-      expect(response.body).toEqual({ created: true })
+      expect(response.body).toEqual({ path: 'name', error: 'required' })
     })
   })
 })
