@@ -9,21 +9,21 @@ describe('POST /:uuid/blueprints', () => {
   beforeAll(async () => {
     app = await createApplication({ module: BlueprintsModule })
   })
-  describe('The name of the blueprint is not given', () => {
+  describe('The number of slots is given as a decimal number', () => {
     let response!: any
 
     beforeAll(async () => {
       response = await request(app.getHttpServer())
         .post('/uuid/blueprints')
         .set('Accept', 'application/json')
-        .send({ slots: 10 })
+        .send({ name: 'exampleName', slots: 10.5 })
     })
 
     it('Returns a 400 (Bad Request) status code', () => {
       expect(response.status).toEqual(400)
     })
     it('Returns the correct body', () => {
-      expect(response.body).toEqual({ path: 'name', error: 'required' })
+      expect(response.body).toEqual({ path: 'slots', error: 'format' })
     })
   })
 })

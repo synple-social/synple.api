@@ -13,8 +13,8 @@ export class CreateBlueprintDto {
     description: 'The number of slots (unit being the Eurorack HP) the module will occupy',
     required: true
   })
-  @IsNotEmpty({ message: 'required' })
-  @IsInt({ message: 'format' })
   @Min(2, { message: 'minimum' })
+  @IsInt({ message: 'format' })
+  @IsNotEmpty({ message: 'required' })
   slots: number
 }
