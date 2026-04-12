@@ -14,6 +14,7 @@ services:
     build:
       context: '..'
       dockerfile: ./deployment/Dockerfile
+    image: virtuatable/synple-public
     command:
       node dist/apps/public/main
     depends_on:
@@ -29,6 +30,7 @@ services:
       dockerfile: ./deployment/Dockerfile
       args:
         - APP_NAME=api
+    image: virtuatable/synple-api
     command:
       node dist/apps/api/main
     depends_on:
@@ -44,6 +46,7 @@ services:
       dockerfile: ./deployment/Dockerfile
       args:
         - APP_NAME=admin
+    image: virtuatable/synple-admin
     command:
       node dist/apps/admin/main
     depends_on:
