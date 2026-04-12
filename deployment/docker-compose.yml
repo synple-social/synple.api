@@ -5,7 +5,7 @@ services:
       - ../.env
     image: postgres
     ports:
-     - 5000:5432
+     - 1000:5432
     shm_size: 128mb
     volumes:
       - database:/data/db
@@ -14,44 +14,47 @@ services:
     build:
       context: '..'
       dockerfile: ./deployment/Dockerfile
+    image: virtuatable/synple-public
     command:
-      pnpm start:dev public
+      node dist/apps/public/main
     depends_on:
       - db
     env_file:
       - ../.env
     ports:
       - 2000:3000
-    volumes:
-      - ../:/user/src/app
 
   api:
     build:
       context: '..'
       dockerfile: ./deployment/Dockerfile
+      args:
+        - APP_NAME=api
+    image: virtuatable/synple-api
     command:
-      pnpm start:dev api
+      node dist/apps/api/main
     depends_on:
       - db
     env_file:
       - ../.env
     ports:
       - 2001:3000
-    volumes:
-      - ../:/user/src/app
 
   admin:
     build:
       context: '..'
       dockerfile: ./deployment/Dockerfile
+      args:
+        - APP_NAME=admin
+    image: virtuatable/synple-admin
+    command:
+      node dist/apps/admin/main
     depends_on:
       - db
     env_file:
       - ../.env
     ports:
       - 2002:3000
-    volumes:
-      - ../:/user/src/app
 
 volumes:
   database:
