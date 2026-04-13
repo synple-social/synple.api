@@ -2,6 +2,8 @@ import { INestApplication } from "@nestjs/common"
 import { createApplication } from "../../helpers/create-application.helper"
 import request from "supertest"
 import { BlueprintsModule } from "apps/api/src/blueprints/blueprints.module"
+import { Blueprint } from "@synple/common/entities/blueprints/blueprint.entity"
+import { isUUID } from "class-validator"
 
 describe('POST /:uuid/blueprints', () => {
   let app!: INestApplication
@@ -23,11 +25,25 @@ describe('POST /:uuid/blueprints', () => {
       expect(response.status).toEqual(201)
     })
     it('Returns the correct body', () => {
-      expect(response.body).toEqual({ name: 'test-blueprint', slots: 10 })
+      expect(response.body).toMatchObject({
+        name: 'test-blueprint',
+        slots: 10
+      })
+      expect(isUUID(response.body.id)).toEqual(true)
     })
     it('Has created a blueprint', async () => {
       const repository = app.get('BlueprintRepository')
       expect(await repository.count({})).toBe(1)
+    })
+    describe('The created blueprint', () => {
+      let blueprint!: Blueprint
+
+      beforeAll(async () => [
+        blueprint = await app.get('BlueprintRepository').findOne()
+      ])
+      it('Has the correct name', () => expect(blueprint.name).toEqual('test-blueprint'))
+      it('Has the correct number of slots', () => expect(blueprint.slots).toEqual(10))
+      it('Has an UUID as id', () => expect(isUUID(blueprint.id)).toEqual(true))
     })
   })
 })
