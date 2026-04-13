@@ -7,7 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Account, RoleScope, Scope } from '@synple/common/entities';
 import { Role } from '@synple/common/entities/admin/role.entity';
 import { CreateRoleDto } from 'apps/admin/src/roles/dto/create-role.dto';
-import { UuidsService } from '../uuids.service';
+import { v4 as uuid } from 'uuid'
 
 @Injectable()
 export class RolesService {
@@ -16,7 +16,6 @@ export class RolesService {
     @InjectModel(Account) public readonly accounts: typeof Account,
     @InjectModel(Scope) public readonly scopes: typeof Account,
     @InjectModel(RoleScope) public readonly link: typeof RoleScope,
-    private uuid: UuidsService,
   ) {}
 
   public async create({ name, isDefault }: CreateRoleDto): Promise<Role> {
@@ -24,7 +23,7 @@ export class RolesService {
     return await this.model.create({
       name,
       isDefault,
-      uuid: this.uuid.generate(),
+      uuid: uuid(),
     });
   }
 

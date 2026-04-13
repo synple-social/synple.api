@@ -1,5 +1,5 @@
 import { Controller, Get, Module, SetMetadata, UseGuards } from "@nestjs/common";
-import { AccountsService, AuthenticationGuard, ConfirmationCodesService, EntitiesModule, MailerService, PreRegistrationsService, RegistrationsService, TokensService, UuidsService } from "@synple/common";
+import { AccountsService, AuthenticationGuard, ConfirmationCodesService, EntitiesModule, MailerService, PreRegistrationsService, RegistrationsService, TokensService } from "@synple/common";
 import { RequiresScope } from "@synple/common/decorators/requires-scope.decorator";
 import { AuthModule } from "apps/public/src/auth/auth.module";
 
@@ -21,6 +21,6 @@ export class DummyController {
 @Module({
   controllers: [ DummyController ],
   imports: [ AuthModule, EntitiesModule ],
-  providers: [ TokensService, UuidsService, AccountsService, RegistrationsService, PreRegistrationsService, ConfirmationCodesService, MailerService],
+  providers: [ TokensService, AccountsService, RegistrationsService, PreRegistrationsService, ConfirmationCodesService, MailerService],
 })
 export class DummyModule {}

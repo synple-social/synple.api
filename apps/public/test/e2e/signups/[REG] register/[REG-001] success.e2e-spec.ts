@@ -8,8 +8,7 @@ import {
   RegistrationsService,
 } from '@synple/common';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
-import { TEST_UUID, UuidsMock } from '../../../mocks/uuids.mock';
-import { UuidsService } from '@synple/common/services/uuids.service';
+import { isUUID } from 'class-validator';
 
 describe('Registrations scenarios', () => {
   const email = 'email_001@test.com';
@@ -17,9 +16,7 @@ describe('Registrations scenarios', () => {
   let app: INestApplication<App>;
 
   beforeAll(async () => {
-    app = await createApplication({
-      overrides: [{ from: UuidsService, to: UuidsMock }],
-    });
+    app = await createApplication();
   });
 
   describe('[REG-001] a registration is created successfully', () => {
@@ -63,7 +60,7 @@ describe('Registrations scenarios', () => {
       const registration = await models.registration?.findOne({
         where: { email },
       });
-      expect(registration?.uuid).toEqual(TEST_UUID);
+      expect(isUUID(registration?.uuid)).toEqual(true);
     });
   });
 });

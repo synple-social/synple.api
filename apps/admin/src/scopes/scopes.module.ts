@@ -8,7 +8,6 @@ import {
   PreRegistrationsService,
   RegistrationsService,
   TokensService,
-  UuidsService,
 } from '@synple/common';
 import { ServicesModule } from '@synple/common/services/services.module';
 import { JwtService } from '@nestjs/jwt';
@@ -17,7 +16,6 @@ import { JwtService } from '@nestjs/jwt';
   controllers: [ScopesController],
   providers: [
     ScopesService,
-    UuidsService,
     JwtService,
     TokensService,
     AccountsService,

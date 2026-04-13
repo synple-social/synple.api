@@ -8,7 +8,6 @@ import {
   PreRegistrationsService,
   RegistrationsService,
   TokensService,
-  UuidsService,
 } from '@synple/common';
 
 @Module({
@@ -16,7 +15,6 @@ import {
   providers: [
     JwtService,
     TokensService,
-    UuidsService,
     AccountsService,
     RegistrationsService,
     PreRegistrationsService,

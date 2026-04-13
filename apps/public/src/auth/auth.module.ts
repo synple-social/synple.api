@@ -12,7 +12,6 @@ import {
   Role,
   Scope,
   TokensService,
-  UuidsService,
 } from '@synple/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { JwtModule } from '@nestjs/jwt';
@@ -42,7 +41,6 @@ import { Token } from '@synple/common/entities/token.entity';
   ],
   providers: [
     TokensService,
-    UuidsService,
     AccountsService,
     RegistrationsService,
     PreRegistrationsService,
