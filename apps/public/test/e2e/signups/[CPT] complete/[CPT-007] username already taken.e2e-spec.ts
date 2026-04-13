@@ -2,7 +2,6 @@ import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import {
   Account,
-  AccountsService,
   PreRegistration,
   PreRegistrationsService,
   Registration,
@@ -31,7 +30,7 @@ describe('Accounts scenarios', () => {
     beforeAll(async () => {
       models.preRegistrations = app.get(PreRegistrationsService).model;
       models.registrations = app.get(RegistrationsService).model;
-      models.accounts = app.get(AccountsService).model;
+      models.accounts = app.get('AccountsService').model;
 
       await createPreregistration(email, app);
       await createRegistration(email, 'ABC123', app);

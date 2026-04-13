@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
 import request from 'supertest';
-import { Account, AccountsService, TokensService } from '@synple/common';
+import { Account, TokensService } from '@synple/common';
 import { hash } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Token } from '@synple/common/entities/token.entity';
@@ -21,7 +21,7 @@ describe('Sign-in scenarios', () => {
 
   describe('[SGI-001] the user signs in successfully', () => {
     beforeAll(async () => {
-      const accounts = app.get(AccountsService).model;
+      const accounts = app.get('AccountsService').model;
       model = app.get(TokensService).model;
       await accounts.create({
         email,

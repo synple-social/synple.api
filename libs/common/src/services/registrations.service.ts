@@ -31,7 +31,7 @@ export class RegistrationsService {
     return found;
   }
 
-  async findOrCreate(
+  private async findOrCreate(
     email: string,
     preRegistration: PreRegistration,
   ): Promise<Registration> {

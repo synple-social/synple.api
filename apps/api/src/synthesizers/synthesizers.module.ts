@@ -1,14 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SynthesizersController } from './synthesizers.controller';
 import { JwtService } from '@nestjs/jwt';
-import {
-  AccountsService,
-  ConfirmationCodesService,
-  MailerService,
-  PreRegistrationsService,
-  RegistrationsService,
-  TokensService,
-} from '@synple/common';
+import { AccountsService, TokensService } from '@synple/common';
 
 @Module({
   controllers: [SynthesizersController],
@@ -16,10 +9,6 @@ import {
     JwtService,
     TokensService,
     AccountsService,
-    RegistrationsService,
-    PreRegistrationsService,
-    MailerService,
-    ConfirmationCodesService,
   ],
 })
 export class SynthesizersModule {}

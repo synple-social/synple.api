@@ -1,5 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import { AccountsService, TokensService } from '@synple/common';
+import { TokensService } from '@synple/common';
 import { createApplication } from 'apps/public/test/helpers/create-application.helper.ts';
 import request from 'supertest';
 import { hash } from 'bcrypt';
@@ -18,7 +18,7 @@ describe('Signing out of the application', () => {
   describe('[SCO-001] the user logs out of the application successfully', () => {
     beforeAll(async () => {
       service = await app.get(TokensService);
-      const accounts = app.get(AccountsService).model;
+      const accounts = app.get('AccountsService').model;
       await accounts.create({
         email,
         uuid: uuid(),

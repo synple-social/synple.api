@@ -2,12 +2,8 @@ import { Module } from '@nestjs/common';
 import {
   Account,
   AccountsService,
-  ConfirmationCodesService,
-  MailerService,
   PreRegistration,
-  PreRegistrationsService,
   Registration,
-  RegistrationsService,
   Role,
   Scope,
 } from '@synple/common';
@@ -24,13 +20,7 @@ export const signupsModuleDefinition = {
       Scope,
     ]),
   ],
-  providers: [
-    PreRegistrationsService,
-    MailerService,
-    ConfirmationCodesService,
-    RegistrationsService,
-    AccountsService,
-  ],
+  providers: [ AccountsService ],
   controllers: [SignupsController],
 };
 

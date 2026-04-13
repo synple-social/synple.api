@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { SignupsCompleteDto } from 'apps/public/src/signups/dto/signups-complete.dto';
-import { RegistrationsService } from './registrations.service';
 import { BadParameterException } from '@synple/utils/exceptions/bad-parameter.exception';
-import { SALT_ROUNDS, UsernameAlreadyExistingException } from '@synple/utils';
+import { DocumentNotFoundException, SALT_ROUNDS, UsernameAlreadyExistingException } from '@synple/utils';
 import { hash } from 'bcrypt';
 import { Account } from '../entities/account.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import { v4 as uuid } from 'uuid'
-import { Role } from '../entities';
+import { Registration, Role } from '../entities';
 
 @Injectable()
 export class AccountsService {
   constructor(
     @InjectModel(Account) public readonly model: typeof Account,
     @InjectModel(Role) public readonly roles: typeof Role,
-    private readonly registrationService: RegistrationsService,
+    @InjectModel(Registration) public readonly registrations: typeof Registration,
   ) {}
 
   async create({
@@ -24,7 +23,7 @@ export class AccountsService {
     password,
     passwordConfirmation,
   }: SignupsCompleteDto) {
-    const registration = await this.registrationService.findOrFail({
+    const registration = await this.findRegistrationOrFail({
       email,
       uuid: registrationId,
     });
@@ -44,6 +43,15 @@ export class AccountsService {
       ...(role ? { roleId: role.id } : {}),
     });
   }
+
+  public async findRegistrationOrFail({
+      email,
+      uuid,
+    }: Partial<Registration>): Promise<Registration> {
+      const found = await this.registrations.findOne({ where: { email, uuid } });
+      if (found === null) throw new DocumentNotFoundException('email');
+      return found;
+    }
 
   public async find(uuid: string): Promise<Account> {
     return (await this.model.findOne({ where: { uuid } })) as Account;

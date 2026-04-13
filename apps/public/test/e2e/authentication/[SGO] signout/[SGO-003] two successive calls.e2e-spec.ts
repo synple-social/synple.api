@@ -1,5 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import { AccountsService, TokensService } from '@synple/common';
+import { TokensService } from '@synple/common';
 import { createApplication } from 'apps/public/test/helpers/create-application.helper.ts';
 import request from 'supertest';
 import { hash } from 'bcrypt';
@@ -15,7 +15,7 @@ describe('Signing out of the application', () => {
   });
   describe('[SCO-003] a user makes two successive calls on the log out route with the same token', () => {
     beforeAll(async () => {
-      const accounts = app.get(AccountsService).model;
+      const accounts = app.get('AccountsService').model;
       await accounts.create({
         email,
         uuid: '1',
