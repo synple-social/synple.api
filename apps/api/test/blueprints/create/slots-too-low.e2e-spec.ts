@@ -25,5 +25,9 @@ describe('POST /:uuid/blueprints', () => {
     it('Returns the correct body', () => {
       expect(response.body).toEqual({ path: 'slots', error: 'minimum' })
     })
+    it('Has created no blueprint', async () => {
+      const repository = app.get('BlueprintRepository')
+      expect(await repository.count({})).toBe(0)
+    })
   })
 })

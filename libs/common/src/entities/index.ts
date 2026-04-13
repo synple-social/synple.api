@@ -8,6 +8,7 @@ import { Token } from './token.entity';
 import { Scope } from './admin/scope.entity';
 import { Role } from './admin/role.entity';
 import { RoleScope } from './relations/role-scope.entity';
+import { Blueprint } from './blueprints/blueprint.entity';
 
 export * from './account.entity';
 export * from './admin/role.entity';
@@ -21,6 +22,7 @@ export * from './token.entity';
 export const EntitiesModule: DynamicModule = {
   ...SequelizeModule.forFeature([
     Account,
+    Blueprint,
     PasswordRequest,
     PreRegistration,
     Registration,
