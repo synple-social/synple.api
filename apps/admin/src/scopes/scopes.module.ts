@@ -7,12 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [ScopesController],
-  providers: [
-    ScopesService,
-    JwtService,
-    TokensService,
-    AccountsService,
-  ],
+  providers: [ScopesService, JwtService, TokensService, AccountsService],
   imports: [ServicesModule],
 })
 export class ScopesModule {}

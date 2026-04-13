@@ -5,9 +5,7 @@ import { CreateScopeDto } from 'apps/admin/src/scopes/dto/create-scope.dto';
 
 @Injectable()
 export class ScopesService {
-  constructor(
-    @InjectModel(Scope) public readonly model: typeof Scope,
-  ) {}
+  constructor(@InjectModel(Scope) public readonly model: typeof Scope) {}
 
   public async list(): Promise<Scope[]> {
     return await this.model.findAll({});

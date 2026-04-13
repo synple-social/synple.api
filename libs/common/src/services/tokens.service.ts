@@ -6,7 +6,7 @@ import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Token } from '../entities/token.entity';
 import Sequelize from '@sequelize/core';
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class TokensService {
@@ -42,10 +42,7 @@ export class TokensService {
     await this.model.update({ invalidatedAt: new Date() }, { where: { uuid } });
   }
 
-  public createJwtFor(
-    account: Account,
-    jti: string = uuid(),
-  ) {
+  public createJwtFor(account: Account, jti: string = uuid()) {
     return this.jwtService.sign({
       sub: account.dataValues.uuid,
       username: account.dataValues.username,

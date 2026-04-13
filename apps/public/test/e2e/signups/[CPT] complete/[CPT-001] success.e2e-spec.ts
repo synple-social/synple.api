@@ -36,9 +36,9 @@ describe('Accounts scenarios', () => {
     }, 20000);
 
     it('Returns a 201 (Created) status code with the correct body', () => {
-      expect(response.status).toEqual(201)
+      expect(response.status).toEqual(201);
       expect(response.body).toMatchObject({ email, username: 'testUser' });
-      expect(isUUID(response.body.uuid)).toEqual(true)
+      expect(isUUID(response.body.uuid)).toEqual(true);
     });
     it('Has created a valid account in the database', async () => {
       await response;

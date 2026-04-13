@@ -16,7 +16,7 @@ describe('Sign-in scenarios', () => {
   let model: typeof Token;
 
   beforeAll(async () => {
-      app = await createApplication();
+    app = await createApplication();
   });
 
   describe('[SGI-001] the user signs in successfully', () => {

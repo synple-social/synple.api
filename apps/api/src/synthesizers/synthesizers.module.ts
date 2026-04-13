@@ -5,10 +5,6 @@ import { AccountsService, TokensService } from '@synple/common';
 
 @Module({
   controllers: [SynthesizersController],
-  providers: [
-    JwtService,
-    TokensService,
-    AccountsService,
-  ],
+  providers: [JwtService, TokensService, AccountsService],
 })
 export class SynthesizersModule {}

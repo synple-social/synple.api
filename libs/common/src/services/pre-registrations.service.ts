@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from './mailer.service';
-import {
-  DocumentNotFoundException,
-} from '@synple/utils';
+import { DocumentNotFoundException } from '@synple/utils';
 import { PreRegistration } from '../entities/pre-registration.entity';
 import { InjectConnection, InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { ConfirmationCodesService } from './confirmation-codes.service';
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class PreRegistrationsService {

@@ -4,7 +4,7 @@ import { DocumentNotFoundException } from '@synple/utils';
 import { Registration } from '../entities/registration.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import { PreRegistration } from '../entities';
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class RegistrationsService {

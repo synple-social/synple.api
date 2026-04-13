@@ -25,7 +25,7 @@ export class AuthenticationGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const rawJwt = this.getToken(request);
-    
+
     if (!rawJwt)
       throw new BadRequestException({ path: 'token', error: 'required' });
 
@@ -39,7 +39,7 @@ export class AuthenticationGuard implements CanActivate {
     if (!token)
       throw new ForbiddenException({ path: 'token', error: 'forbidden' });
 
-    if (!await this.checkPermissions(token, context))
+    if (!(await this.checkPermissions(token, context)))
       throw new ForbiddenException({ path: 'token', error: 'forbidden' });
 
     request['jwtToken'] = jwt;
@@ -48,19 +48,22 @@ export class AuthenticationGuard implements CanActivate {
     return true;
   }
 
-  protected async checkPermissions(token: Token, ctx: ExecutionContext): Promise<boolean> {
-    const scope = this.reflector.get(RequiresScope, ctx.getHandler())
+  protected async checkPermissions(
+    token: Token,
+    ctx: ExecutionContext,
+  ): Promise<boolean> {
+    const scope = this.reflector.get(RequiresScope, ctx.getHandler());
 
-    if (!scope) return true
+    if (!scope) return true;
 
-    const role: Role = await token.account.getRole()
+    const role: Role = await token.account.getRole();
 
-    if (!role) return false
-    
-    const scopes = await role.getScopes()
-    const slugs = scopes.map(s => s.dataValues.slug)
-    
-    return slugs.includes(scope)
+    if (!role) return false;
+
+    const scopes = await role.getScopes();
+    const slugs = scopes.map((s) => s.dataValues.slug);
+
+    return slugs.includes(scope);
   }
 
   private getToken(request: Request): string | undefined {

@@ -5,7 +5,7 @@ import { createApplication } from '../../../helpers/create-application.helper.ts
 import { rolesFactory } from 'apps/public/test/factories/roles.factory';
 import { RegistrationsFactory } from 'apps/public/test/factories/signups/registrations.factory';
 import request from 'supertest';
-import { v4 as uuid } from "uuid"
+import { v4 as uuid } from 'uuid';
 import { isUUID } from 'class-validator';
 
 describe('Accounts scenarios', () => {
@@ -46,9 +46,9 @@ describe('Accounts scenarios', () => {
     });
 
     it('Returns a 201 (Created) status code with the correct body', () => {
-      expect(response.status).toEqual(201)
+      expect(response.status).toEqual(201);
       expect(response.body).toMatchObject({ email, username: 'testUser' });
-      expect(isUUID(response.body.uuid)).toEqual(true)
+      expect(isUUID(response.body.uuid)).toEqual(true);
     });
     it('Has been assigned the default role', async () => {
       const model = app.get(AccountsService).model;

@@ -15,7 +15,7 @@ describe('Signing out of the application', () => {
   });
   describe('[SCO-003] a user makes two successive calls on the log out route with the same token', () => {
     beforeAll(async () => {
-          const accounts = app.get(AccountsService).model;
+      const accounts = app.get(AccountsService).model;
       await accounts.create({
         email,
         uuid: '1',

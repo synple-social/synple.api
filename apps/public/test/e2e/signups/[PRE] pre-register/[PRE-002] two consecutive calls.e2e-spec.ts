@@ -23,8 +23,8 @@ describe('Pre registrations scenarios', () => {
       model = app.get(PreRegistrationsService).model;
     }, 20000);
     it('Returns a 201 (Created) status code', async () => {
-      expect(response.status).toEqual(201)
-      expect(isUUID(response.body.id)).toEqual(true)
+      expect(response.status).toEqual(201);
+      expect(isUUID(response.body.id)).toEqual(true);
     });
     it('Has created only two pre registrations', async () => {
       expect((await model.findAll({ where: { email } })).length).toBe(2);

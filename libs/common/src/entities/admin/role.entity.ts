@@ -37,7 +37,7 @@ export class Role extends Model {
   @HasMany(() => Account)
   declare accounts: Account[];
 
-  declare getScopes: () => Promise<Scope[]>
+  declare getScopes: () => Promise<Scope[]>;
 
-  declare addScopes: (scopes: Scope[]) => void
+  declare addScopes: (scopes: Scope[]) => void;
 }

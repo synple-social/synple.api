@@ -1,33 +1,33 @@
-import { INestApplication } from "@nestjs/common"
-import { createApplication } from "../../helpers/create-application.helper"
-import request from "supertest"
-import { BlueprintsModule } from "apps/api/src/blueprints/blueprints.module"
+import { INestApplication } from '@nestjs/common';
+import { createApplication } from '../../helpers/create-application.helper';
+import request from 'supertest';
+import { BlueprintsModule } from 'apps/api/src/blueprints/blueprints.module';
 
 describe('POST /:uuid/blueprints', () => {
-  let app!: INestApplication
+  let app!: INestApplication;
 
   beforeAll(async () => {
-    app = await createApplication({ module: BlueprintsModule })
-  })
+    app = await createApplication({ module: BlueprintsModule });
+  });
   describe('The number of slots is not given', () => {
-    let response!: any
+    let response!: any;
 
     beforeAll(async () => {
       response = await request(app.getHttpServer())
         .post('/uuid/blueprints')
         .set('Accept', 'application/json')
-        .send({ name: 'exampleName' })
-    })
+        .send({ name: 'exampleName' });
+    });
 
     it('Returns a 400 (Bad Request) status code', () => {
-      expect(response.status).toEqual(400)
-    })
+      expect(response.status).toEqual(400);
+    });
     it('Returns the correct body', () => {
-      expect(response.body).toEqual({ path: 'slots', error: 'required' })
-    })
+      expect(response.body).toEqual({ path: 'slots', error: 'required' });
+    });
     it('Has created no blueprint', async () => {
-      const repository = app.get('BlueprintRepository')
-      expect(await repository.count({})).toBe(0)
-    })
-  })
-})
+      const repository = app.get('BlueprintRepository');
+      expect(await repository.count({})).toBe(0);
+    });
+  });
+});

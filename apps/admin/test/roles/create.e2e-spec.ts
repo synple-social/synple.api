@@ -29,7 +29,7 @@ describe('POST /roles', () => {
         name: 'Test role',
         isDefault: true,
       });
-      expect(isUUID(response.body.uuid)).toEqual(true)
+      expect(isUUID(response.body.uuid)).toEqual(true);
     });
     it('Has created a role in the database', async () => {
       expect(await model.count()).toEqual(1);

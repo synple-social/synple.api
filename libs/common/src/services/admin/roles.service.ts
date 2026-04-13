@@ -7,7 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Account, RoleScope, Scope } from '@synple/common/entities';
 import { Role } from '@synple/common/entities/admin/role.entity';
 import { CreateRoleDto } from 'apps/admin/src/roles/dto/create-role.dto';
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class RolesService {

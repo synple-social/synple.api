@@ -3,7 +3,7 @@ import { AccountsService, TokensService } from '@synple/common';
 import { createApplication } from 'apps/public/test/helpers/create-application.helper.ts';
 import request from 'supertest';
 import { hash } from 'bcrypt';
-import { v4 as uuid } from "uuid"
+import { v4 as uuid } from 'uuid';
 
 const TWO_DAYS = 172_800_000;
 
@@ -24,7 +24,7 @@ describe('Signing out of the application', () => {
         .setSystemTime(new Date(new Date().getTime() - TWO_DAYS));
 
       service = await app.get(TokensService);
-            const accounts = app.get(AccountsService).model;
+      const accounts = app.get(AccountsService).model;
       await accounts.create({
         email,
         uuid: uuid(),
@@ -45,7 +45,7 @@ describe('Signing out of the application', () => {
       expect(response.status).toEqual(204);
     });
     it('Has invalidated the token to ensure it cannot be used in further requests', async () => {
-      expect(await service.model.scope('invalid').count({ })).toBe(1);
+      expect(await service.model.scope('invalid').count({})).toBe(1);
     });
   });
 });

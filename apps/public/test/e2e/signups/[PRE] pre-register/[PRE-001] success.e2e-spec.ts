@@ -22,8 +22,8 @@ describe('Pre-registrations scenarios', () => {
     });
 
     it('Returns a 201 (Created) status code with the correct body', () => {
-      expect(response.status).toEqual(201)
-      expect(isUUID(response.body.id)).toEqual(true)
+      expect(response.status).toEqual(201);
+      expect(isUUID(response.body.id)).toEqual(true);
     });
     describe('The created pre-registration', () => {
       let preRegistration: PreRegistration | null;

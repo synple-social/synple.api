@@ -35,9 +35,6 @@ import { Token } from '@synple/common/entities/token.entity';
       Role,
     ]),
   ],
-  providers: [
-    TokensService,
-    AccountsService,
-  ],
+  providers: [TokensService, AccountsService],
 })
 export class AuthModule {}

@@ -9,13 +9,14 @@ import { AuthModule } from 'apps/public/src/auth/auth.module';
 export type TestOverride = { from: any; to: any };
 
 export type TestingModuleOptions<TModule> = {
-  module: TModule,
-  overrides?: TestOverride[],
+  module: TModule;
+  overrides?: TestOverride[];
 };
 
-async function createTestingModule<TModule extends Type<any>>(
-  { module: moduleUnderTest, overrides }: TestingModuleOptions<TModule>,
-) {
+async function createTestingModule<TModule extends Type<any>>({
+  module: moduleUnderTest,
+  overrides,
+}: TestingModuleOptions<TModule>) {
   let module = Test.createTestingModule({
     imports: [
       ConfigModule.forRoot({
@@ -32,7 +33,7 @@ async function createTestingModule<TModule extends Type<any>>(
       moduleUnderTest,
     ],
   });
-  for (const { from, to } of (overrides || [])) {
+  for (const { from, to } of overrides || []) {
     module = module.overrideProvider(from).useClass(to);
   }
   return await module.compile();
@@ -44,10 +45,11 @@ async function createAppFromModule(module: TestingModule) {
   return app;
 }
 
-export async function createApplication<TModule extends Type<any>>(
-  { module, overrides }: TestingModuleOptions<TModule>
-) {
+export async function createApplication<TModule extends Type<any>>({
+  module,
+  overrides,
+}: TestingModuleOptions<TModule>) {
   return await createAppFromModule(
-    await createTestingModule({ module, overrides })
+    await createTestingModule({ module, overrides }),
   );
 }
