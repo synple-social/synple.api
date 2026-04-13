@@ -1,5 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import { TokensService } from '@synple/common';
+import { AccountsService, TokensService } from '@synple/common';
 import { createApplication } from 'apps/public/test/helpers/create-application.helper.ts';
 import request from 'supertest';
 import { hash } from 'bcrypt';
@@ -24,7 +24,7 @@ describe('Signing out of the application', () => {
         .setSystemTime(new Date(new Date().getTime() - TWO_DAYS));
 
       service = await app.get(TokensService);
-      const accounts = app.get('AccountsService').model;
+            const accounts = app.get(AccountsService).model;
       await accounts.create({
         email,
         uuid: uuid(),

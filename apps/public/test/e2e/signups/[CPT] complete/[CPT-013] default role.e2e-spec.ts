@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
-import { Account, Role } from '@synple/common';
+import { Account, AccountsService, Role } from '@synple/common';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
 import { rolesFactory } from 'apps/public/test/factories/roles.factory';
 import { RegistrationsFactory } from 'apps/public/test/factories/signups/registrations.factory';
@@ -51,7 +51,7 @@ describe('Accounts scenarios', () => {
       expect(isUUID(response.body.uuid)).toEqual(true)
     });
     it('Has been assigned the default role', async () => {
-      const model = app.get('AccountsService').model;
+      const model = app.get(AccountsService).model;
       const account = (await model.findOne({ where: { email } })) as Account;
       expect(account.roleId).toEqual(role.id);
     });
