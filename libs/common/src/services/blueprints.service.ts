@@ -8,8 +8,7 @@ export class BlueprintsService {
   constructor(
       @InjectModel(Blueprint) public readonly model: typeof Blueprint
   ) {}
-  public async create({ name, slots }: CreateBlueprintDto): Promise<{ created: boolean }> {
-    await this.model.create({ name, slots })
-    return { created: true }
+  public async create({ name, slots }: CreateBlueprintDto): Promise<Blueprint> {
+    return await this.model.create({ name, slots })
   }
 }

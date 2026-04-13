@@ -23,7 +23,7 @@ describe('POST /:uuid/blueprints', () => {
       expect(response.status).toEqual(201)
     })
     it('Returns the correct body', () => {
-      expect(response.body).toEqual({ created: true })
+      expect(response.body).toEqual({ name: 'test-blueprint', slots: 10 })
     })
     it('Has created a blueprint', async () => {
       const repository = app.get('BlueprintRepository')
