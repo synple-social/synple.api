@@ -10,7 +10,6 @@ import {
   RegistrationsService,
   Role,
   Scope,
-  UuidsService,
 } from '@synple/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { SignupsController } from './signups.controller';
@@ -31,7 +30,6 @@ export const signupsModuleDefinition = {
     ConfirmationCodesService,
     RegistrationsService,
     AccountsService,
-    UuidsService,
   ],
   controllers: [SignupsController],
 };

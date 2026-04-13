@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from './mailer.service';
-import {
-  DocumentNotFoundException,
-  generateConfirmationCode,
-  MailerUnavailableException,
-} from '@synple/utils';
+import { DocumentNotFoundException } from '@synple/utils';
 import { PreRegistration } from '../entities/pre-registration.entity';
 import { InjectConnection, InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { ConfirmationCodesService } from './confirmation-codes.service';
-import { UuidsService } from './uuids.service';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class PreRegistrationsService {
@@ -18,7 +14,6 @@ export class PreRegistrationsService {
     @InjectModel(PreRegistration) public readonly model: typeof PreRegistration,
     private mailerService: MailerService,
     private confirmationCodes: ConfirmationCodesService,
-    private uuids: UuidsService,
   ) {}
 
   async create(email: string): Promise<PreRegistration> {
@@ -28,7 +23,7 @@ export class PreRegistrationsService {
       const preRegistration = await this.model.create({
         email,
         confirmationCode,
-        uuid: this.uuids.generate(),
+        uuid: uuid(),
       });
       await this.mailerService.sendSubscriptionConfirmation(
         email,

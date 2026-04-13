@@ -6,7 +6,7 @@ import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Token } from '../entities/token.entity';
 import Sequelize from '@sequelize/core';
-import { UuidsService } from './uuids.service';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class TokensService {
@@ -15,7 +15,6 @@ export class TokensService {
     @InjectModel(Token) public readonly model: typeof Token,
     @InjectConnection() private connection: Sequelize,
     private jwtService: JwtService,
-    private uuidService: UuidsService,
   ) {}
 
   public async create(email: string, password: string) {
@@ -29,7 +28,7 @@ export class TokensService {
     return await this.connection.transaction<string>(async () => {
       const instance = await this.model.create({
         accountId: account.id,
-        uuid: this.uuidService.generate(),
+        uuid: uuid(),
       });
       return this.createJwtFor(account, instance.dataValues.uuid);
     });
@@ -43,10 +42,7 @@ export class TokensService {
     await this.model.update({ invalidatedAt: new Date() }, { where: { uuid } });
   }
 
-  public createJwtFor(
-    account: Account,
-    jti: string = this.uuidService.generate(),
-  ) {
+  public createJwtFor(account: Account, jti: string = uuid()) {
     return this.jwtService.sign({
       sub: account.dataValues.uuid,
       username: account.dataValues.username,

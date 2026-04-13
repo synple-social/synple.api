@@ -1,38 +1,30 @@
 import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import { createPreregistration } from '../../../http/create-pre-registration.http';
-import {
-  PreRegistration,
-  PreRegistrationsService,
-  UuidsService,
-} from '@synple/common';
+import { PreRegistration, PreRegistrationsService } from '@synple/common';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
-import { TEST_UUID, UuidsMock } from 'apps/public/test/mocks/uuids.mock';
+import { isUUID } from 'class-validator';
 
 describe('Pre registrations scenarios', () => {
   let app: INestApplication<App>;
   const email = 'test_002@mail.com';
 
   beforeAll(async () => {
-    app = await createApplication({
-      overrides: [{ from: UuidsService, to: UuidsMock }],
-    });
+    app = await createApplication();
   });
 
   describe('[PRE-002] a soon-to-be user makes two consecutive pre registration creation attempts with the same email address', () => {
-    let lastResponse: any;
+    let response: any;
     let model: typeof PreRegistration;
 
     beforeAll(async () => {
       await createPreregistration(email, app);
-      lastResponse = createPreregistration(email, app);
+      response = await createPreregistration(email, app);
       model = app.get(PreRegistrationsService).model;
     }, 20000);
     it('Returns a 201 (Created) status code', async () => {
-      return lastResponse
-        .expect(201)
-        .expect('Content-Type', /json/)
-        .expect({ id: TEST_UUID });
+      expect(response.status).toEqual(201);
+      expect(isUUID(response.body.id)).toEqual(true);
     });
     it('Has created only two pre registrations', async () => {
       expect((await model.findAll({ where: { email } })).length).toBe(2);

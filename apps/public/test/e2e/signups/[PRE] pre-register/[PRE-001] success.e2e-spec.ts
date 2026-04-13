@@ -2,12 +2,8 @@ import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import { createPreregistration } from '../../../http/create-pre-registration.http';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
-import {
-  PreRegistration,
-  PreRegistrationsService,
-  UuidsService,
-} from '@synple/common';
-import { TEST_UUID, UuidsMock } from 'apps/public/test/mocks/uuids.mock';
+import { PreRegistration, PreRegistrationsService } from '@synple/common';
+import { isUUID } from 'class-validator';
 
 describe('Pre-registrations scenarios', () => {
   const email = 'email_001@test.com';
@@ -15,23 +11,19 @@ describe('Pre-registrations scenarios', () => {
   let app: INestApplication<App>;
 
   beforeAll(async () => {
-    app = await createApplication({
-      overrides: [{ from: UuidsService, to: UuidsMock }],
-    });
+    app = await createApplication();
   });
 
   describe('[PRE-001] a pre registration is created successfully', () => {
     let response: any;
 
     beforeAll(async () => {
-      response = createPreregistration(email, app);
+      response = await createPreregistration(email, app);
     });
 
     it('Returns a 201 (Created) status code with the correct body', () => {
-      return response
-        .expect(201)
-        .expect('Content-Type', /application\/json/)
-        .expect({ id: TEST_UUID });
+      expect(response.status).toEqual(201);
+      expect(isUUID(response.body.id)).toEqual(true);
     });
     describe('The created pre-registration', () => {
       let preRegistration: PreRegistration | null;

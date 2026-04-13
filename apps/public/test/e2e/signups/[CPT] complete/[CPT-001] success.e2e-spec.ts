@@ -3,10 +3,9 @@ import { App } from 'supertest/types';
 import { Account } from '@synple/common';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
 import { compare } from 'bcrypt';
-import { TEST_UUID, UuidsMock } from '../../../mocks/uuids.mock';
-import { UuidsService } from '@synple/common/services/uuids.service';
 import { RegistrationsFactory } from 'apps/public/test/factories/signups/registrations.factory';
 import request from 'supertest';
+import { isUUID } from 'class-validator';
 
 describe('Accounts scenarios', () => {
   const email = 'email_001@test.com';
@@ -14,9 +13,7 @@ describe('Accounts scenarios', () => {
   let app: INestApplication<App>;
 
   beforeAll(async () => {
-    app = await createApplication({
-      overrides: [{ from: UuidsService, to: UuidsMock }],
-    });
+    app = await createApplication();
   });
 
   describe('[CPT-001] the account is created successfully', () => {
@@ -26,7 +23,7 @@ describe('Accounts scenarios', () => {
         email,
         uuid: '1',
       });
-      response = request(app.getHttpServer())
+      response = await request(app.getHttpServer())
         .post('/signups/complete')
         .set('Accept', 'application/json')
         .send({
@@ -39,10 +36,9 @@ describe('Accounts scenarios', () => {
     }, 20000);
 
     it('Returns a 201 (Created) status code with the correct body', () => {
-      return response
-        .expect(201)
-        .expect('Content-Type', /application\/json/)
-        .expect({ email, username: 'testUser', uuid: TEST_UUID });
+      expect(response.status).toEqual(201);
+      expect(response.body).toMatchObject({ email, username: 'testUser' });
+      expect(isUUID(response.body.uuid)).toEqual(true);
     });
     it('Has created a valid account in the database', async () => {
       await response;
@@ -68,10 +64,10 @@ describe('Accounts scenarios', () => {
         expect(await compare('password', account.passwordDigest)).toEqual(true);
       });
       it('Has an UUID later used to identify users', () => {
-        expect(account.uuid).toEqual(TEST_UUID);
+        expect(isUUID(account.uuid)).toEqual(true);
       });
       it('Has a JWT secret used later to generate tokens', () => {
-        expect(account.jwtSecret).toEqual(TEST_UUID);
+        expect(isUUID(account.jwtSecret)).toEqual(true);
       });
     });
   });

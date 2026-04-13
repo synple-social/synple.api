@@ -4,10 +4,9 @@ import { createApplication } from '../../../helpers/create-application.helper.ts
 import request from 'supertest';
 import { Account, AccountsService, TokensService } from '@synple/common';
 import { hash } from 'bcrypt';
-import { UuidsService } from '@synple/common';
-import { TEST_UUID, UuidsMock } from '../../../mocks/uuids.mock';
 import { JwtService } from '@nestjs/jwt';
 import { Token } from '@synple/common/entities/token.entity';
+import { isUUID } from 'class-validator';
 
 describe('Sign-in scenarios', () => {
   const email = 'email_001@test.com';
@@ -17,9 +16,7 @@ describe('Sign-in scenarios', () => {
   let model: typeof Token;
 
   beforeAll(async () => {
-    app = await createApplication({
-      overrides: [{ from: UuidsService, to: UuidsMock }],
-    });
+    app = await createApplication();
   });
 
   describe('[SGI-001] the user signs in successfully', () => {
@@ -67,7 +64,7 @@ describe('Sign-in scenarios', () => {
         expect(token.dataValues.account.dataValues.email).toEqual(email);
       });
       it('Has the correct uuid', () => {
-        expect(token.dataValues.uuid).toEqual(TEST_UUID);
+        expect(isUUID(token.dataValues.uuid)).toEqual(true);
       });
     });
   });

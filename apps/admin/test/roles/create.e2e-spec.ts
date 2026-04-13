@@ -1,18 +1,16 @@
 import { INestApplication } from '@nestjs/common';
 import { createApplication } from '../helpers/create-application.helper';
 import request from 'supertest';
-import { Role, UuidsService } from '@synple/common';
+import { Role } from '@synple/common';
 import { RolesService } from '@synple/common/services/admin/roles.service';
-import { TEST_UUID, UuidsMock } from 'apps/public/test/mocks/uuids.mock';
+import { isUUID } from 'class-validator';
 
 describe('POST /roles', () => {
   let app!: INestApplication;
   let model!: typeof Role;
 
   beforeAll(async () => {
-    app = await createApplication({
-      overrides: [{ from: UuidsService, to: UuidsMock }],
-    });
+    app = await createApplication();
     model = app.get(RolesService).model;
   });
 
@@ -27,11 +25,11 @@ describe('POST /roles', () => {
     });
     it('Returns a 201 (Created) status code and the correct body', () => {
       expect(response.status).toEqual(201);
-      expect(response.body).toEqual({
+      expect(response.body).toMatchObject({
         name: 'Test role',
         isDefault: true,
-        uuid: TEST_UUID,
       });
+      expect(isUUID(response.body.uuid)).toEqual(true);
     });
     it('Has created a role in the database', async () => {
       expect(await model.count()).toEqual(1);

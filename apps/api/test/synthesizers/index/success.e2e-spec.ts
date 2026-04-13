@@ -11,9 +11,11 @@ describe('GET /synthesizers', () => {
 
   beforeAll(async () => {
     app = await createApplication({ module: SynthesizersModule });
-    
-    const account = await accountFactory.create(app)
-    const token = await app.get(TokensService).create(account.email, "password")
+
+    const account = await accountFactory.create(app);
+    const token = await app
+      .get(TokensService)
+      .create(account.email, 'password');
 
     response = await request(app.getHttpServer())
       .get('/synthesizers')

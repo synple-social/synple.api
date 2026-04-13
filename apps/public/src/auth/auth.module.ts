@@ -3,16 +3,11 @@ import { AuthController } from './auth.controller';
 import {
   Account,
   AccountsService,
-  ConfirmationCodesService,
-  MailerService,
   PreRegistration,
-  PreRegistrationsService,
   Registration,
-  RegistrationsService,
   Role,
   Scope,
   TokensService,
-  UuidsService,
 } from '@synple/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { JwtModule } from '@nestjs/jwt';
@@ -40,14 +35,6 @@ import { Token } from '@synple/common/entities/token.entity';
       Role,
     ]),
   ],
-  providers: [
-    TokensService,
-    UuidsService,
-    AccountsService,
-    RegistrationsService,
-    PreRegistrationsService,
-    MailerService,
-    ConfirmationCodesService,
-  ],
+  providers: [TokensService, AccountsService],
 })
 export class AuthModule {}

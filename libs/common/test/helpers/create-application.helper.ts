@@ -5,10 +5,16 @@ import { AuthModule } from 'apps/public/src/auth/auth.module';
 
 export type TestOverride = { from: any; to: any };
 
-export type TestingModuleOptions = { overrides?: TestOverride[], underTest: any[] };
+export type TestingModuleOptions = {
+  overrides?: TestOverride[];
+  underTest: any[];
+};
 
 async function createTestingModule(
-  { overrides, underTest }: TestingModuleOptions = { overrides: [], underTest: [] },
+  { overrides, underTest }: TestingModuleOptions = {
+    overrides: [],
+    underTest: [],
+  },
 ) {
   let module = Test.createTestingModule({
     imports: [
@@ -19,7 +25,7 @@ async function createTestingModule(
         logging: false,
       }),
       AuthModule,
-      ...underTest
+      ...underTest,
     ],
   });
   if (overrides) {
@@ -37,7 +43,10 @@ async function createAppFromModule(module: TestingModule) {
 }
 
 export async function createApplication(
-  { overrides, underTest }: TestingModuleOptions = { overrides: [], underTest: [] },
+  { overrides, underTest }: TestingModuleOptions = {
+    overrides: [],
+    underTest: [],
+  },
 ) {
   const module = await createTestingModule({ overrides, underTest });
   return await createAppFromModule(module);

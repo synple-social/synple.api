@@ -2,11 +2,11 @@ import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import { Account, AccountsService, Role } from '@synple/common';
 import { createApplication } from '../../../helpers/create-application.helper.ts';
-import { TEST_UUID, UuidsMock } from '../../../mocks/uuids.mock';
-import { UuidsService } from '@synple/common/services/uuids.service';
 import { rolesFactory } from 'apps/public/test/factories/roles.factory';
 import { RegistrationsFactory } from 'apps/public/test/factories/signups/registrations.factory';
 import request from 'supertest';
+import { v4 as uuid } from 'uuid';
+import { isUUID } from 'class-validator';
 
 describe('Accounts scenarios', () => {
   const email = 'email_001@test.com';
@@ -14,9 +14,7 @@ describe('Accounts scenarios', () => {
   let app: INestApplication<App>;
 
   beforeAll(async () => {
-    app = await createApplication({
-      overrides: [{ from: UuidsService, to: UuidsMock }],
-    });
+    app = await createApplication();
   });
 
   describe('[CPT-013] there is a default group in the database', () => {
@@ -27,7 +25,7 @@ describe('Accounts scenarios', () => {
       role = await rolesFactory(app, {
         name: 'TestScope',
         isDefault: true,
-        uuid: '1',
+        uuid: uuid(),
       });
 
       const registration = await RegistrationsFactory(app, {
@@ -35,7 +33,7 @@ describe('Accounts scenarios', () => {
         uuid: '1',
       });
 
-      response = request(app.getHttpServer())
+      response = await request(app.getHttpServer())
         .post('/signups/complete')
         .set('Accept', 'application/json')
         .send({
@@ -48,10 +46,9 @@ describe('Accounts scenarios', () => {
     });
 
     it('Returns a 201 (Created) status code with the correct body', () => {
-      return response
-        .expect(201)
-        .expect('Content-Type', /application\/json/)
-        .expect({ email, username: 'testUser', uuid: TEST_UUID });
+      expect(response.status).toEqual(201);
+      expect(response.body).toMatchObject({ email, username: 'testUser' });
+      expect(isUUID(response.body.uuid)).toEqual(true);
     });
     it('Has been assigned the default role', async () => {
       const model = app.get(AccountsService).model;

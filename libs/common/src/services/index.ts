@@ -5,4 +5,3 @@ export * from './accounts.service';
 export * from './passwords.service';
 export * from './confirmation-codes.service';
 export * from './tokens.service';
-export * from './uuids.service';

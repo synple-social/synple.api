@@ -1,9 +1,9 @@
 import { INestApplication } from '@nestjs/common';
-import { AccountsService, TokensService, UuidsService } from '@synple/common';
+import { AccountsService, TokensService } from '@synple/common';
 import { createApplication } from 'apps/public/test/helpers/create-application.helper.ts';
 import request from 'supertest';
 import { hash } from 'bcrypt';
-import { TEST_UUID, UuidsMock } from 'apps/public/test/mocks/uuids.mock';
+import { v4 as uuid } from 'uuid';
 
 describe('Signing out of the application', () => {
   const email = 'test@email.com';
@@ -13,9 +13,7 @@ describe('Signing out of the application', () => {
   let service: TokensService;
 
   beforeAll(async () => {
-    app = await createApplication({
-      overrides: [{ from: UuidsService, to: UuidsMock }],
-    });
+    app = await createApplication();
   });
   describe('[SCO-001] the user logs out of the application successfully', () => {
     beforeAll(async () => {
@@ -23,12 +21,11 @@ describe('Signing out of the application', () => {
       const accounts = app.get(AccountsService).model;
       await accounts.create({
         email,
-        uuid: '1',
+        uuid: uuid(),
         username: 'TestUser',
         passwordDigest: await hash('password', 1),
       });
       const jwt = await service.create(email, 'password');
-      const token = await service.model.findOne({ where: { uuid: TEST_UUID } });
       response = await request(app.getHttpServer())
         .post(`/auth/signout`)
         .set('Accept', 'application/json')
@@ -38,11 +35,7 @@ describe('Signing out of the application', () => {
       expect(response.status).toEqual(204);
     });
     it('Has invalidated the token to ensure it cannot be used in further requests', async () => {
-      expect(
-        await service.model
-          .scope('invalid')
-          .count({ where: { uuid: TEST_UUID } }),
-      ).toBe(1);
+      expect(await service.model.scope('invalid').count({})).toBe(1);
     });
   });
 });
