@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { MailerService } from './mailer.service';
 import {
   DocumentNotFoundException,
-  generateConfirmationCode,
-  MailerUnavailableException,
 } from '@synple/utils';
 import { PreRegistration } from '../entities/pre-registration.entity';
 import { InjectConnection, InjectModel } from '@nestjs/sequelize';

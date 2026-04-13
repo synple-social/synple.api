@@ -1,7 +1,7 @@
-import { Body, ClassSerializerInterceptor, Controller, HttpCode, HttpStatus, Post, UseInterceptors, UsePipes } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, HttpCode, HttpStatus, Post, UseGuards, UseInterceptors, UsePipes } from "@nestjs/common";
 import { CreateBlueprintDto } from "./dto/create-blueprint.dto";
 import { BlueprintsService } from "@synple/common/services/blueprints.service";
-import { transformErrorPipe } from "@synple/common";
+import { AuthenticationGuard, transformErrorPipe } from "@synple/common";
 import { ApiCreatedResponse } from "@nestjs/swagger";
 
 @Controller('/:uuid/blueprints')
@@ -14,6 +14,7 @@ export class BlueprintsController {
   @ApiCreatedResponse({
     description: 'The blueprint has correctly been created'
   })
+  @UseGuards(AuthenticationGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(transformErrorPipe)
   public async create(@Body() { name, slots }: CreateBlueprintDto) {

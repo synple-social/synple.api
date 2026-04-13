@@ -4,6 +4,7 @@ import request from "supertest"
 import { BlueprintsModule } from "apps/api/src/blueprints/blueprints.module"
 import { Blueprint } from "@synple/common/entities/blueprints/blueprint.entity"
 import { isUUID } from "class-validator"
+import { fakeLogin } from "../../helpers/fake-login.helper"
 
 describe('POST /:uuid/blueprints', () => {
   let app!: INestApplication
@@ -18,6 +19,7 @@ describe('POST /:uuid/blueprints', () => {
       response = await request(app.getHttpServer())
         .post('/uuid/blueprints')
         .set('Accept', 'application/json')
+        .set("Authorization", `Bearer ${await fakeLogin()}`)
         .send({ name: 'test-blueprint', slots: 10 })
     })
 
