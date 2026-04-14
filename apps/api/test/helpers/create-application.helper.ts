@@ -1,5 +1,6 @@
 import { Type } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntitiesModule } from '@synple/common';
@@ -22,6 +23,11 @@ async function createTestingModule<TModule extends Type<any>>({
       ConfigModule.forRoot({
         envFilePath: ['.env.test.local'],
         isGlobal: true,
+      }),
+      JwtModule.register({
+        global: true,
+        secret: 'test secret',
+        secretOrPrivateKey: 'test secret key'
       }),
       SequelizeModule.forRoot({
         dialect: 'sqlite',

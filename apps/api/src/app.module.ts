@@ -4,6 +4,7 @@ import { EntitiesModule } from '@synple/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { BlueprintsModule } from './blueprints/blueprints.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -21,6 +22,15 @@ import { BlueprintsModule } from './blueprints/blueprints.module';
           logging: false,
         };
       },
+      inject: [ConfigService],
+    }),
+    JwtModule.registerAsync({
+      global: true,
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '24h' },
+      }),
+      imports: [ConfigModule],
       inject: [ConfigService],
     }),
     BlueprintsModule,
