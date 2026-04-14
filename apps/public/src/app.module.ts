@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PasswordsModule } from './passwords/passwords.module';
 import { AuthModule } from './auth/auth.module';
 import { SignupsModule } from './signups/signups.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -21,6 +22,15 @@ import { SignupsModule } from './signups/signups.module';
           logging: false,
         };
       },
+      inject: [ConfigService],
+    }),
+    JwtModule.registerAsync({
+      global: true,
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '24h' },
+      }),
+      imports: [ConfigModule],
       inject: [ConfigService],
     }),
     SignupsModule,

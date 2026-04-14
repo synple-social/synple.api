@@ -4,12 +4,13 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
+  Module,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Token } from '../entities/token.entity';
 import { AccountsService, TokensService } from '../services';
-import { Role } from '../entities';
+import { Account, Role } from '../entities';
 import { Reflector } from '@nestjs/core';
 import { RequiresScope } from '../decorators/requires-scope.decorator';
 
@@ -71,4 +72,11 @@ export class AuthenticationGuard implements CanActivate {
       (request.headers.authorization as string)?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
+}
+
+@Module({
+  providers: [AuthenticationGuard, AccountsService],
+  exports: [AuthenticationGuard]
+})
+export class AuthenticationModule {
 }

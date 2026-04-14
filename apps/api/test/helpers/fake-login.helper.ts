@@ -7,6 +7,8 @@ import { accountFactory } from '../factories/account.factory';
 export async function fakeLogin(): Promise<string> {
   const publicApp: INestApplication<App> = await createApplication();
   const account = await accountFactory.create(publicApp);
+  await account.save()
+  console.log(account)
   const data = (
     await request(publicApp.getHttpServer())
       .post('/auth/signin')
