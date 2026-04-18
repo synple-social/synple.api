@@ -5,6 +5,7 @@ import { BlueprintsModule } from 'apps/api/src/blueprints/blueprints.module';
 import { Blueprint } from '@synple/common/entities/blueprints/blueprint.entity';
 import { isUUID } from 'class-validator';
 import { fakeLogin } from '../../helpers/fake-login.helper';
+import { UUID_REGEX } from '@synple/utils';
 
 describe('POST /:uuid/blueprints', () => {
   let app!: INestApplication;
@@ -30,8 +31,8 @@ describe('POST /:uuid/blueprints', () => {
       expect(response.body).toMatchObject({
         name: 'test-blueprint',
         slots: 10,
+        id: expect.stringMatching(UUID_REGEX)
       });
-      expect(isUUID(response.body.id)).toEqual(true);
     });
     it('Has created a blueprint', async () => {
       const repository = app.get('BlueprintRepository');

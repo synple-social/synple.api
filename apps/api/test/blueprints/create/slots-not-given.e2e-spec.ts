@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { createApplication } from '../../helpers/create-application.helper';
 import request from 'supertest';
 import { BlueprintsModule } from 'apps/api/src/blueprints/blueprints.module';
+import { fakeLogin } from '../../helpers/fake-login.helper';
 
 describe('POST /:uuid/blueprints', () => {
   let app!: INestApplication;
@@ -16,6 +17,7 @@ describe('POST /:uuid/blueprints', () => {
       response = await request(app.getHttpServer())
         .post('/uuid/blueprints')
         .set('Accept', 'application/json')
+        .set('Authorization', `Bearer ${await fakeLogin()}`)
         .send({ name: 'exampleName' });
     });
 
