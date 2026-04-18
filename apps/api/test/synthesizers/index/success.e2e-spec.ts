@@ -1,9 +1,8 @@
-import { TokensService } from '@synple/common';
-import { accountFactory } from '../../factories/account.factory';
 import { createApplication } from '../../helpers/create-application.helper';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { SynthesizersModule } from 'apps/api/src/synthesizers/synthesizers.module';
+import { fakeLogin } from '../../helpers/fake-login.helper';
 
 describe('GET /synthesizers', () => {
   let app!: INestApplication;
@@ -12,14 +11,9 @@ describe('GET /synthesizers', () => {
   beforeAll(async () => {
     app = await createApplication({ module: SynthesizersModule });
 
-    const account = await accountFactory.create(app);
-    const token = await app
-      .get(TokensService)
-      .create(account.email, 'password');
-
     response = await request(app.getHttpServer())
       .get('/synthesizers')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${await fakeLogin()}`)
       .set('Accept', 'application/json');
   });
 
