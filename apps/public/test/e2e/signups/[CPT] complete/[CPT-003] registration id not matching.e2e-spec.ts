@@ -40,7 +40,6 @@ describe('Accounts scenarios', () => {
           email,
           registrationId: 'invalidId',
           password: 'a',
-          passwordConfirmation: 'a',
           username: 'testUser',
         },
         app,

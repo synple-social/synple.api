@@ -26,14 +26,11 @@ export class AccountsService {
     registrationId,
     username,
     password,
-    passwordConfirmation,
   }: SignupsCompleteDto) {
     const registration = await this.findRegistrationOrFail({
       email,
       uuid: registrationId,
     });
-    if (password !== passwordConfirmation)
-      throw new BadParameterException('passwordConfirmation', 'not-matching');
     if ((await this.model.findAll({ where: { email } })).length)
       throw new UsernameAlreadyExistingException();
     const passwordDigest = await hash(password, SALT_ROUNDS);

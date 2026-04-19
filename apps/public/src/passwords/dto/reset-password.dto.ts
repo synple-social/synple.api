@@ -26,12 +26,4 @@ export class ResetPasswordDto {
   })
   @IsNotEmpty({ message: 'required' })
   password: string;
-
-  @ApiProperty({
-    description:
-      'The confirmation of the password, used to detect typos when typing it.',
-    example: 'SuperStrongPassword',
-  })
-  @IsNotEmpty({ message: 'required' })
-  passwordConfirmation: string;
 }

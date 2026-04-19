@@ -62,8 +62,8 @@ export class PasswordsController {
   })
   @ApiBadRequestResponse({
     description:
-      'There is an issue with the data you provided in the JSON body. Either a required key is missing, or the password does not match the password confirmation.',
-    schema: createErrorSchema('password', 'confirmation'),
+      'There was an issue validated the input payload. Eg. The username is not given in the input payload',
+    schema: createErrorSchema('username', 'required'),
   })
   @ApiForbiddenResponse({
     description:

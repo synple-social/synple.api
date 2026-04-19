@@ -41,7 +41,6 @@ describe('Password reset scenarios', () => {
           email,
           confirmationCode: 'XYZ456',
           password: 'newPassword',
-          passwordConfirmation: 'newPassword',
         });
     });
 

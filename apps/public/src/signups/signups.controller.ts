@@ -103,9 +103,9 @@ export class SignupsController {
       'The corresponding email address has not been found, or the registration UUID does not match the given email address.',
   })
   @ApiBadRequestResponse({
-    schema: createErrorSchema('passwordConfirmation', 'not-matching'),
+    schema: createErrorSchema('username', 'length'),
     description:
-      'There is a problem with one of the parameter given (eg. password and password confirmation do not match).',
+      'There is a problem with one of the parameter given (eg. the username is either longer than 256 characters, or shorter than 6 characters).',
   })
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(transformErrorPipe)

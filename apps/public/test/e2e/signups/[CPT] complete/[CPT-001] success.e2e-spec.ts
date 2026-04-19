@@ -30,7 +30,6 @@ describe('Accounts scenarios', () => {
           email,
           registrationId: registration?.getDataValue('uuid'),
           password: 'password',
-          passwordConfirmation: 'password',
           username: 'testUser',
         });
     }, 20000);

@@ -21,7 +21,6 @@ describe('Accounts scenarios', () => {
           email,
           registrationId: 'random_uuid',
           password: 'password',
-          passwordConfirmation: 'password',
         },
         app,
       );

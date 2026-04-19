@@ -37,7 +37,6 @@ describe('Password reset scenarios', () => {
         .send({
           confirmationCode: 'ABC123',
           password: 'newPassword',
-          passwordConfirmation: 'newPassword',
         });
     });
 

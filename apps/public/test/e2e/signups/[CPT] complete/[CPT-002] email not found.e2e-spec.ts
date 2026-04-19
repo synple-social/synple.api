@@ -43,7 +43,6 @@ describe('Accounts scenarios', () => {
           email: 'invalid@email.com',
           registrationId: registration?.getDataValue('uuid'),
           password: 'a',
-          passwordConfirmation: 'a',
           username: 'testUser',
         },
         app,

@@ -41,7 +41,6 @@ describe('Password reset scenarios', () => {
           email,
           confirmationCode: 'ABC123',
           password: 'newPassword',
-          passwordConfirmation: 'newPassword',
         });
     });
 
@@ -50,7 +49,7 @@ describe('Password reset scenarios', () => {
     });
     test('The password that has been reset on the account', async () => {
       const digest = (await account.findOne({ where: { email } }))
-        ?.passwordDigest;
+        ?.passwordDigest ?? '';
       const result = await compare('newPassword', digest);
       expect(result).toEqual(true);
     });

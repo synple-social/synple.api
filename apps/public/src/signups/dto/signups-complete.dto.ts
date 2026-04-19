@@ -34,12 +34,4 @@ export class SignupsCompleteDto {
   })
   @IsNotEmpty({ message: 'required' })
   password: string;
-
-  @ApiProperty({
-    description:
-      'The password confirmation, used in the frontend to ensure that the user has typed the correct value. MUST be equal to password.',
-    example: 'SecureANDLongPassword123?!',
-  })
-  @IsNotEmpty({ message: 'required' })
-  passwordConfirmation: string;
 }

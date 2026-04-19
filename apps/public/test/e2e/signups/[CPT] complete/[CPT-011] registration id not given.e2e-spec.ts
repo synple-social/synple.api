@@ -21,7 +21,6 @@ describe('Accounts scenarios', () => {
           email,
           username: 'GreatUsername',
           password: 'password',
-          passwordConfirmation: 'password',
         },
         app,
       );

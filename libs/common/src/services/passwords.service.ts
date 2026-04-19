@@ -4,9 +4,7 @@ import { InjectConnection, InjectModel } from '@nestjs/sequelize';
 import { MailerService } from './mailer.service';
 import { ResetPasswordDto } from 'apps/public/src/passwords/dto/reset-password.dto';
 import {
-  BadParameterException,
   DocumentNotFoundException,
-  generateConfirmationCode,
   SALT_ROUNDS,
 } from '@synple/utils';
 import { hash } from 'bcrypt';
@@ -48,11 +46,8 @@ export class PasswordsService {
     email,
     confirmationCode,
     password,
-    passwordConfirmation,
   }: ResetPasswordDto) {
     const request = await this.findOrFail(email, confirmationCode);
-    if (password !== passwordConfirmation)
-      throw new BadParameterException('password', 'confirmation');
     await request.account?.update({
       passwordDigest: await hash(password, SALT_ROUNDS),
     });
