@@ -6,8 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   initializeSwagger(
     app,
-    'Synple Registration Service',
-    'The registration API used to create user accounts on the Synple application suite',
+    'Synple Public API',
+    'This API regroups endpoints accessible by anonymous user, without any need for signing in with an account',
   );
   await app.listen(process.env.PORT ?? 3000);
 }

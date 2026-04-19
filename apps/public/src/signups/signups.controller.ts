@@ -55,7 +55,7 @@ export class SignupsController {
   })
   @ApiUnprocessableEntityResponse({
     description:
-      'The mailing service is currently unavailable and no pre-registration can be done.',
+      'There is an unknown problem with the pre-registration process. Please contact us for more informations',
     schema: createErrorSchema('mailer', 'unavailable'),
   })
   async preRegister(@Body() { email }: SignupsPreRegisterDto) {
@@ -68,12 +68,12 @@ export class SignupsController {
   @UseFilters(ValidationExceptionFilter, DocumentNotFoundFilter)
   @ApiCreatedResponse({
     description:
-      'When the registration is correctly created (the email and the confirmation code are valid and matching',
+      'The registration is correctly created (the email and the confirmation code are valid and matching).',
     schema: SuccessSchema,
   })
   @ApiNotFoundResponse({
     description:
-      'When the email is not found, or the confirmation code is not found, or both are not matching.',
+      'The email is not found, or the confirmation code is not found, or both are not matching.',
     schema: createErrorSchema('email', 'unknown'),
   })
   async register(@Body() { email, confirmationCode }: SignupsRegisterDto) {
