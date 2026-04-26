@@ -95,6 +95,7 @@
     ],
     "moduleNameMapper": {
       "^@synple/common(|/.*)$": "<rootDir>/libs/common/src/$1",
+      "^@synple/core(|/.*)$": "<rootDir>/libs/core/src/$1",
       "^@synple/utils(|/.*)$": "<rootDir>/libs/utils/src/$1"
     }
   },
