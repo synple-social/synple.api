@@ -34,6 +34,12 @@
       "@synple/core/*": [
         "libs/core/src/*"
       ],
+      "@synple/results": [
+        "libs/results/src"
+      ],
+      "@synple/results/*": [
+        "libs/results/src/*"
+      ],
       "@synple/test-utils": [
         "libs/test-utils/src"
       ],

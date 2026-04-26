@@ -53,6 +53,15 @@
         "tsConfigPath": "apps/public/tsconfig.app.json"
       }
     },
+    "results": {
+      "type": "library",
+      "root": "libs/results",
+      "entryFile": "index",
+      "sourceRoot": "libs/results/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/results/tsconfig.lib.json"
+      }
+    },
     "utils": {
       "type": "library",
       "root": "libs/utils",
