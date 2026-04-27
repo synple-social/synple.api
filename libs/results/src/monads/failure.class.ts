@@ -16,6 +16,10 @@ export class Failure<T, Err> extends Monad<T, Err> {
     throw new ImpossibleUnwrapException()
   }
 
+  public safeUnwrap(): T | Err {
+    return this.data
+  }
+
   public get data(): Err {
     return this.error
   }

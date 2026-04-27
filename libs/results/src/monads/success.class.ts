@@ -14,4 +14,8 @@ export class Success<T, Err> extends Monad<T, Err> {
   public unwrap(): T {
     return this.data
   }
+
+  public safeUnwrap(): T | Err {
+    return this.unwrap()
+  }
 }
