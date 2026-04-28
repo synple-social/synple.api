@@ -97,6 +97,7 @@
       "^@synple/common(|/.*)$": "<rootDir>/libs/common/src/$1",
       "^@synple/core(|/.*)$": "<rootDir>/libs/core/src/$1",
       "^@synple/results(|/.*)$": "<rootDir>/libs/results/src/$1",
+      "^@synple/shell(|/.*)$": "<rootDir>/libs/shell/src/$1",
       "^@synple/utils(|/.*)$": "<rootDir>/libs/utils/src/$1"
     }
   },

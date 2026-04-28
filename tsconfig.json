@@ -40,6 +40,12 @@
       "@synple/results/*": [
         "libs/results/src/*"
       ],
+      "@synple/shell": [
+        "libs/shell/src"
+      ],
+      "@synple/shell/*": [
+        "libs/shell/src/*"
+      ],
       "@synple/test-utils": [
         "libs/test-utils/src"
       ],
